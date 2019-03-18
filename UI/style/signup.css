@@ -1,0 +1,152 @@
+body{
+    margin: 0;
+    background-image: url('image/photo-1501959181532-7d2a3c064642.jpeg');
+    height: 630px;
+    background-size: cover;
+    background-position: center;
+    float: left;
+    width: 100%;
+
+}
+/* nav-bar style*/
+nav{
+    width:100%;
+   
+    height: 40px;
+    background-color: whitesmoke;
+    opacity: 0.9;
+    
+}
+
+textarea:focus, input:focus{
+    outline: none;
+}
+.logo{
+    display: inline-block;
+    
+    height: 40px;
+    text-align: center;
+}
+.logo h1{
+    
+    margin: 0px;
+    
+    padding:5.5px;
+    text-align: center;
+}
+
+.nav-links{
+    display: inline-block;
+    float: right;
+    height: auto;
+    height: 40px;
+    padding: 0px;
+    padding-right: 30px;
+}
+
+.nav-link{
+    text-align: center;
+    display: inline-block;
+    height: 100%;
+    
+    background-color: #1d2731;
+     
+    
+    
+}
+
+.nav-link a{
+    margin: 0px; 
+    display: block;
+    text-decoration: none;
+    text-decoration-style: none;
+    text-align: center;
+    padding:10px;
+    color: white;
+    
+}
+
+.nav-link:hover{
+    opacity: 0.7;
+}
+
+/*container style*/
+
+.container{
+    padding: 30px;
+    text-align: center;
+}
+
+/*signin */
+
+.signup{
+    width: 400px;
+    background-color: white;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    opacity: 0.9;
+    display: inline-block;
+    margin: auto;
+    
+}
+.signup input[type="text"],input[type="password"]{
+    display: block;
+    width: 50%;
+    margin: 10px 0px;
+    border: none;
+    background: none;
+    padding:10px 0px;
+    border-radius: 30px;
+    margin: 10px auto;
+    border:1.5px solid #112F41;
+    text-align: center;
+}
+.signup input[type="submit"]{
+    
+    text-align: center;
+    padding: 5px 20px;
+    border:none;
+    background: none;
+    border-radius: 30px;
+    border:2px solid #4484ce;
+    
+}
+.signup input[type="submit"]:hover{
+    background-color: #4484ce;
+    color:white;
+    
+}
+.signup form{
+    padding:20px;
+}
+.signup input[type="text"]:hover{
+    width: 100%;
+    transition-duration: 0.5s;
+}
+
+.signup input[type="password"]:hover{
+    width: 100%;
+    transition-duration: 0.5s;
+}
+.signup input[type="text"]:focus{
+    width: 100%;
+    transition-duration: 0.5s;
+}
+
+.signup input[type="password"]:focus{
+    width: 100%;
+    transition-duration: 0.5s;
+}
+
+.signup a{
+    text-decoration: none;
+    color: blue;
+}
+
+
+.signin input[type="submit"]{
+    border: 1.5px solid #47AB6C;
+}
+.signin input[type="submit"]:hover{
+    background-color: #47AB6C;
+}
