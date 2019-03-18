@@ -7,7 +7,7 @@
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="style/signup.css">
-    <script src="main.js"></script>
+    <script src="script/signup.js"></script>
 </head>
 
 <body>
@@ -34,11 +34,12 @@
             </div>
             <div class="forminf">
                 <form action="" method="">
-                    <input type="text" placeholder="E-mail">
-                    <input type="text" placeholder="First name">
-                    <input type="text" placeholder="Last name">
-                    <input type="password" name="password" id="" placeholder="Password">
-                    <input type="password" name="re-password" id="" placeholder="Comfirme Password">
+                    <input type="text" placeholder="E-mail" id="email">
+                    <p id="emailError"></p>
+                    <input type="text" placeholder="First name" id="firstName">
+                    <input type="text" placeholder="Last name" id="ListName">
+                    <input type="password" name="password" placeholder="Password" id="password">
+                    <input type="password" name="re-password" id="" placeholder="Comfirme Password" id="repassword">
                     <input type="submit" name="signin" value="SignUp" id="">
                     <p><a href="signin.html">Sign in if you have an account</a> </p> 
                 </form>
