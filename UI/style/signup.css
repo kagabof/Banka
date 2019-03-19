@@ -89,7 +89,7 @@ textarea:focus, input:focus{
     margin: auto;
     
 }
-.signup input[type="text"],input[type="password"]{
+.signup input[type="text"],input[type="password"],input[type="email"]{
     display: block;
     width: 50%;
     margin: 10px 0px;
@@ -123,6 +123,10 @@ textarea:focus, input:focus{
     width: 100%;
     transition-duration: 0.5s;
 }
+.signup input[type="email"]:hover{
+    width: 100%;
+    transition-duration: 0.5s;
+}
 
 .signup input[type="password"]:hover{
     width: 100%;
@@ -132,7 +136,10 @@ textarea:focus, input:focus{
     width: 100%;
     transition-duration: 0.5s;
 }
-
+.signup input[type="email"]:focus{
+    width: 100%;
+    transition-duration: 0.5s;
+}
 .signup input[type="password"]:focus{
     width: 100%;
     transition-duration: 0.5s;
