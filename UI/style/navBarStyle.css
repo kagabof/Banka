@@ -1,0 +1,61 @@
+/* nav-bar style*/
+nav{
+    width:100%;
+   
+    height: 40px;
+    background-color: whitesmoke;
+    opacity: 0.9;
+    
+}
+
+textarea:focus, input:focus , select:focus , option:focus{
+    outline: none;
+}
+.logo{
+    display: inline-block;
+    
+    height: 40px;
+    text-align: center;
+}
+.logo h1{
+    
+    margin: 0px;
+    
+    padding:5.5px;
+    text-align: center;
+}
+
+.nav-links{
+    display: inline-block;
+    float: right;
+    height: auto;
+    height: 40px;
+    padding: 0px;
+    padding-right: 30px;
+}
+
+.nav-link{
+    text-align: center;
+    display: inline-block;
+    height: 100%;
+    
+    background-color: #1d2731;
+     
+    
+    
+}
+
+.nav-link a{
+    margin: 0px; 
+    display: block;
+    text-decoration: none;
+    text-decoration-style: none;
+    text-align: center;
+    padding:10px;
+    color: white;
+    
+}
+
+.nav-link:hover{
+    opacity: 0.7;
+}

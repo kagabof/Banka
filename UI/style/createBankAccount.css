@@ -1,0 +1,84 @@
+body{
+    margin: 0;
+    background-image: url('image/photo-1501959181532-7d2a3c064642.jpeg');
+    height: 630px;
+    background-size: cover;
+    background-position: center;
+    float: left;
+    width: 100%;
+
+}
+.container{
+    padding: 30px;
+    text-align: center;
+}
+.main-cba{
+    width: 400px;
+    background-color: white;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    opacity: 0.9;
+    display: inline-block;
+    margin: auto;
+    
+}
+.main-cba{
+    text-align: center;
+}
+#from-create{
+    width:90%;
+    padding: 20px;
+    text-align: center;
+}
+#from-create input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="submit"],
+select,
+option{
+    display: block;
+    width: 70%;
+    margin: 10px 0px;
+    border: none;
+    background: none;
+    padding:10px 0px;
+    border-radius: 3px;
+    margin: 10px auto;
+    border:1.5px solid #112F41;
+    text-align: center;
+}
+option {
+    color: red;
+    padding:10px 0px;
+    border-radius: 3px;
+}
+
+.radio{
+    display: block;
+    width: 70%;
+    margin: 10px 0px;
+    border: none;
+    background: none;
+    padding:10px 0px;
+    border-radius: 3px;
+    margin: 10px auto;
+    border:1.5px solid #112F41;
+    text-align: center;
+    background-color:  #112F41;
+    color: white;
+}
+
+.radio:hover , .radio:focus{
+    background-color:  #0e304691;
+    transition: 0.9s;
+}
+
+input[type="submit"]{
+    border: 1.5px solid #06802fc5;
+}
+
+input[type="submit"]:hover{
+    background-color: #06802fc5;
+    color: white;
+    transition: 0.5s;
+}

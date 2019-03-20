@@ -6,7 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="style/signup.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="style/createBankAccount.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="style/navBarStyle.css">
     <script src="script/signin.js"></script>
 </head>
 
@@ -28,22 +29,35 @@
         </div>
     </nav>
     <div class="container">
-        <div class="signup signin">
+        <div class="main-cba">
             <div class="title">
-                <h2>BANK ACCOUNT CREATION</h2>
+                <h2>CREATE BANK ACCOUNT</h2>
             </div>
             <div class="forminf">
-                <form action="" method="">
-                    <input type="text" placeholder="id number" id="userId">
-                    <input type="text" placeholder="Account number" id="accountNumber">
-                    <input type="text" placeholder="user ID" name="userId" id="userId">
-                    <label for="saving">savings</label>
-                    <input type="radio" value="savings" class="radio">
-                    <label for="current">current</label>
-                    <input type="radio" name="current" class="radio">
-                    <input type="text" placeholder="balance" name="balance" id="balance">
-                    <input type="submit" name="signin" value="Create" id="submit">
+                <form action="" method="" id="from-create">
+                    <input type="text" placeholder="Account Number" id="accountNumber">
+                    <input type="text" placeholder="Owner code" name="" id="owner">
+                    <select name="" id="" >
+                        <option value="">SAVINGS</option>
+                        <option value="">CURRENT</option>
+                    </select>
                     
+                    <div class="radio">
+                        <input type="radio" name="status">
+                        <label for="">Draft</label>
+                        
+                        
+                        <input type="radio" name="status">
+                        <label for="">Active</label>
+                        
+                        
+                        <input type="radio" name="status">
+                        <label for="">Dormant</label>
+                    </div>
+                    
+
+                    <input type="text" placeholder="balance" name="" id="balance">
+                    <input type="submit" value="CREATE">
                 </form>
             </div>
 
