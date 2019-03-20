@@ -26,5 +26,24 @@ document.getElementById("password").onkeyup = () => {
 
 const passwordIsValid = (password) => {
     return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(\W|_)).{5,}$/.test(password);
+
 };
+
+    document.getElementById("signinForm").onsubmit = () =>{
+        if(!emailIsValid(document.getElementById("email").value)){
+
+            document.getElementById("email").focus();
+            document.getElementById("email").style.border = "1.5px solid red";
+            return false;
+
+        }else if(!passwordIsValid(document.getElementById("password").value)){
+
+            document.getElementById("password").focus();
+            document.getElementById("password").style.border = "1.5px solid red";
+            return false;
+
+        }else{
+            return true;
+        }
+    }
 });
