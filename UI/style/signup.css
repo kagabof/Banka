@@ -18,7 +18,7 @@ nav{
     
 }
 
-textarea:focus, input:focus{
+textarea:focus, input:focus , select:focus , option:focus{
     outline: none;
 }
 .logo{
@@ -89,7 +89,12 @@ textarea:focus, input:focus{
     margin: auto;
     
 }
-.signup input[type="text"],input[type="password"],input[type="email"]{
+.signup 
+input[type="text"],
+input[type="password"],
+input[type="email"],
+select,
+option{
     display: block;
     width: 50%;
     margin: 10px 0px;
@@ -114,36 +119,23 @@ textarea:focus, input:focus{
 .signup input[type="submit"]:hover{
     background-color: #4484ce;
     color:white;
+}
+.signup
+select:hover ,option:hover ,
+input[type="text"]:hover ,
+input[type="email"]:hover,
+input[type="password"]:hover,
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus{
+    width: 100%;
+    transition-duration: 0.5s;
     
 }
 .signup form{
     padding:20px;
 }
-.signup input[type="text"]:hover{
-    width: 100%;
-    transition-duration: 0.5s;
-}
-.signup input[type="email"]:hover{
-    width: 100%;
-    transition-duration: 0.5s;
-}
 
-.signup input[type="password"]:hover{
-    width: 100%;
-    transition-duration: 0.5s;
-}
-.signup input[type="text"]:focus{
-    width: 100%;
-    transition-duration: 0.5s;
-}
-.signup input[type="email"]:focus{
-    width: 100%;
-    transition-duration: 0.5s;
-}
-.signup input[type="password"]:focus{
-    width: 100%;
-    transition-duration: 0.5s;
-}
 
 .signup a{
     text-decoration: none;
@@ -156,4 +148,17 @@ textarea:focus, input:focus{
 }
 .signin input[type="submit"]:hover{
     background-color: #47AB6C;
+}
+
+.option{
+    display: block;
+    width: 50%;
+    margin: 10px 0px;
+    border: none;
+    background: none;
+    padding:10px 0px;
+    border-radius: 30px;
+    margin: 10px auto;
+    border:1.5px solid #112F41;
+    text-align: center;
 }
