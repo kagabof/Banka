@@ -8,9 +8,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
         integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    
+    <link rel="stylesheet" href="style/ViewBankAccountProfile.css">
     <link rel="stylesheet" href="style/sizingStyle.css">
     <link rel="stylesheet" href="style/transactionHistory.css">
+    <script src="script/Transtactionhistory.js"></script>
     <script src="script/ViewBankAccountProfile.js"></script>
 </head>
 
@@ -26,23 +27,18 @@
                 <h1></i>Banka</h1>
             </div>
         </div>
-        <div class="nav-right col-s-12 col-m-6 col-6">
-            <div class="nav-links">
 
-                <ul class="col-s-12">
-                    <li class="col-s-12"><a href=""><i class="fa fa-fw fa-home"></i> Home</a></li>
-                    <li class="col-s-12"><a href=""><i class="fa fa-address-card"></i> Contact</a></li>
-                    <li class="col-s-12"><a href=""><i class="fa fa-question" aria-hidden="true"></i> Help</a></li>
-                </ul>
-            </div>
-        </div>
 
+        <ul class="col-s-12">
+            <li class="col-s-12"><a href=""><i class="fa fa-fw fa-home"></i> Home</a></li>
+            <li class="col-s-12"><a href=""><i class="fa fa-address-card"></i> Contact</a></li>
+            <li class="col-s-12"><a href=""><i class="fa fa-question" aria-hidden="true"></i> Help</a></li>
+        </ul>
     </nav>
     <div class="main col-s-12 col-m-12 col-12">
-        <div class="side-nav col-2">
-            <div class="seach side-nav-link">
-                <i class="fa fa-search icon-search" aria-hidden="true" id="icon-search" style="font-size: 20px;"></i>
-                <input type="text" placeholder='' id="search">
+        <div class="side-nav col-s-12 col-m-2 col-2" id="side-nav">
+            <div class="side-nav-link" id="close">
+                <a class="closebtn">&times;</a>
             </div>
             <div class="side-nav-link">
                 <a href=""><i class="fa fa-fw fa-home"></i> Home</a>
@@ -57,21 +53,22 @@
                 <a href="TransactionHistory.html"> Transaction history</a>
             </div>
             <div class="side-nav-link">
-                <a href="ViewBankAccountProfile.html">Bank profile</a>
+                <a href="ViewBankAccountProfile.html"> Bank profile</a>
             </div>
 
         </div>
-        <div class="main-content col-s-12 col-m-12 col-10">
+        <div class="main-content col-s-12 col-m-12 col-12" id="main-content">
             <div class="transaction-content col-s-12 col-m-10 col-10">
                 <div class="table-title">
                     <h2>Transaction history</h2>
                 </div>
                 <div class="search-container col-s-12 col-m-12 col-12">
                     <form action="">
-                        <input type="text" placeholder="Search.." name="search">
-                        <button type="submit"><i class="fa fa-search"></i></button>
+                        <input type="text" placeholder="Search.." name="search" id="search">
+                        <button type="submit" class="btn"><i class="fa fa-search"></i></button>
                     </form>
                 </div>
+                <!--
                 <div class="tabs col-s-12 col-m-12 col-12">
                     <div class="All tab col-s-3 col-m-3 col-3">
                         <h3>All</h3>
@@ -86,8 +83,9 @@
                         <h3>Balance</h3>
                     </div>
                 </div>
+            -->
                 <div class="table-content">
-                    <table class="col-s-12 col-m-12 col-12">
+                    <table class="table col-s-12 col-m-12 col-12">
                         <tr class="head">
                             <th>Time</th>
                             <th>Transaction type</th>
@@ -132,9 +130,6 @@
                         </tr>
                     </table>
                 </div>
-            </div>
-            
-
         </div>
     </div>
 

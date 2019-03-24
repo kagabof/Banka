@@ -1,6 +1,6 @@
 body{
     margin: 0;
-    background-image: url('/images/back.jpeg');
+    background-image: url('/images/back1.jpeg');
     height: 630px;
     background-size: cover;
     background-position: center;
@@ -11,9 +11,9 @@ body{
 /* nav-bar style*/
 nav{
     width:100%;
-    background-color: white;
-    
-    
+    background-color: #1d2731;
+    color: white;
+    display: block;
 }
 
 textarea:focus, input:focus , select:focus , option:focus{
@@ -26,22 +26,23 @@ textarea:focus, input:focus , select:focus , option:focus{
     margin: 0px;
     padding: 10px;
     margin-top: -7px;
+    background-color: #1d2731;
+}
+.icon-place:hover{
+    opacity: 0.7;
 }
 
-.icon-1:hover{
-    background-color:white;
-}
 .icon-1{
     width: 30px;
     height: 5px;
-    background-color: black;
     margin: 3px;
     border-radius: 3px;
+    background-color: white;
 }
 .logo{
     display: inline-block;
     text-align: center;
-    
+    background-color: #1d2731;
 }
 .logo h1{
     margin: 0px;
@@ -51,41 +52,34 @@ textarea:focus, input:focus , select:focus , option:focus{
 }
 .nav-left{
     display: inline-block;
-    
 }
-.nav-right{
+nav ul{
     display: inline-block;
-    text-align: center;
-}
-
-.nav-links{
-    
-    
-}
-.nav-links ul{
   list-style-type: none;
   margin: 0;
   padding: 0;
+  float: right;
+    background-color: #1d2731;
     
 }
-.nav-links li{
+nav li{
     display: inline-block;
 }
 
-.nav-links a{
+nav a{
     display: block;
-    color: black;
+    color: white;
     text-align: center;
-    padding: 14px 16px;
+    padding: 15px 16px;
     text-decoration: none;
 }
 
-.nav-links a:hover{
-    background-color: #1d2731;
+nav a:hover{
+    opacity: 0.6;
     color: white;
 }
 
-.nav-link a{
+nav a{
     margin: 0px; 
     display: block;
     text-decoration: none;
@@ -95,132 +89,157 @@ textarea:focus, input:focus , select:focus , option:focus{
     color: white;
     
 }
-
-
-
-
-
-.main{
-    
-}
-
-
 .side-nav{
-   
-    display: inline-block;
-    background-color: #f1f1f1;
+   padding: 0;
+   width: 200px;
+   background-color: #f1f1f1;
+   opacity: 0.9;
+    position: fixed;
+    height: 100%;
     overflow: auto;
-    float: left;
-    color: black;
-    
+    display: none;
+    z-index: 1;
 }
-
 
 .side-nav-link{
-    color:black;
-    padding: 10px;
-    
-    
+
 }
 
 .side-nav-link a{
+    display: block;
     text-decoration: none;
     color: black;
-    display: block;
     padding: 10px;
 }
 .side-nav-link:hover{
-    background-color: #1d2731;
-    color:white;
+    color: white;
+    background-color:#1d2731;
+    opacity: 0.9; 
 }
 .side-nav-link a:hover{
-    background-color: #1d2731;
-    color:white;
+    color: white;
+    background-color:#1d2731;
+    opacity: 0.9; 
+    
 }
-.side-nav input[type="text"]{
-    display: inline-block;
-    width: 60%;
-    border:none;
-    padding: 10px 0px;
-    border:1.5px solid black;
-    border-radius: 5px;
-    display: none;
-    margin-left: 10px; 
-}
-side-nav input[type="text"]:focus{
-    border-color: aqua;
-}
-.icon-search{
-    padding: 10px 4px;
-}
-
-.seach{
-    margin-top: 20px;
+.closebtn{
+    font-size: 50px;
+    padding:0px;
+    padding: 0px;
+    text-align: right;
 }
 .main-content{
-    color: black;
-    
     display: inline-block;
-    overflow-y: auto ;
-    max-height: 670px;
+    float: right;
 }
 
-.boxs{
+
+.userdesc{
     margin: 10px;
+    background-color: white;
+    display: inline-block;
+    opacity: 0.9;
 }
-
-
-
-.main-content-box{
+.display-btn{
+    display: block;
+}
+.btn1{
+    display: inline-block; 
+    padding:20px 0px;
+    text-align: center;
+    font-size: 18px;
+    background-color:#1d2731;
+    color: white;
     
-        display: inline-block;
-        border-radius: 5px;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        background-color: #ffffffb2;
-    }
+}
+.btn1:hover{
+    color: white;
+    background-color:#1d2731;
+    opacity: 0.9;
+}
+.btnview{
+    float: left;
+    
+}
+.btnpass{
+    
+}
+.viewdisplay{
+}
+.inf{
+    padding: 10px 0px;
+}
 
+.atrib{
+    display: inline-block;
+    font-size:18px;
+    font-weight: bold;
+    text-align: right;
+    padding: 0px 3px;
+}
+.atribdate{
+    display: inline-block;
+    float: right;
+    text-align: left;
+}
 
+.pic1{
+    background-color: white;
+    display: inline-block;
+    float:  left;
+    margin: 10px;
+    text-align: center;
+    opacity: 0.9;
+}
 
-
-
-@media only screen and (max-width: 600px){
-
-    .main-content-box{
-        margin-bottom: 40px;
-    }
-    .nav-right{
-        display: none;
-        text-align: center;
-    }
-            
+.picIn{
+    padding: 8%;
+    text-align: center;
+}
+.picIn i{
+    font-size: 100%;
+}
+.username{
+    font-weight: bold;
+    padding: 20px 0px;
 }
 
 
-.image-pr{
-    border:1px solid black;
-    display: inline-block;
+.changepass{
+    display: none;
+}
+.changepass form{
     padding: 20px;
-    border-radius: 50%;
-    margin: 5%;
+    text-align: center;
 }
-.head-title .name{
-    display: inline-block;
+.changepass label{
+    text-align: left;
+}
+.changepass input{
+    display: block;
+    width: 70%;
+    margin: 10px 0px;
+    border: none;
+    background: none;
+    padding:10px 0px;
+    border-radius: 3px;
+    margin: 10px auto;
+    border:1.5px solid #112F41;
+    text-align: center;
+}
+.changepass input[type="submit"]{
+    background-color: #112F41;
+    color: white;
+    font-size:18px;
+    font-weight: bolder;
+}
+.changepass input[type="submit"]:hover{
+    opacity: 0.7;
 }
 
-.lable{
-    display: inline-block;
+.picIn img{
+    border-radius: 5px;
 }
-.data{
-    display: inline-block;
-}
-
-
-
-
-
-
-
-
 @media only screen and (min-width: 600px) {
   /* For tablets: */
 
@@ -230,9 +249,6 @@ side-nav input[type="text"]:focus{
   
 }
 @media only screen and (max-width: 768px){
-    .side-nav{
-        display: none;
-    }
 }
 
 @media only screen and (min-width: 768px) {
