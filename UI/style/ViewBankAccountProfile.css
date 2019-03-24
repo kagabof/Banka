@@ -1,6 +1,6 @@
 body{
     margin: 0;
-    background-image: url('/images/back1.jpeg');
+    background-image: url(/images/back1.jpeg);
     height: 630px;
     background-size: cover;
     background-position: center;
