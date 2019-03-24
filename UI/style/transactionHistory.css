@@ -1,172 +1,7 @@
-body{
-    margin: 0;
-    background-image: url('/images/back.jpeg');
-    height: 630px;
-    background-size: cover;
-    background-position: center;
-    float: left;
-    width: 100%;
-    font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
 
-}
-/* nav-bar style*/
-nav{
-    width:100%;
-    background-color: white;
-    
-    
-}
-
-textarea:focus, input:focus , select:focus , option:focus{
-    outline: none;
-}
-.icon-place{
-    display: inline-block;
-    float: left;
+.table-title h2{
     padding: 0px;
     margin: 0px;
-    padding: 10px;
-    margin-top: -7px;
-}
-
-.icon-1:hover{
-    background-color:white;
-}
-.icon-1{
-    width: 30px;
-    height: 5px;
-    background-color: black;
-    margin: 3px;
-    border-radius: 3px;
-}
-.logo{
-    display: inline-block;
-    text-align: center;
-    
-}
-.logo h1{
-    margin: 0px;
-    display: inline;
-    padding:5.5px;
-    text-align: center;
-}
-.nav-left{
-    display: inline-block;
-    
-}
-.nav-right{
-    display: inline-block;
-    text-align: center;
-}
-
-.nav-links{
-    
-    
-}
-.nav-links ul{
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-    
-}
-.nav-links li{
-    display: inline-block;
-}
-
-.nav-links a{
-    display: block;
-    color: black;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
-.nav-links a:hover{
-    background-color: #1d2731;
-    color: white;
-}
-
-.nav-link a{
-    margin: 0px; 
-    display: block;
-    text-decoration: none;
-    text-decoration-style: none;
-    text-align: center;
-    padding:10px;
-    color: white;
-    
-}
-
-
-
-
-
-.main{
-    
-}
-
-
-.side-nav{
-   
-    display: inline-block;
-    background-color: #f1f1f1;
-    overflow: auto;
-    float: left;
-    color: black;
-    
-}
-
-
-.side-nav-link{
-    color:black;
-    padding: 10px;
-    
-    
-}
-
-.side-nav-link a{
-    text-decoration: none;
-    color: black;
-    display: block;
-    padding: 10px;
-}
-.side-nav-link:hover{
-    background-color: #1d2731;
-    color:white;
-}
-.side-nav-link a:hover{
-    background-color: #1d2731;
-    color:white;
-}
-.side-nav input[type="text"]{
-    display: inline-block;
-    width: 60%;
-    border:none;
-    padding: 10px 0px;
-    border:1.5px solid black;
-    border-radius: 5px;
-    display: none;
-    margin-left: 10px; 
-}
-.side-nav input[type="text"]:focus{
-    
-}
-.icon-search{
-    padding: 10px 4px;
-}
-
-.seach{
-    margin-top: 20px;
-}
-.main-content{
-    color: black;
-    
-    display: inline-block;
-    overflow-y: auto ;
-    max-height: 670px;
-}
-.table-title{
-    padding-top: 20px;
 }
 .transaction-content{
     background-color: white;
@@ -204,9 +39,7 @@ th{
 
 
 .search-container{
-    
     display: block;
-
 }
 
 .search-container form{
@@ -214,12 +47,41 @@ th{
     padding: 20px;
 }
 
+input{
+    width: 30%;
+    margin: 10px 0px;
+    border: none;
+    background: none;
+    padding:10px 0px;
+    border-radius: 3px;
+    margin: 10px auto;
+    border:1.5px solid #112F41;
+    text-align: center;
+}
+
+.btn{
+    width: 30px;
+    margin: 10px 0px;
+    border: none;
+    background: none;
+    padding:10px 0px;
+    border-radius: 3px;
+    margin: 10px auto;
+    border:1.5px solid #112F41;
+    text-align: center;
 
 
+    color: white;
+    background-color:#1d2731;
+    opacity: 0.9;
+}
 
 
-
-
+.btn:hover{
+    color: #1d2731;
+    background-color:white;
+    opacity: 0.9;
+}
 
 
 
