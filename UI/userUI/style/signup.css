@@ -1,6 +1,6 @@
 body{
     margin: 0;
-    background-image: url('image/photo-1501959181532-7d2a3c064642.jpeg');
+    background-image: url('../images/back1.jpeg');
     height: 630px;
     background-size: cover;
     background-position: center;
@@ -9,53 +9,78 @@ body{
 
 }
 /* nav-bar style*/
+/* nav-bar style*/
 nav{
     width:100%;
-   
-    height: 40px;
-    background-color: whitesmoke;
-    opacity: 0.9;
-    
+    background-color: #1d2731;
+    color: white;
+    display: block;
 }
 
 textarea:focus, input:focus , select:focus , option:focus{
     outline: none;
 }
+.icon-place{
+    display: inline-block;
+    float: left;
+    padding: 0px;
+    margin: 0px;
+    padding: 10px;
+    margin-top: -7px;
+    background-color: #1d2731;
+}
+.icon-place:hover{
+    opacity: 0.7;
+}
+
+.icon-1{
+    width: 30px;
+    height: 5px;
+    margin: 3px;
+    border-radius: 3px;
+    background-color: white;
+}
 .logo{
     display: inline-block;
-    
-    height: 40px;
     text-align: center;
+    background-color: #1d2731;
 }
 .logo h1{
-    
     margin: 0px;
-    
+    display: inline;
     padding:5.5px;
     text-align: center;
 }
-
-.nav-links{
+.nav-left{
     display: inline-block;
-    float: right;
-    height: auto;
-    height: 40px;
-    padding: 0px;
-    padding-right: 30px;
 }
-
-.nav-link{
-    text-align: center;
+nav ul{
     display: inline-block;
-    height: 100%;
-    
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  float: right;
     background-color: #1d2731;
-     
-    
     
 }
+nav li{
+    display: inline-block;
+}
 
-.nav-link a{
+nav a{
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 15px 16px;
+    text-decoration: none;
+}
+
+nav a:hover{
+    opacity: 0.6;
+    color: white;
+}
+
+nav a{
     margin: 0px; 
     display: block;
     text-decoration: none;
@@ -65,11 +90,6 @@ textarea:focus, input:focus , select:focus , option:focus{
     color: white;
     
 }
-
-.nav-link:hover{
-    opacity: 0.7;
-}
-
 /*container style*/
 
 .container{

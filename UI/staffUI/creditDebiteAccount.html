@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="../userUI/style/ViewBankAccountProfile.css">
+    <link rel="stylesheet" href="../userUI/style/sizingStyle.css">
+    <link rel="stylesheet" href="style/creditdebit.css">
+    <script src="../userUI/script/ViewBankAccountProfile.js"></script>
+    <script src="creditdebit.js"></script>
+</head>
+
+<body>
+    <nav class="col-s-12 col-m-12 col-12">
+        <div class="nav-left col-s-12 col-m-5 col-5">
+            <div class="icon-place col-s-2" id="icon-place">
+                <div class="icon-1" id=""></div>
+                <div class="icon-1"></div>
+                <div class="icon-1"></div>
+            </div>
+            <div class="logo col-s-9">
+                <h1></i>Banka</h1>
+            </div>
+        </div>
+
+
+        <ul class="col-s-12">
+            <li class="col-s-12"><a href=""><i class="fa fa-fw fa-home"></i> Home</a></li>
+            <li class="col-s-12"><a href=""><i class="fa fa-address-card"></i> Contact</a></li>
+            <li class="col-s-12"><a href=""><i class="fa fa-question" aria-hidden="true"></i> Help</a></li>
+        </ul>
+    </nav>
+    <div class="main col-s-12 col-m-12 col-12">
+        <div class="side-nav col-s-12 col-m-2 col-2" id="side-nav">
+            <div class="side-nav-link" id="close">
+                <a class="closebtn">&times;</a>
+            </div>
+            
+            <div class="side-nav-link">
+                <a href="TransactionHistory.html"> Transaction history</a>
+            </div>
+            <div class="side-nav-link">
+                <a href="ViewBankAccountProfile.html"> Bank profile</a>
+            </div>
+
+        </div>
+        <div class="main-content  col-s-12 col-m-12 col-12" id="main-content">
+            
+            <div class="userdesc boxM size col-s-12 col-m-5 col-5" >
+                <div class="display-btn">
+                    <div class="search-container col-s-12 col-m-12 col-12">
+                        <form action="" id="accountForm">
+                            <label for=""> Account number:</label>
+                            <input type="text" placeholder="Search.." name="search" id="search"class="accountNumber">
+                            <button type="submit" class="btn"><i class="fa fa-search"></i></button>
+                        </form>
+                    </div>
+                    <div class="btnview btn1 col-s-6 col-m-6 col-6" id="btnview">DEBIT</div>
+                    <div class="btnpass btn1 col-s-6 col-m-6 col-6" id="btnpass">CREDIT</div>
+                </div>
+
+                <div class="change col-s-12 col-m-12 col-12" id="viewdisplay">
+                    <form action="" id="changepassform">
+                        <div class="info">
+                            <label for="">Transaction type: </label>
+                            <h4>Debit</h4>
+                        </div>
+                        <div class="info">
+                            <label for="">Account number: </label>
+                            <h4>111-222-3S33-4444</h4>
+                        </div>
+                        <div class="info">
+                            <label for="">Old balance: </label>
+                            <h4>5000</h4>
+                        </div>
+                        <input type="number" placeholder="amount to debit" id="amount">
+                        <input type="submit" value="Debit">
+                    </form>
+                </div>
+                <div class="change col-s-12 col-m-12 col-12" id="changepass">
+                    <form action="" id="changepassform1">
+                        <div class="info">
+                            <label for="">Transaction type: </label>
+                            <h4>credit</h4>
+                        </div>
+                        <div class="info">
+                            <label for="">Account number: </label>
+                            <h4>111-222-333-4444</h4>
+                        </div>
+                        <div class="info">
+                            <label for="">Old balance: </label>
+                            <h4>5000</h4>
+                        </div>
+                        <input type="number" placeholder="amount to credit" id="amount1">
+                        <input type="submit" value="Credit">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,89 @@
+.change{
+    display: none;
+}
+.change form{
+    padding: 20px;
+    text-align: center;
+}
+.change label{
+    text-align: left;
+}
+.change input{
+    display: block;
+    width: 70%;
+    margin: 10px 0px;
+    border: none;
+    background: none;
+    padding:10px 0px;
+    border-radius: 3px;
+    margin: 10px auto;
+    border:1.5px solid #112F41;
+    text-align: center;
+}
+.change input[type="submit"]{
+    background-color: #112F41;
+    color: white;
+    font-size:18px;
+    font-weight: bolder;
+}
+.change input[type="submit"]:hover{
+    opacity: 0.7;
+}
+
+.picIn img{
+    border-radius: 5px;
+}
+
+.info label{
+    display: inline-block;
+}
+
+.info h4{
+    display: inline-block;
+}
+.size{
+    margin-left: 30%;
+}
+/*search input and botton style*/
+#search{
+    width: 40%;
+    border: none;
+    background: none;
+    padding:10px 0px;
+    border-radius: 3px;
+    border:1.5px solid #112F41;
+    text-align: center;
+    margin: 20px 0px;
+}
+.search-container{
+    display: block;
+}
+
+.search-container form{
+    text-align: right;
+    margin-right: 30px;
+}
+.btn{
+    width: 30px;
+    margin: 10px 0px;
+    
+    border: none;
+    background: none;
+    padding:10px 0px;
+    border-radius: 3px;
+    margin: 10px auto;
+    border:1.5px solid #112F41;
+    text-align: center;
+
+
+    color: white;
+    background-color:#1d2731;
+    opacity: 0.9;
+}
+
+
+.btn:hover{
+    color: #1d2731;
+    background-color:white;
+    opacity: 0.9;
+}
