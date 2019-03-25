@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="style/adminview.css">
+    <link rel="stylesheet" href="style/sizingStyle.css">
+    <link rel="stylesheet" href="style/transactionHistory.css">
+    <script src="script/Admincreate.js"></script>
+    <script src="script/ViewBankAccountProfile.js"></script>
+</head>
+
+<body>
+    <nav class="col-s-12 col-m-12 col-12">
+        <div class="nav-left col-s-12 col-m-5 col-5">
+            <div class="icon-place col-s-2" id="icon-place">
+                <div class="icon-1" id=""></div>
+                <div class="icon-1"></div>
+                <div class="icon-1"></div>
+            </div>
+            <div class="logo col-s-9">
+                <h1></i>Banka</h1>
+            </div>
+        </div>
+
+
+        <ul class="col-s-12">
+            <li class="col-s-12"><a href="AdminCreate.html"> Admin create staff</a></li>
+            <li class="col-s-12"><a href="AdminView.html">Admin view</a></li>
+        </ul>
+    </nav>
+    <div class="main col-s-12 col-m-12 col-12">
+        <div class="side-nav col-s-12 col-m-2 col-2" id="side-nav">
+            <div class="side-nav-link" id="close">
+                <a class="closebtn">&times;</a>
+            </div>
+            <div class="side-nav-link">
+                <a href="AdminCreate.html"> Admin create staff</a>
+            </div>
+            <div class="side-nav-link">
+                <a href="AdminView.html">Admin view</a>
+            </div>
+
+        </div>
+        <div class="main-content col-s-12 col-m-12 col-12" id="main-content">
+            <div class="transaction-content1 boxM col-s-12 col-m-5 col-4">
+               <div class="title">
+                    <div class="staffbtn">
+                        Create Staff or Admin
+                    </div>
+                    
+               </div>
+               <div class="staffform">
+                <form action="" method="" id="loginForm">
+                    <input type="email" placeholder="E-mail" id="email">
+                
+                    <input type="text" placeholder="First name" id="firstName">
+                    <input type="text" placeholder="Last name" id="lastName">
+                    <input type="password" name="password" placeholder="Password" id="password">
+                    <div class="radio">
+                        <input type="radio" name="status">
+                        <label for="">Admin</label>
+
+                        <input type="radio" name="status">
+                        <label for="">Staff</label>
+                    </div>
+                    <input type="password" name="re-password" placeholder="Comfirme Password" id="rePassword">
+                    <input type="submit" name="create" value="create" id="submit">
+    
+                </form>
+               </div>
+            </div>
+        </div>
+
+</body>
+
+</html>
