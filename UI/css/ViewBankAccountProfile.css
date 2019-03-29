@@ -1,6 +1,6 @@
 body{
     margin: 0;
-    background-image: url('../images/back1.jpeg');
+    background-image: url('../assets/images/back1.jpeg');
     height: 630px;
     background-size: cover;
     background-position: center;
@@ -14,6 +14,8 @@ nav{
     background-color: #1d2731;
     color: white;
     display: block;
+    position: fixed;
+    z-index: 1;
 }
 
 textarea:focus, input:focus , select:focus , option:focus{
@@ -52,6 +54,7 @@ textarea:focus, input:focus , select:focus , option:focus{
 }
 .nav-left{
     display: inline-block;
+    
 }
 nav ul{
     display: inline-block;
@@ -99,6 +102,7 @@ nav a{
     overflow: auto;
     display: none;
     z-index: 1;
+    margin-top: 40px;
 }
 
 .side-nav-link{
@@ -131,11 +135,13 @@ nav a{
 .main-content{
     display: inline-block;
     float: right;
+    text-align: center;
+    margin-top:40px;
 }
 
 
 .userdesc{
-    margin: 10px;
+    margin: 30px auto;
     background-color: white;
     display: inline-block;
     opacity: 0.9;
@@ -189,9 +195,9 @@ nav a{
     background-color: white;
     display: inline-block;
     float:  left;
-    margin: 10px;
     text-align: center;
     opacity: 0.9;
+    margin: 2%;
 }
 
 .picIn{
@@ -248,23 +254,29 @@ nav a{
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-@media only screen and (min-width: 600px) {
+.pic1{
+        margin-top: 60px;
+    }
+@media only screen and (max-width: 600px) {
   /* For tablets: */
-
-    .main-content-box{
-        margin: 20px;
+    .ul-nav{
+        display: none;
+    }
+    .pic1{
+        margin:0px;
     }
   
 }
 @media only screen and (max-width: 768px){
+    .userdesc{
+        margin-top: 60px;
+    }
 }
 
 @media only screen and (min-width: 768px) {
   /* For desktop: */
- 
-
-  .main-content-box{
-        margin: 20px;
+  .userdesc{
+        margin-top: 60px;
     }
 }
 

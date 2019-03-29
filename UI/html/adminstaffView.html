@@ -8,11 +8,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
         integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    <link rel="stylesheet" href="style/adminview.css">
-    <link rel="stylesheet" href="style/sizingStyle.css">
-    <link rel="stylesheet" href="style/transactionHistory.css">
-    <script src="script/adminview.js"></script>
-    <script src="script/ViewBankAccountProfile.js"></script>
+    <link rel="stylesheet" href="../css/adminview.css">
+    <link rel="stylesheet" href="../css/sizingStyle.css">
+    <link rel="stylesheet" href="../css/transactionHistory.css">
+    <script src="../js/adminview.js"></script>
+    <script src="../js/ViewBankAccountProfile.js"></script>
 </head>
 
 <body>
@@ -29,7 +29,7 @@
         </div>
 
 
-        <ul class="col-s-12">
+        <ul class="ul-nav col-s-12">
             <li class="col-s-12"><a href="AdminCreate.html"> Admin create staff</a></li>
             <li class="col-s-12"><a href="AdminView.html">Admin view</a></li>
         </ul>
@@ -49,15 +49,15 @@
         <div class="main-content col-s-12 col-m-12 col-12" id="main-content">
             <div class="transaction-content boxM col-s-12 col-m-10 col-10">
                 <div class="table-title">
-                    <h2>Transaction history</h2>
+                    <h2>View all accounts</h2>
                 </div>
                 <div class="search-container col-s-12 col-m-12 col-12">
                     <form action="">
                         <input type="text" placeholder="Search.." name="search" id="search">
-                        <button type="submit" class="btn" ><i class="fa fa-search"></i></button>
+                        <button type="submit" class="btn"><i class="fa fa-search"></i></button>
                     </form>
                 </div>
-                
+
                 <div class="table-content">
                     <table class="table col-s-12 col-m-12 col-12">
                         <tr>
@@ -65,38 +65,43 @@
                             <th>Account owner</th>
                             <th>Account type</th>
 
-                            <th>Account status</th>
+                            <th>Delete</th>
+                            <th>Details</th>
                         </tr>
-                        <tr>
+                        <tr class="tr">
                             <td>1111-2222-3333-4444</td>
                             <td>Manzi Yves</td>
                             <td>Saving</td>
-                            <td><a href="" class="table-link act">Active</a></td>
+                            <td><a href="" class="table-link deact">Delete</a></td>
+                            <td><a href="" class="table-link act">Details</a></td>
                         </tr>
-                        <tr>
+                        <tr class="tr">
                             <td>1111-2222-3333-1111</td>
                             <td>Muhozi paul</td>
                             <td>Current</td>
-                            <td><a href="" class="table-link deact">Deactivate</a></td>
+                            <td><a href="" class="table-link deact">Delete</a></td>
+                            <td><a href="" class="table-link act">Details</a></td>
                         </tr>
-                        <tr>
+                        <tr class="tr">
                             <td>1111-2222-3333-4444</td>
                             <td>Manzi Yves</td>
                             <td>Saving</td>
-                            <td><a href="" class="table-link act">Active</a></td>
+                            <td><a href="" class="table-link deact">Delete</a></td>
+                            <td><a href="" class="table-link act">Details</a></td>
                         </tr>
-                    
-                        <tr>
+
+                        <tr class="tr">
                             <td>1111-2222-3333-1111</td>
                             <td>Muhozi paul</td>
                             <td>Current</td>
-                            <td><a href="" class="table-link deact">Deactivate</a></td>
+                            <td><a href="" class="table-link deact">Delete</a></td>
+                            <td><a href="" class="table-link act">Details</a></td>
                         </tr>
-                    
+
                     </table>
                 </div>
+            </div>
         </div>
-    </div>
 
 </body>
 

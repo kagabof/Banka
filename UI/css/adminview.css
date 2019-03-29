@@ -1,6 +1,6 @@
 body{
     margin: 0;
-    background-image: url('../../userUI/images/back1.jpeg');
+    background-image: url('../assets/images/back1.jpeg');
     height: 630px;
     background-size: cover;
     background-position: center;
@@ -322,6 +322,16 @@ th{
     border-radius: 3px;
     
 } 
+
+.act:hover{
+    background-color: hsla(120, 82%, 26%, 0.883);
+}
+.deact:hover{
+    background-color: rgba(136, 15, 15, 0.801);
+}
+.tr:hover{
+    border:0.8px solid #fbff0093;
+}
 .act{
     background-color: #399439c4;
     padding:5px 23px;
@@ -341,9 +351,16 @@ th{
     .nav-right{
         display: none;
         text-align: center;
-    }      
+    }
+    .ul-nav{
+        display:none;
+    }     
 }
-
+@media only screen and (max-width: 800px){
+    .ul-nav{
+        display:none;
+    }
+}
 
 .image-pr{
     border:1px solid black;

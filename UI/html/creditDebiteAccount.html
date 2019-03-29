@@ -4,15 +4,15 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Page Title</title>
+    <title>creadit or debit</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
         integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    <link rel="stylesheet" href="../userUI/style/ViewBankAccountProfile.css">
-    <link rel="stylesheet" href="../userUI/style/sizingStyle.css">
-    <link rel="stylesheet" href="style/creditdebit.css">
-    <script src="../userUI/script/ViewBankAccountProfile.js"></script>
-    <script src="creditdebit.js"></script>
+    <link rel="stylesheet" href="../css/ViewBankAccountProfile.css">
+    <link rel="stylesheet" href="../css/sizingStyle.css">
+    <link rel="stylesheet" href="../css/creditdebit.css">
+    <script src="../js/ViewBankAccountProfile.js"></script>
+    <script src="../js/creditdebit.js"></script>
 </head>
 
 <body>
@@ -29,10 +29,10 @@
         </div>
 
 
-        <ul class="col-s-12">
-            <li class="col-s-12"><a href=""><i class="fa fa-fw fa-home"></i> Home</a></li>
-            <li class="col-s-12"><a href=""><i class="fa fa-address-card"></i> Contact</a></li>
-            <li class="col-s-12"><a href=""><i class="fa fa-question" aria-hidden="true"></i> Help</a></li>
+        <ul class="ul-nav col-s-12">
+            <li class="col-s-12"><a href="./accountdetailsStaff.html"> Transaction history</a></li>
+            <li class="col-s-12"><a href="./creditDebiteAccount.html"> Transaction</a></li>
+            <li class="col-s-12"><a href="./signin.html"> Logout</a></li>
         </ul>
     </nav>
     <div class="main col-s-12 col-m-12 col-12">
@@ -42,16 +42,20 @@
             </div>
             
             <div class="side-nav-link">
-                <a href="TransactionHistory.html"> Transaction history</a>
+                <a href="./accountdetailsStaff.html"> Transaction history</a>
             </div>
             <div class="side-nav-link">
-                <a href="ViewBankAccountProfile.html"> Bank profile</a>
+                <a href="./creditDebiteAccount.html"> Transaction</a>
             </div>
+            <div class="side-nav-link">
+                <a href="./signin.html"> Logout</a>
+            </div>
+            
 
         </div>
         <div class="main-content  col-s-12 col-m-12 col-12" id="main-content">
             
-            <div class="userdesc boxM size col-s-12 col-m-5 col-5" >
+            <div class="userdesc boxM size col-s-12 col-m-8 col-5" >
                 <div class="display-btn">
                     <div class="search-container col-s-12 col-m-12 col-12">
                         <form action="" id="accountForm">
