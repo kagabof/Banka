@@ -1,0 +1,131 @@
+body{
+    margin:0;
+    padding: 0;
+    background-image: url('../assets/images/index1.jpeg');
+    height: 650px;
+    background-size: cover;
+    background-position: center;
+    float: left;
+    width: 100%;
+    padding: auto;
+}
+.btn{
+    margin: 100px;
+}
+.btn a{
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin: 20px; 
+  color: white;
+  
+}
+
+.main{
+    text-align: center;
+    margin-top:150px;
+
+}
+.signin{
+    background-color: rgba(35, 18, 184, 0.507);
+}
+.signin:hover{
+    background-color: hsla(246, 88%, 25%, 0.897);
+}
+.signup{
+    background-color: #00800083;
+}
+.signup:hover{
+    background-color: hsla(120, 87%, 18%, 0.897);
+}
+
+.wel{
+    color: #363683ce;
+    font-size: 30px;
+}
+
+
+/* nav-bar style*/
+nav{
+    width:100%;
+    background-color: #1d2731;
+    color: white;
+    display: block;
+    position: fixed;
+    z-index: 1;
+}
+
+textarea:focus, input:focus , select:focus , option:focus{
+    outline: none;
+}
+.icon-place{
+    display: inline-block;
+    float: left;
+    padding: 0px;
+    margin: 0px;
+    padding: 10px;
+    margin-top: -7px;
+    background-color: #1d2731;
+}
+.icon-place:hover{
+    opacity: 0.7;
+}
+
+.icon-1{
+    width: 30px;
+    height: 5px;
+    margin: 3px;
+    border-radius: 3px;
+    background-color: white;
+}
+.logo{
+    display: inline-block;
+    text-align: center;
+    background-color: #1d2731;
+}
+.logo h1{
+    margin: 0px;
+    display: inline;
+    padding:5.5px;
+    text-align: center;
+}
+.nav-left{
+    display: inline-block;
+    
+}
+nav ul{
+    display: inline-block;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  float: right;
+    background-color: #1d2731;
+    
+}
+nav li{
+    display: inline-block;
+}
+
+nav a{
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 15px 16px;
+    text-decoration: none;
+}
+
+nav a:hover{
+    opacity: 0.6;
+    color: white;
+}
+
+nav a{
+    margin: 0px; 
+    display: block;
+    text-decoration: none;
+    text-decoration-style: none;
+    text-align: center;
+    padding:10px;
+    color: white;
+    
+}

@@ -1,11 +1,10 @@
-
 .table-title h2{
     padding: 0px;
     margin: 0px;
 }
 .transaction-content{
     background-color: white;
-    margin: 20px;
+    margin: 30px auto;
     text-align: center;
     opacity: 0.9;
 }
@@ -91,11 +90,6 @@ input{
 }
 
 
-
-
-
-
-
 @media only screen and (max-width: 600px){
 
     .main-content-box{
@@ -104,6 +98,9 @@ input{
     .nav-right{
         display: none;
         text-align: center;
+    }
+    .ul-nav{
+        display: none;
     }
             
 }
@@ -128,7 +125,8 @@ input{
 }
 
 
-
+.main{
+}
 
 
 
