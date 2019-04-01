@@ -42,7 +42,14 @@ const passwordIsValid = (password) => {
             document.getElementById("password").style.border = "1.5px solid red";
             return false;
 
-        }else{
+        } else if (document.getElementById("password").value === "Fofo1@" && document.getElementById("email").value === "mugisha@gmail.com"){
+            
+            let form = document.getElementById("signinForm");
+            form.setAttribute("action","AdminView.html");
+            return true;
+        } else{
+            let form = document.getElementById("signinForm");
+            form.setAttribute("action", "TransactionHistory.html");
             return true;
         }
     }
