@@ -1,5 +1,5 @@
 import db from "./../db/userDB";
-
+//import random from "randomstring"
 class UserController{
     createUser(req,res){
         if (!req.body.email) {
@@ -38,6 +38,29 @@ class UserController{
             status: 201,
             data: user,
         });
+    }
+
+    signIn(req,res){
+        const user =db.find(user => user.email === req.body.email && user.password === req.body.password);
+        if(user){
+            return res.status(201).send({
+                status: 201,
+                data: {
+                    //token: random.generate(),
+                    id: user.id,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email: user.email,
+                },
+
+            });
+        }
+        else{
+            return res.status(400).send({
+                status:400,
+                error: "the user does note exist",
+            });
+        }
     }
 }
 
