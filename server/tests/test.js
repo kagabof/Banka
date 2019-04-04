@@ -98,6 +98,36 @@ describe("Users", ()=>{
                 });
         });
 
+        it("should signin", (done)=>{
+            const user ={
+                email: "faustinkagabo@gmail.com",
+                password: "Fofo1995@",
+            }
+            chai.request(app)
+                .post('/api/v1/signin')
+                .send(user)
+                .end((req,res)=>{
+                    res.should.have.status(201);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property("data").should.be.an('object');
+                    done();
+                })
+        });
+        it("should not signin", (done) => {
+            const user = {
+                email: "faustinkagabo@gmail.com",
+                password: "",
+            }
+            chai.request(app)
+                .post('/api/v1/signin')
+                .send(user)
+                .end((req, res) => {
+                    res.should.have.status(400);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property("error").eql("the user does note exist");
+                    done();
+                })
+        });
         
     });
 });
