@@ -3,7 +3,14 @@ import userdb from "./../db/userDB";
 
 class AccountController{
     createAccount(req,res){
-        if(!req.body.accountNumber){
+        const balance = parseFloat(req.body.balance);
+        if(!balance || balance < 0){
+            return res.status(400).send({
+                status: 400,
+                error: "the balance amount is required!",
+            });
+
+        }else if(!req.body.accountNumber){
             return res.status(400).send({
                 status: 400,
                 error: "account number is required!",
@@ -26,7 +33,7 @@ class AccountController{
             owner: req.body.owner,
             type: req.body.type,
             status: "dormant",
-            balance: 0.0,
+            balance: req.body.balance,
         }
 
         db.push(account);
