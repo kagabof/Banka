@@ -102,6 +102,9 @@ input{
     .ul-nav{
         display: none;
     }
+    table{
+        font-size: 1.5em;
+    }
             
 }
 
@@ -129,20 +132,68 @@ input{
 }
 
 
-
-
-
-@media only screen and (min-width: 600px) {
+@media only screen and (max-width: 300px) {
   /* For tablets: */
 
-    .main-content-box{
-        margin: 20px;
+    
+    .main-content{
+        width: 100%;
+        padding: 0px;
+        margin: 60px 0px;
     }
-  
+    body{
+        margin: 0px;
+        padding: 0px;
+    }
+
+    table{
+        margin: 0px;
+        padding: 0px;
+        width: 100%;
+        font-size: 1em;
+        display: inline-block;
+        overflow: auto;
+    }
+    .logo{
+        padding: 5.17px;
+    }
+}
+
+
+@media only screen and (max-width: 600px) {
+
+    
+    .main-content{
+        width: 100%;
+        padding: 0px;
+        margin: 60px 0px;
+    }
+    body{
+        margin: 0px;
+        padding: 0px;
+    }
+
+    table{
+        margin: 0px;
+        padding: 0px;
+        width: 100%;
+        font-size: 0.7em;
+        overflow: auto;
+    }
+    #search{
+        width: 80%;
+    }
 }
 @media only screen and (max-width: 768px){
     .side-nav{
         display: none;
+    }
+    table{
+        margin: 0px;
+        padding: 0px;
+        width: 100%;
+        font-size: 0.7em;
+        overflow: auto;
     }
 }
 

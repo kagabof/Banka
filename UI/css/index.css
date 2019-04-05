@@ -1,7 +1,7 @@
 body{
     margin:0;
     padding: 0;
-    background-image: url('../assets/images/index1.jpeg');
+    background: url('../assets/images/index1.jpeg') no-repeat center center fixed;
     height: 650px;
     background-size: cover;
     background-position: center;
@@ -82,12 +82,12 @@ textarea:focus, input:focus , select:focus , option:focus{
     display: inline-block;
     text-align: center;
     background-color: #1d2731;
+    
 }
 .logo h1{
-    margin: 0px;
-    display: inline;
-    padding:5.5px;
     text-align: center;
+    padding:0px;
+    margin: 0px;
 }
 .nav-left{
     display: inline-block;
@@ -95,28 +95,34 @@ textarea:focus, input:focus , select:focus , option:focus{
 }
 nav ul{
     display: inline-block;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  float: right;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    float: right;
     background-color: #1d2731;
     
 }
 nav li{
     display: inline-block;
+    padding: 0.8px 0px;
 }
 
 nav a{
     display: block;
     color: white;
     text-align: center;
-    padding: 15px 16px;
+    padding: 17px 16px;
     text-decoration: none;
 }
 
 nav a:hover{
-    opacity: 0.6;
-    color: white;
+    background-color: white;
+    color: #1d2731;
+}
+
+nav li:hover{
+    background-color: white;
+    color: #1d2731;
 }
 
 nav a{
@@ -128,4 +134,10 @@ nav a{
     padding:10px;
     color: white;
     
+}
+
+@media only screen and (max-width: 400px){
+    .btn a{
+        display: inline-block;
+    }
 }
