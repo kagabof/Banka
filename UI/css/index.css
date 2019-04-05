@@ -2,15 +2,7 @@ body{
     margin:0;
     padding: 0;
     background: url('../assets/images/index1.jpeg') no-repeat center center fixed;
-    height: 650px;
     background-size: cover;
-    background-position: center;
-    float: left;
-    width: 100%;
-    padding: auto;
-}
-.btn{
-    margin: 100px;
 }
 .btn a{
   text-decoration: none;
@@ -50,8 +42,6 @@ nav{
     width:100%;
     background-color: #1d2731;
     color: white;
-    display: block;
-    position: fixed;
     z-index: 1;
 }
 
@@ -60,7 +50,7 @@ textarea:focus, input:focus , select:focus , option:focus{
 }
 .icon-place{
     display: inline-block;
-    float: left;
+    float: right;
     padding: 0px;
     margin: 0px;
     padding: 10px;
@@ -133,11 +123,29 @@ nav a{
     text-align: center;
     padding:10px;
     color: white;
-    
 }
 
 @media only screen and (max-width: 400px){
     .btn a{
-        display: inline-block;
+        display: inline;
+        font-size: 0.7em;
+    }
+
+    .ul{
+        display: none;
+    }
+    .active{
+        display: block;
+    }
+    .btn{
+        width: 100%;
+
+    }
+    .ul{
+        width: 100%;
+    }
+    .ul li{
+        width: 100%;
+        display: block;
     }
 }
