@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () =>{
     };
     document.getElementById("close").onclick = () => {
         document.getElementById("side-nav").style.display = "none";
-        document.getElementById("main-content").style.width = "100%";
+        document.getElementById("main-content").style.width = "90%";
         document.getElementById("side-nav").style.transition = "0.5s";
     };
     

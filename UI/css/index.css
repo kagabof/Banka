@@ -3,6 +3,9 @@ body{
     padding: 0;
     background: url('../assets/images/index1.jpeg') no-repeat center center fixed;
     background-size: cover;
+    background-position: center;
+    float: left;
+    width: 100%;
 }
 .btn a{
   text-decoration: none;
@@ -49,7 +52,7 @@ textarea:focus, input:focus , select:focus , option:focus{
     outline: none;
 }
 .icon-place{
-    display: inline-block;
+    display: none;
     float: right;
     padding: 0px;
     margin: 0px;
@@ -84,7 +87,7 @@ textarea:focus, input:focus , select:focus , option:focus{
     
 }
 nav ul{
-    display: inline-block;
+    display: none;
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -135,7 +138,9 @@ nav a{
         display: none;
     }
     .active{
+        
         display: block;
+        transition: 0.5s;
     }
     .btn{
         width: 100%;
@@ -147,5 +152,9 @@ nav a{
     .ul li{
         width: 100%;
         display: block;
+    }
+    .icon-place{
+        display: block;
+        
     }
 }

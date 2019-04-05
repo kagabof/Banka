@@ -24,11 +24,8 @@ textarea:focus, input:focus , select:focus , option:focus{
 .icon-place{
     display: inline-block;
     float: left;
-    padding: 0px;
-    margin: 0px;
-    padding: 10px;
-    margin-top: -7px;
     background-color: #1d2731;
+    padding: 5.5px;
 }
 .icon-place:hover{
     opacity: 0.7;
@@ -43,14 +40,11 @@ textarea:focus, input:focus , select:focus , option:focus{
 }
 .logo{
     display: inline-block;
-    text-align: center;
     background-color: #1d2731;
 }
 .logo h1{
     margin: 0px;
-    display: inline;
     padding:5.5px;
-    text-align: center;
 }
 .nav-left{
     display: inline-block;
@@ -265,6 +259,11 @@ nav a{
 .pic1{
         margin-top: 60px;
     }
+
+
+.active{
+        display: inline-block;
+    }
 @media only screen and (max-width: 600px) {
   /* For tablets: */
     .ul-nav{
@@ -277,9 +276,11 @@ nav a{
         font-size: 0.7em;
     }
     .main-content{
-        width: 100%;
+        width: 90%;
         padding: 0px;
-        margin: 60px 0px;
+        margin: 60px 4.9%;
+        
+        
         
     }
     .main{
@@ -292,6 +293,20 @@ nav a{
         padding: 0px;
         margin: 0px;
     }
+    .icon-place{
+        width: 30%;
+        display: inline-block;
+        float: right;
+    }
+    
+    .logo{
+        width: 30%;
+        display: inline-block;
+    }
+    .active{
+        display: inline-block;
+    }
+    
   
 }
 @media only screen and (max-width: 768px){
