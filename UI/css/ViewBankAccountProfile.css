@@ -1,6 +1,6 @@
 body{
     margin: 0;
-    background-image: url('../assets/images/back1.jpeg');
+    background: url('../assets/images/back1.jpeg') no-repeat center center fixed;
     height: 630px;
     background-size: cover;
     background-position: center;
@@ -78,8 +78,16 @@ nav a{
 }
 
 nav a:hover{
-    opacity: 0.6;
-    color: white;
+    color: #1d2731;
+    background-color: white;;
+}
+nav li{
+    display: inline-block;
+    padding: 0.8px 0px;
+}
+nav li:hover{
+    color: #1d2731;
+    background-color: white;
 }
 
 nav a{
@@ -238,7 +246,7 @@ nav a{
 .changepass input[type="submit"]{
     background-color: #112F41;
     color: white;
-    font-size:18px;
+    font-size:1em;
     font-weight: bolder;
 }
 .changepass input[type="submit"]:hover{
@@ -264,6 +272,25 @@ nav a{
     }
     .pic1{
         margin:0px;
+    }
+    .userdesc{
+        font-size: 0.7em;
+    }
+    .main-content{
+        width: 100%;
+        padding: 0px;
+        margin: 60px 0px;
+        
+    }
+    .main{
+        width: 100%;
+        padding: 0px;
+        margin: 0px;
+    }
+    body{
+        width: 100%;
+        padding: 0px;
+        margin: 0px;
     }
   
 }
