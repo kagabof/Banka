@@ -7,6 +7,7 @@ body{
     -webkit-backgound-size: cover;
     -moz-backgound-size: cover;
     -o-backgound-size: cover;
+    height: 100%;
 
 }
 /* nav-bar style*/
