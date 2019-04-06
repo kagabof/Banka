@@ -4,8 +4,10 @@ body{
     background: url('../assets/images/index1.jpeg') no-repeat center center fixed;
     background-size: cover;
     background-position: center;
-    float: left;
-    width: 100%;
+    -webkit-backgound-size: cover;
+    -moz-backgound-size: cover;
+    -o-backgound-size: cover;
+
 }
 .btn a{
   text-decoration: none;
