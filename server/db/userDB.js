@@ -6,8 +6,9 @@ const db = [
         lastName: "Faustin",
         password: "Fofo1995@",
         type: "client",
-        isAdmin: false,
+        isAdmin: true,
     },
+    
 ];
 
 export default db;

@@ -5,7 +5,7 @@ const accounts = [{
     createOn: Date.now(),
     owner: 1,
     type: "current",
-    status: "active",
+    status: "deativate",
     balance: 0.0,
 }];
 
