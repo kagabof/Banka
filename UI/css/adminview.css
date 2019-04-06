@@ -1,11 +1,11 @@
 body{
     margin: 0;
-    background-image: url('../assets/images/back1.jpeg');
-    height: 630px;
+    background: url('../assets/images/back1.jpeg') no-repeat center center fixed;
     background-size: cover;
     background-position: center;
-    float: left;
-    width: 100%;
+    -webkit-backgound-size: cover;
+    -moz-backgound-size: cover;
+    -o-backgound-size: cover;
 
 }
 /* nav-bar style*/
