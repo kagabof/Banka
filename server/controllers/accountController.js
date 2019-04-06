@@ -3,22 +3,21 @@ import userdb from "./../db/userDB";
 
 class AccountController{
     createAccount(req,res){
-        const balance = parseFloat(req.body.balance);
-        if(!balance || balance < 0){
-            return res.status(400).send({
-                status: 400,
-                error: "the balance amount is required!",
-            });
+        const userId = parseFloat(req.body.owner);
+        let userIndex;
+        let userFind;
 
-        }else if(!req.body.accountNumber){
+        userdb.map((user, index)=>{
+            if(user.id === userId){
+                userFind = user;
+                userIndex = index;
+            }
+        })
+
+        if(!userFind){
             return res.status(400).send({
                 status: 400,
-                error: "account number is required!",
-            });
-        }else if(!req.body.owner){
-            return res.status(400).send({
-                status: 400,
-                error: "owner required!",
+                error: "owner not found!",
             });
         }else if(!req.body.type){
             return res.status(400).send({
@@ -30,18 +29,27 @@ class AccountController{
             id: db.length + 1,
             accountNumber: req.body.accountNumber,
             createOn: Date.now(),
-            owner: req.body.owner,
+            owner: userId,
             type: req.body.type,
             status: "dormant",
-            balance: req.body.balance,
+            balance: 0,
         }
+
 
         db.push(account);
         return res.status(201).send({
             status: 201,
-            data: account,
+            data: {
+                accountNumber: req.body.accountNumber,
+                firstName: userFind.firstName,
+                lastName: userFind.lastName,
+                email: userFind.email,
+                type: req.body.type,
+                balance: account.balance,
+            },
         });
     }
+   
 }
 
 const acc = new AccountController();
