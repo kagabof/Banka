@@ -45,9 +45,11 @@ class AccountController{
                 lastName: userFind.lastName,
                 email: userFind.email,
                 type: req.body.type,
-            }
+                balance: account.balance,
+            },
         });
     }
+   
 }
 
 const acc = new AccountController();
