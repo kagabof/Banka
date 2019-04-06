@@ -126,7 +126,7 @@ describe("Users", ()=>{
                     res.body.should.be.a('object');
                     res.body.should.have.property("error").eql("the user does note exist");
                     done();
-                })
+                });
         });
         
     });
