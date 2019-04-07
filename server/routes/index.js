@@ -7,7 +7,7 @@ const router = express.Router();
 router.post('/api/v1/signup', user.createUser);
 router.post('/api/v1/signin', user.signIn);
 router.post('/api/v1/createAccount', account.createAccount);
-router.patch('/api/v1/activateAccount', account.activateAccount);
+router.patch('/api/v1/activateAccount', account.activateDeactivateAccount);
 
 
 export default router;

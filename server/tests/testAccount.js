@@ -87,7 +87,7 @@ describe("Account", () => {
                     res.should.have.status(400);
                     res.body.should.be.a('object');
                     res.body.should.have.property('status').eql(400);
-                    res.body.should.have.property('error').eql('user is not admin to activate the account');
+                    res.body.should.have.property('error').eql('user is not admin to deactivate or activate the account');
                     done();
                 });
         });
@@ -108,21 +108,5 @@ describe("Account", () => {
                 });
         });
 
-        it('should note activate while account already activated', (done) => {
-            const act = {
-                id: 1,
-                accountNumber: 1234567,
-            };
-            chai.request(app)
-                .patch('/api/v1/activateAccount')
-                .send(act)
-                .end((req, res) => {
-                    res.should.have.status(400);
-                    res.body.should.be.a('object');
-                    res.body.should.have.property('status').eql(400);
-                    res.body.should.have.property('error').eql('account is already actived!');
-                    done();
-                });
-        });
     });
 });
