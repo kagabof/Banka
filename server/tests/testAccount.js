@@ -23,6 +23,22 @@ describe("Account", () => {
                     done();
                 });
         });
+        it("it should not create the account with out with no user", (done) => {
+            const user = {
+                owner: "",
+                type: "saving",
+            }
+
+            chai.request(app)
+                .post('/api/v1/createAccount')
+                .send(user)
+                .end((req, res) => {
+                    res.should.have.status(400);
+                    res.body.should.have.property('error').eql('owner not found!');
+                    done();
+                }
+                );
+        });
         it("it should not create the account", (done) => {
             const user = {
                 owner: 1,
@@ -48,16 +64,36 @@ describe("Account", () => {
             };
 
             chai.request(app)
-                .patch("/api/v1/activateAccount")
+                .patch("/api/v1/activateDeactivateAccount")
                 .send(act)
                 .end((req,res) => {
                     res.should.have.status(201);
                     res.body.should.be.a('object');
                     res.body.should.have.property('status').eql(201);
+                    res.body.should.have.property('data').eql('active');
                     done();
                 }
             );
         });
+        it('Admin must deactivate the account', (done) => {
+            const act = {
+                id: 1,
+                accountNumber: 123456,
+            };
+
+            chai.request(app)
+                .patch("/api/v1/activateDeactivateAccount")
+                .send(act)
+                .end((req, res) => {
+                    res.should.have.status(201);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('status').eql(201);
+                    res.body.should.have.property('data').eql('dormant');
+                    done();
+                }
+                );
+        });
+        
 
         it('should note activate while no user found',(done) =>{
             const act = {
@@ -65,7 +101,7 @@ describe("Account", () => {
                 accountNumber: 123456,
             };
             chai.request(app)
-                .patch('/api/v1/activateAccount')
+                .patch('/api/v1/activateDeactivateAccount')
                 .send(act)
                 .end((req,res) =>{
                     res.should.have.status(400);
@@ -81,7 +117,7 @@ describe("Account", () => {
                 accountNumber: 123456,
             };
             chai.request(app)
-                .patch('/api/v1/activateAccount')
+                .patch('/api/v1/activateDeactivateAccount')
                 .send(act)
                 .end((req, res) => {
                     res.should.have.status(400);
@@ -97,7 +133,7 @@ describe("Account", () => {
                 accountNumber: 12345,
             };
             chai.request(app)
-                .patch('/api/v1/activateAccount')
+                .patch('/api/v1/activateDeactivateAccount')
                 .send(act)
                 .end((req, res) => {
                     res.should.have.status(400);

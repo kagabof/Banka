@@ -1,6 +1,5 @@
 import db from "./../db/accountDB";
 import userdb from "./../db/userDB";
-
 class AccountController{
     createAccount(req,res){
         const userId = parseFloat(req.body.owner);
@@ -49,89 +48,15 @@ class AccountController{
             },
         });
     }
-    activateAccount(req, res) {
-        const userId = parseInt(req.body.id);
-        const accountNumber = parseInt(req.body.accountNumber);
-        let accountFound;
-        let accountIndex;
 
-        let userIndex;
-        let userFound;
-
-        userdb.map((user, index) => {
-            if (user.id === userId) {
-                userIndex = index;
-                userFound = user;
-            }
-        });
-
-        db.map((account, index) => {
-            if(account.accountNumber === accountNumber){
-                accountFound = account;
-                accountIndex = index;
-            }
-            
-        });
-        if(!userFound){
-            return res.status(400).send({
-                status: 400,
-                error: 'user not found',
-            });
-        }else if(userFound.isAdmin !== true){
-            return res.status(400).send({
-                status: 400,
-                error: 'user is not admin to activate the account',
-            });
-        }else if(!accountFound) {
-            return res.status(400).send({
-                status: 400,
-                error: 'account not found',
-            });
-        }else if(accountFound.status === "active"){
-            return res.status(400).send({
-                status: 400,
-                error: 'account is already actived!',
-            });
-        } else {
-            const newAccount = {
-                id: accountFound.id,
-                accountNumber: accountFound.accountNumber,
-                createOn: accountFound.createOn,
-                owner: accountFound.owner,
-                type: accountFound.type,
-                status: "active",
-                balance: accountFound.balance,
-            }
-            db.splice(accountIndex, 1 , newAccount);
-            db.map((account, index) => {
-                if (account.accountNumber === accountNumber) {
-                    accountFound = account;
-                    accountIndex = index;
-                }
-
-            });
-            return res.status(201).send({
-                status: 201,
-                data: accountFound.status,
-            })
-        }
-
-    }
     activateDeactivateAccount(req, res) {
         const userId = parseInt(req.body.id);
         const accountNumber = parseInt(req.body.accountNumber);
+        const user = userdb.find(user => user.id === userId);
+        const account = db.find(account => account.accountNumber === accountNumber);
+        
         let accountFound;
         let accountIndex;
-
-        let userIndex;
-        let userFound;
-
-        userdb.map((user, index) => {
-            if (user.id === userId) {
-                userIndex = index;
-                userFound = user;
-            }
-        });
 
         db.map((account, index) => {
             if(account.accountNumber === accountNumber){
@@ -140,65 +65,54 @@ class AccountController{
             }
             
         });
-        if(!userFound){
+        if(!user){
             return res.status(400).send({
                 status: 400,
                 error: 'user not found',
             });
-        }else if(userFound.isAdmin !== true){
+        }else if(user.isAdmin !== true){
             return res.status(400).send({
                 status: 400,
                 error: 'user is not admin to deactivate or activate the account',
             });
-        }else if(!accountFound) {
+        }else if(!account) {
             return res.status(400).send({
                 status: 400,
                 error: 'account not found',
             });
-        } else if (accountFound.status === "active"){
+        } else if(account.status === "active") {
             const newAccount = {
-                id: accountFound.id,
-                accountNumber: accountFound.accountNumber,
-                createOn: accountFound.createOn,
-                owner: accountFound.owner,
+                id: account.id,
+                accountNumber: account.accountNumber,
+                createOn: account.createOn,
+                owner: account.owner,
                 type: accountFound.type,
                 status: "dormant",
-                balance: accountFound.balance,
-            }
-            db.splice(accountIndex, 1, newAccount);
-            db.map((account, index) => {
-                if (account.accountNumber === accountNumber) {
-                    accountFound = account;
-                    accountIndex = index;
-                }
-
-            });
+                balance: account.balance
+            };
+            db.splice(accountIndex,1,newAccount);
+            const account1 = db.find(account => account.accountNumber === accountNumber);
             return res.status(201).send({
                 status: 201,
-                data: accountFound.status,
+                data: account1.status
             });
-        } else if (accountFound.status === "dormant") {
+        } else if (account.status === "dormant") {
             const newAccount = {
-                id: accountFound.id,
-                accountNumber: accountFound.accountNumber,
-                createOn: accountFound.createOn,
-                owner: accountFound.owner,
-                type: accountFound.type,
+                id: account.id,
+                accountNumber: account.accountNumber,
+                createOn: account.createOn,
+                owner: account.owner,
+                type: account.type,
                 status: "active",
-                balance: accountFound.balance,
+                balance: account.balance,
             }
             db.splice(accountIndex, 1 , newAccount);
-            db.map((account, index) => {
-                if (account.accountNumber === accountNumber) {
-                    accountFound = account;
-                    accountIndex = index;
-                }
-
-            });
+            const account1 = db.find(account => account.accountNumber === accountNumber);
+            
             return res.status(201).send({
                 status: 201,
-                data: accountFound.status,
-            })
+                data: account1.status
+            });
         }
 
     }

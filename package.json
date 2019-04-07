@@ -4,7 +4,7 @@
   "description": "endpoint for banka",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --require babel-register server/tests/*.js --exit",
+    "test": "nyc --reporter=text mocha --require babel-register server/tests/*.js --exit",
     "start": "nodemon server/app.js --exec babel-node --"
   },
   "repository": {
