@@ -8,6 +8,15 @@ const db = [
         type: "client",
         isAdmin: true,
     },
+    {
+        id: 2,
+        email: "kagabo@gmail.com",
+        firstName: "Kagabo",
+        lastName: "Faustin",
+        password: "Fofo1995@",
+        type: "staff",
+        isAdmin: false,
+    }
     
 ];
 

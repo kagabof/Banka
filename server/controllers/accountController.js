@@ -103,9 +103,16 @@ class AccountController{
                 balance: accountFound.balance,
             }
             db.splice(accountIndex, 1 , newAccount);
+            db.map((account, index) => {
+                if (account.accountNumber === accountNumber) {
+                    accountFound = account;
+                    accountIndex = index;
+                }
+
+            });
             return res.status(201).send({
                 status: 201,
-                data: db,
+                data: accountFound.status,
             })
         }
 

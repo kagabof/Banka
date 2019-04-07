@@ -5,8 +5,17 @@ const accounts = [{
     createOn: Date.now(),
     owner: 1,
     type: "current",
-    status: "deativate",
+    status: "deactive",
     balance: 0.0,
-}];
+},
+    {
+        id: 2,
+        accountNumber: 1234567,
+        createOn: Date.now(),
+        owner: 1,
+        type: "current",
+        status: "active",
+        balance: 0.0,
+    }];
 
 export default accounts;

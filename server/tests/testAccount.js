@@ -40,4 +40,89 @@ describe("Account", () => {
             );
         });
     });
+    describe('PATCH /', ()=>{
+        it('Admin must activate the account', (done)=>{
+            const act ={
+                id: 1,
+                accountNumber: 123456,           
+            };
+
+            chai.request(app)
+                .patch("/api/v1/activateAccount")
+                .send(act)
+                .end((req,res) => {
+                    res.should.have.status(201);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('status').eql(201);
+                    done();
+                }
+            );
+        });
+
+        it('should note activate while no user found',(done) =>{
+            const act = {
+                id: 5,
+                accountNumber: 123456,
+            };
+            chai.request(app)
+                .patch('/api/v1/activateAccount')
+                .send(act)
+                .end((req,res) =>{
+                    res.should.have.status(400);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('status').eql(400);
+                    res.body.should.have.property('error').eql('user not found');
+                    done();
+                });
+        });
+        it('should note activate while user is note an admin', (done) => {
+            const act = {
+                id: 2,
+                accountNumber: 123456,
+            };
+            chai.request(app)
+                .patch('/api/v1/activateAccount')
+                .send(act)
+                .end((req, res) => {
+                    res.should.have.status(400);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('status').eql(400);
+                    res.body.should.have.property('error').eql('user is not admin to activate the account');
+                    done();
+                });
+        });
+        it('should note activate while account not found', (done) => {
+            const act = {
+                id: 1,
+                accountNumber: 12345,
+            };
+            chai.request(app)
+                .patch('/api/v1/activateAccount')
+                .send(act)
+                .end((req, res) => {
+                    res.should.have.status(400);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('status').eql(400);
+                    res.body.should.have.property('error').eql('account not found');
+                    done();
+                });
+        });
+
+        it('should note activate while account already activated', (done) => {
+            const act = {
+                id: 1,
+                accountNumber: 1234567,
+            };
+            chai.request(app)
+                .patch('/api/v1/activateAccount')
+                .send(act)
+                .end((req, res) => {
+                    res.should.have.status(400);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('status').eql(400);
+                    res.body.should.have.property('error').eql('account is already actived!');
+                    done();
+                });
+        });
+    });
 });
