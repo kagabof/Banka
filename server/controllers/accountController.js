@@ -117,7 +117,7 @@ class AccountController{
         }
 
     }
-    activateAccount(req, res) {
+    activateDeactivateAccount(req, res) {
         const userId = parseInt(req.body.id);
         const accountNumber = parseInt(req.body.accountNumber);
         let accountFound;
