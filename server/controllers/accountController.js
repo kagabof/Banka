@@ -123,8 +123,7 @@ class AccountController{
 
     }
     accountDelete(req, res) {
-        const account = db.find(account => account.accountNumber === req.params.accountNumber);
-
+        
         const accountNumber = parseInt(req.params.id);
         let accountFound;
         let accountIndex;
@@ -133,14 +132,13 @@ class AccountController{
             if (account.accountNumber === accountNumber) {
                 accountFound = account;
                 accountIndex = index;
-
             }
         });
 
         if (!accountFound) {
             return res.status(400).send({
                 status: 400,
-                error: "account note found",
+                error: "account not found",
             });
         } else {
             db.splice(accountIndex, 1);

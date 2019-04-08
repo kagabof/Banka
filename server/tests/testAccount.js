@@ -145,4 +145,28 @@ describe("Account", () => {
         });
 
     });
+    describe('DELETE /', ()=>{
+        it("should delete the account while accountNumber exist", (done)=>{
+            const accountNumber = 123456;
+            chai.request(app)
+                .delete(`/api/v1/accountDelete/${accountNumber}`)
+                .end((req,res) => {
+                    res.should.have.a.status(202);
+                    res.body.should.have.property('status').eql(202);
+                    res.body.should.have.property('message').eql('Account successfully deleted');
+                    done();
+                });
+        });
+        it("should not delete the account while accountNumber doesn't exist", (done) => {
+            const accountNumber = 1234;
+            chai.request(app)
+                .delete(`/api/v1/accountDelete/${accountNumber}`)
+                .end((req, res) => {
+                    res.should.have.a.status(400);
+                    res.body.should.have.property('status').eql(400);
+                    res.body.should.have.property('error').eql("account not found");
+                    done();
+                });
+        })
+    })
 });
