@@ -122,6 +122,34 @@ class AccountController{
         }
 
     }
+    accountDelete(req, res) {
+        
+        const accountNumber = parseInt(req.params.id);
+        let accountFound;
+        let accountIndex;
+
+        db.map((account, index) => {
+            if (account.accountNumber === accountNumber) {
+                accountFound = account;
+                accountIndex = index;
+            }
+        });
+
+        if (!accountFound) {
+            return res.status(400).send({
+                status: 400,
+                error: "account not found",
+            });
+        } else {
+            db.splice(accountIndex, 1);
+            return res.status(202).send({
+                status: 202,
+                message: 'Account successfully deleted',
+                date: accountFound
+            });
+        }
+
+    }
 }
 
 const acc = new AccountController();
