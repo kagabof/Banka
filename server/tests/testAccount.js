@@ -70,7 +70,7 @@ describe("Account", () => {
                     res.should.have.status(201);
                     res.body.should.be.a('object');
                     res.body.should.have.property('status').eql(201);
-                    res.body.should.have.property('data').eql('active');
+                    res.body.should.have.property('data').should.be.a('object');
                     done();
                 }
             );
@@ -88,7 +88,7 @@ describe("Account", () => {
                     res.should.have.status(201);
                     res.body.should.be.a('object');
                     res.body.should.have.property('status').eql(201);
-                    res.body.should.have.property('data').eql('dormant');
+                    res.body.should.have.property('data').should.be.a('object');
                     done();
                 }
                 );

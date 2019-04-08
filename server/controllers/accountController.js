@@ -94,9 +94,12 @@ class AccountController{
             const account1 = db.find(account => account.accountNumber === accountNumber);
             return res.status(201).send({
                 status: 201,
-                data: account1.status
+                data: {
+                    accountNumber: account1.accountNumber,
+                    status: account1.status
+                } 
             });
-        } else if (account.status === "dormant") {
+        }else if (account.status === "dormant") {
             const newAccount = {
                 id: account.id,
                 accountNumber: account.accountNumber,
@@ -105,18 +108,20 @@ class AccountController{
                 type: account.type,
                 status: "active",
                 balance: account.balance,
-            }
+            };
             db.splice(accountIndex, 1 , newAccount);
             const account1 = db.find(account => account.accountNumber === accountNumber);
             
             return res.status(201).send({
                 status: 201,
-                data: account1.status
+                data: {
+                    accountNumber: account1.accountNumber,
+                    accountStatus: account1.status,
+                } 
             });
         }
 
     }
-   
 }
 
 const acc = new AccountController();
