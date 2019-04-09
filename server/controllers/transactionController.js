@@ -41,7 +41,7 @@ class TransactionController{
             });
         }else {
             const newTransaction = {
-                id: transactionDb.length,
+                id: transactionDb.length + 1,
                 creatOn: Date.now(),
                 type: "debit",
                 accountNmber: accountNumber,
@@ -54,12 +54,12 @@ class TransactionController{
             transactionDb.push(newTransaction);
 
             const newAccount = {
-                id: accountDb.id,
+                id: accountFound.id,
                 accountNumber: accountNumber,
-                createOn: accountDb.createOn,
-                owner: accountDb.owner,
-                type: accountDb.type,
-                status: accountDb.status,
+                createOn: accountFound.createOn,
+                owner: accountFound.owner,
+                type: accountFound.type,
+                status: accountFound.status,
                 balance: accountFound.balance - amount,
             };
             accountDb.splice(accountIndex,1,newAccount);
@@ -112,7 +112,7 @@ class TransactionController{
             });
         } else {
             const newTransaction = {
-                id: transactionDb.length,
+                id: transactionDb.length + 1,
                 creatOn: Date.now(),
                 type: "debit",
                 accountNmber: accountNumber,
