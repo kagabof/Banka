@@ -15,7 +15,7 @@ const accounts = [{
         owner: 1,
         type: "current",
         status: "active",
-        balance: 0.0,
+        balance: 8000.0,
     }];
 
 export default accounts;

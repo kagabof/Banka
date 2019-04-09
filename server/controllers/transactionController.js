@@ -65,6 +65,7 @@ class TransactionController{
             accountDb.splice(accountIndex,1,newAccount);
             return res.status(201).send({
                 status: 201,
+                error: "true",
                 data: {
                     transactionId: newTransaction.id,
                     accountNumber: accountNumber,
@@ -74,7 +75,7 @@ class TransactionController{
                     oldBalance: accountFound.balance,
                     accountBalance: newAccount.balance,
                 }
-            })
+            });
         }
     }
 
@@ -132,7 +133,8 @@ class TransactionController{
                 status: accountDb.status,
                 balance: accountFound.balance + amount,
             };
-            accountDb.splice(accountIndex, 1, newAccount);
+            accountDb.splice(accountIndex,1,newAccount);
+            
             return res.status(201).send({
                 status: 201,
                 data: {
