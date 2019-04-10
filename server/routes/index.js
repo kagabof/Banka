@@ -12,4 +12,6 @@ router.patch('/api/v1/activateDeactivateAccount', account.activateDeactivateAcco
 router.delete('/api/v1/accountDelete/:id', account.accountDelete);
 router.post('/api/v1/:account/debit', transaction.debiteAccount);
 router.post('/api/v1/:account/credit', transaction.creditAccount);
+router.get('/api/v1/transaction/getall', transaction.getAllTransaction);
+router.get('/api/v1/transaction/:accountNumber', transaction.getAllTransactionFoAccount);
 export default router;
