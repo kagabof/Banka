@@ -149,6 +149,33 @@ class TransactionController{
             });
         }
     }
+    getAllTransaction(req, res) {
+        return res.status(200).send({
+            status: 200,
+            data: transactionDb
+        })
+    }
+
+    getAllTransactionFoAccount(req, res) {
+        const accountNumber = parseInt(req.params.accountNumber);
+        const accountN = accountDb.find(ac => ac.accountNumber === accountNumber);
+        const TaccountN = transactionDb.find(ac => ac.accountNumber === accountNumber);
+
+        const accountFound = transactionDb.filter((accountN) =>accountN.accountNumber === accountNumber)
+        
+        if(TaccountN){
+            return res.status(200).send({
+                status: 200,
+                data: accountFound,
+            });
+        
+        }else{
+            return res.status(400).send({
+                status: 400,
+                error: 'Zero transaction to the account given',
+            });
+        }
+    }
 }
 
 const tran = new TransactionController();

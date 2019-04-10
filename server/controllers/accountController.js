@@ -99,7 +99,7 @@ class AccountController{
                     status: account1.status
                 } 
             });
-        }else if (account.status === "dormant") {
+        }else{
             const newAccount = {
                 id: account.id,
                 accountNumber: account.accountNumber,

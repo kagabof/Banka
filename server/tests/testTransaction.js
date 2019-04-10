@@ -160,4 +160,40 @@ describe("Transaction", () => {
                 });
         });
      });
+
+     describe('GET /', () => {
+         it('should get all transactions', (done) =>{
+             chai.request(app)
+                 .get('/api/v1/transaction/getall')
+                 .end((req,res)=>{
+                     res.should.have.status(200);
+                     res.body.should.be.a('object');
+                     res.body.should.have.property("data").should.be.a('object');
+                     done();
+                 });
+         });
+
+         
+         it('should get transaction', (done) => {
+             const account = 123456;
+             chai.request(app)
+                 .get(`/api/v1/transaction/${account}`)
+                 .end((req, res) => {
+                     res.should.have.status(200);
+                     res.body.should.be.a('object');
+                     done();
+                 });
+         });
+         it('should not get transaction becouse no transaction to the account', (done) => {
+             const account = 1234567;
+             chai.request(app)
+                 .get(`/api/v1/transaction/${account}`)
+                 .end((req, res) => {
+                     res.should.have.status(400);
+                     res.body.should.be.a('object');
+                     res.body.should.have.property("error").eql('Zero transaction to the account given');
+                     done();
+                 });
+         });
+     });
 })

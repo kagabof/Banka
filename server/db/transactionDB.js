@@ -2,7 +2,7 @@ const db = [{
     id: 1,
     creatOn: Date.now(),
     type: "credit",
-    accountNmber: 123456,
+    accountNumber: 123456,
     cachier: 3,
     amount: 5000.0,
     oldBalance: 3000,
