@@ -1,6 +1,17 @@
 import db from "./../db/userDB";
 //import random from "randomstring"
+
+import crypto from "crypto";
+import format from "biguint-format";
+
+
 class UserController{
+    getAllUsers(req,res){
+        return res.status(200).send({
+            status: 200,
+            data: db,
+        });
+    }
     createUser(req,res){
         if (!req.body.email) {
             return res.status(400).send({
@@ -23,8 +34,12 @@ class UserController{
                 error: "password is required",
             });
         }
+
+        function random(qty) {
+            return crypto.randomBytes(qty)
+        }
         const user = {
-            id: db.length + 1,
+            id: parseInt(format(random(4), 'dec')),
             email: req.body.email,
             firstName: req.body.firstName,
             lastName: req.body.lastName,
@@ -62,6 +77,8 @@ class UserController{
             });
         }
     }
+
+    
 }
 
 const users = new UserController();
