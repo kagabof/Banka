@@ -1,5 +1,9 @@
 import db from "./../db/accountDB";
 import userdb from "./../db/userDB";
+import crypto from "crypto";
+import format from "biguint-format";
+
+
 class AccountController{
     createAccount(req,res){
         const userId = parseFloat(req.body.owner);
@@ -24,9 +28,13 @@ class AccountController{
                 error: "type is required!",
             });
         }
+
+        const random = (qty) => {
+            return crypto.randomBytes(qty)
+        }
         const account = {
-            id: db.length + 1,
-            accountNumber: req.body.accountNumber,
+            id: parseInt(format(random(4), 'dec')),
+            accountNumber: parseInt(format(random(8), 'dec')),
             createOn: Date.now(),
             owner: userId,
             type: req.body.type,
@@ -39,7 +47,7 @@ class AccountController{
         return res.status(201).send({
             status: 201,
             data: {
-                accountNumber: req.body.accountNumber,
+                accountNumber: account.accountNumber,
                 firstName: userFind.firstName,
                 lastName: userFind.lastName,
                 email: userFind.email,
