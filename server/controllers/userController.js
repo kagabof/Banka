@@ -35,7 +35,7 @@ class UserController{
             });
         }
 
-        function random(qty) {
+        const random = (qty) => {
             return crypto.randomBytes(qty)
         }
         const user = {
