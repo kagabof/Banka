@@ -167,6 +167,27 @@ describe("Account", () => {
                     res.body.should.have.property('error').eql("account not found");
                     done();
                 });
-        })
-    })
+        });
+    });
+    describe("GET /", () =>{
+        it("should an account", (done) =>{
+            chai.request(app)
+                .get('/api/v1/account')
+                .end((req,res) => {
+                    res.should.have.a.status(200);
+
+                    done();
+                });
+        });
+        // it("should get an account", (done) => {
+        //     const accountNumber = 123456;
+        //     chai.request(app)
+        //         .get(`/api/v1/account/${accountNumber}`)
+        //         .end((req, res) => {
+        //             res.should.have.a.status(200);
+        //             done();
+        //         });
+        // });
+    });
+
 });

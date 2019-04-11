@@ -14,4 +14,6 @@ router.post('/api/v1/:account/debit', transaction.debiteAccount);
 router.post('/api/v1/:account/credit', transaction.creditAccount);
 router.get('/api/v1/transaction/getall', transaction.getAllTransaction);
 router.get('/api/v1/transaction/:accountNumber', transaction.getAllTransactionFoAccount);
+//router.get('/api/v1/account/:accountNumber', account.findAnAccount);
+router.get('/api/v1/account', account.findAllAccounts);
 export default router;
