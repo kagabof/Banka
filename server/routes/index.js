@@ -16,4 +16,5 @@ router.get('/api/v1/transaction/getall', transaction.getAllTransaction);
 router.get('/api/v1/transaction/:accountNumber', transaction.getAllTransactionFoAccount);
 //router.get('/api/v1/account/:accountNumber', account.findAnAccount);
 router.get('/api/v1/account', account.findAllAccounts);
+router.get('/api/v1/user/getall', user.getAllUsers);
 export default router;

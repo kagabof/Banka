@@ -130,5 +130,15 @@ describe("Users", ()=>{
         });
         
     });
+    describe('GET /', ()=>{
+        it("should get all use", (done)=>{
+            chai.request(app)
+                .get('/api/v1/user/getall')
+                .end((req,res)=>{
+                    res.should.have.status(200);
+                    done();
+                })
+        })
+    })
 });
 
