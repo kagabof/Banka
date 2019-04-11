@@ -1,8 +1,10 @@
 import db from "./../db/userDB";
-//import random from "randomstring"
 
+import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import format from "biguint-format";
+
+
 
 
 class UserController{
@@ -58,16 +60,22 @@ class UserController{
     signIn(req,res){
         const user =db.find(user => user.email === req.body.email && user.password === req.body.password);
         if(user){
+            const token = jwt.sign({
+                id: user.id,
+                email: user.email,
+                isAdmin: user.isAdmin
+            }, 'secret' ,{
+                expiresIn: "1h",
+            });
             return res.status(201).send({
                 status: 201,
                 data: {
-                    //token: random.generate(),
                     id: user.id,
                     firstName: user.firstName,
                     lastName: user.lastName,
                     email: user.email,
                 },
-
+                token,
             });
         }
         else{
