@@ -16,7 +16,7 @@ describe("Users", ()=>{
                 password: "ffff",
             };
             chai.request(app)
-                .post(`/api/v1/signup`)
+                .post(`/api/v1/auth/signup`)
                 .send(user)
                 .end((req, res) => {
                     res.should.have.status(201);
@@ -32,7 +32,7 @@ describe("Users", ()=>{
                 password: "ffff",
             };
             chai.request(app)
-                .post(`/api/v1/signup`)
+                .post(`/api/v1/auth/signup`)
                 .send(user)
                 .end((req, res) => {
                     res.should.have.status(400);
@@ -50,7 +50,7 @@ describe("Users", ()=>{
                 password: "ffff",
             };
             chai.request(app)
-                .post(`/api/v1/signup`)
+                .post(`/api/v1/auth/signup`)
                 .send(user)
                 .end((req, res) => {
                     res.should.have.status(400);
@@ -69,7 +69,7 @@ describe("Users", ()=>{
                 password: "ffff",
             };
             chai.request(app)
-                .post(`/api/v1/signup`)
+                .post(`/api/v1/auth/signup`)
                 .send(user)
                 .end((req, res) => {
                     res.should.have.status(400);
@@ -88,7 +88,7 @@ describe("Users", ()=>{
                 password: "",
             };
             chai.request(app)
-                .post(`/api/v1/signup`)
+                .post(`/api/v1/auth/signup`)
                 .send(user)
                 .end((req, res) => {
                     res.should.have.status(400);
@@ -105,7 +105,7 @@ describe("Users", ()=>{
                 password: "Fofo1995@",
             }
             chai.request(app)
-                .post('/api/v1/signin')
+                .post('/api/v1/auth/signin')
                 .send(user)
                 .end((req,res)=>{
                     res.should.have.status(201);
@@ -121,7 +121,7 @@ describe("Users", ()=>{
                 password: "",
             }
             chai.request(app)
-                .post('/api/v1/signin')
+                .post('/api/v1/auth/signin')
                 .send(user)
                 .end((req, res) => {
                     res.should.have.status(400);

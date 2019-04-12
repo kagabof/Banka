@@ -14,7 +14,7 @@ describe("Transaction", () => {
             };
             const account = "fofo";
             chai.request(app)
-                .post(`/api/v1/${account}/debit`)
+                .post(`/api/v1/transactions/${account}/debit`)
                 .send(trans)
                 .end((req, res) => {
                     res.should.have.status(400);
@@ -30,7 +30,7 @@ describe("Transaction", () => {
             };
             const account = 12345;
             chai.request(app)
-                .post(`/api/v1/${account}/debit`)
+                .post(`/api/v1/transactions/${account}/debit`)
                 .send(trans)
                 .end((req, res) => {
                     res.should.have.status(400);
@@ -47,7 +47,7 @@ describe("Transaction", () => {
             };
             const account = 123456;
             chai.request(app)
-                .post(`/api/v1/${account}/debit`)
+                .post(`/api/v1/transactions/${account}/debit`)
                 .send(trans)
                 .end((req, res) => {
                     res.should.have.status(400);
@@ -64,7 +64,7 @@ describe("Transaction", () => {
             };
             const account = 1234567;
             chai.request(app)
-                .post(`/api/v1/${account}/debit`)
+                .post(`/api/v1/transactions/${account}/debit`)
                 .send(trans)
                 .end((req, res) => {
                     res.should.have.status(400);
@@ -81,7 +81,7 @@ describe("Transaction", () => {
             };
             const account = 1234567;
             chai.request(app)
-                .post(`/api/v1/${account}/debit`)
+                .post(`/api/v1/transactions/${account}/debit`)
                 .send(trans)
                 .end((req, res) => {
                     res.should.have.status(201);
@@ -100,7 +100,7 @@ describe("Transaction", () => {
             };
             const account = "fofo";
             chai.request(app)
-                .post(`/api/v1/${account}/credit`)
+                .post(`/api/v1/transactions/${account}/credit`)
                 .send(trans)
                 .end((req, res) => {
                     res.should.have.status(400);
@@ -116,7 +116,7 @@ describe("Transaction", () => {
             };
             const account = 12345;
             chai.request(app)
-                .post(`/api/v1/${account}/credit`)
+                .post(`/api/v1/transactions/${account}/credit`)
                 .send(trans)
                 .end((req, res) => {
                     res.should.have.status(400);
@@ -133,7 +133,7 @@ describe("Transaction", () => {
             };
             const account = 123456;
             chai.request(app)
-                .post(`/api/v1/${account}/credit`)
+                .post(`/api/v1/transactions/${account}/credit`)
                 .send(trans)
                 .end((req, res) => {
                     res.should.have.status(400);
@@ -150,7 +150,7 @@ describe("Transaction", () => {
             };
             const account = 1234567;
             chai.request(app)
-                .post(`/api/v1/${account}/credit`)
+                .post(`/api/v1/transactions/${account}/credit`)
                 .send(trans)
                 .end((req, res) => {
                     res.should.have.status(201);
@@ -164,7 +164,7 @@ describe("Transaction", () => {
      describe('GET /', () => {
          it('should get all transactions', (done) =>{
              chai.request(app)
-                 .get('/api/v1/transaction/getall')
+                 .get('/api/v1/transactions/getall')
                  .end((req,res)=>{
                      res.should.have.status(200);
                      res.body.should.be.a('object');
@@ -177,7 +177,7 @@ describe("Transaction", () => {
          it('should get transaction', (done) => {
              const account = 123456;
              chai.request(app)
-                 .get(`/api/v1/transaction/${account}`)
+                 .get(`/api/v1/transactions/${account}`)
                  .end((req, res) => {
                      res.should.have.status(200);
                      res.body.should.be.a('object');
@@ -187,7 +187,7 @@ describe("Transaction", () => {
          it('should not get transaction becouse no transaction to the account', (done) => {
              const account = 1234567;
              chai.request(app)
-                 .get(`/api/v1/transaction/${account}`)
+                 .get(`/api/v1/transactions/${account}`)
                  .end((req, res) => {
                      res.should.have.status(400);
                      res.body.should.be.a('object');

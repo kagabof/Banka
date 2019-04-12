@@ -58,9 +58,7 @@ class AccountController{
     }
 
     activateDeactivateAccount(req, res) {
-        const userId = parseInt(req.body.id);
-        const accountNumber = parseInt(req.body.accountNumber);
-        const user = userdb.find(user => user.id === userId);
+        const accountNumber = parseInt(req.params.accountNumber);
         const account = db.find(account => account.accountNumber === accountNumber);
         
         let accountFound;
@@ -73,17 +71,7 @@ class AccountController{
             }
             
         });
-        if(!user){
-            return res.status(400).send({
-                status: 400,
-                error: 'user not found',
-            });
-        }else if(user.isAdmin !== true){
-            return res.status(400).send({
-                status: 400,
-                error: 'user is not admin to deactivate or activate the account',
-            });
-        }else if(!account) {
+        if(!account) {
             return res.status(400).send({
                 status: 400,
                 error: 'account not found',
@@ -132,7 +120,7 @@ class AccountController{
     }
     accountDelete(req, res) {
         
-        const accountNumber = parseInt(req.params.id);
+        const accountNumber = parseInt(req.params.accountNumber);
         let accountFound;
         let accountIndex;
 

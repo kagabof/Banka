@@ -14,7 +14,7 @@ describe("Account", () => {
                 type: "saving",
             }
             chai.request(app)
-                .post('/api/v1/createAccount')
+                .post('/api/v1/accounts')
                 .send(user)
                 .end((req, res) => {
                     res.should.have.status(201);
@@ -30,7 +30,7 @@ describe("Account", () => {
             }
 
             chai.request(app)
-                .post('/api/v1/createAccount')
+                .post('/api/v1/accounts')
                 .send(user)
                 .end((req, res) => {
                     res.should.have.status(400);
@@ -46,7 +46,7 @@ describe("Account", () => {
             }
 
             chai.request(app)
-                .post('/api/v1/createAccount')
+                .post('/api/v1/accounts')
                 .send(user)
                 .end((req, res) =>{
                     res.should.have.status(400);
@@ -57,15 +57,11 @@ describe("Account", () => {
         });
     });
     describe('PATCH /', ()=>{
-        it('Admin must activate the account', (done)=>{
-            const act ={
-                id: 1,
-                accountNumber: 123456,           
-            };
+        it('activate the account', (done)=>{
+            const accountNumber = 123456;
 
             chai.request(app)
-                .patch("/api/v1/activateDeactivateAccount")
-                .send(act)
+                .patch(`/api/v1/account/${accountNumber}`)
                 .end((req,res) => {
                     res.should.have.status(201);
                     res.body.should.be.a('object');
@@ -76,14 +72,9 @@ describe("Account", () => {
             );
         });
         it('Admin must deactivate the account', (done) => {
-            const act = {
-                id: 1,
-                accountNumber: 123456,
-            };
-
+            const accountNumber = 123456;
             chai.request(app)
-                .patch("/api/v1/activateDeactivateAccount")
-                .send(act)
+                .patch(`/api/v1/account/${accountNumber}`)
                 .end((req, res) => {
                     res.should.have.status(201);
                     res.body.should.be.a('object');
@@ -93,48 +84,10 @@ describe("Account", () => {
                 }
                 );
         });
-        
-
-        it('should note activate while no user found',(done) =>{
-            const act = {
-                id: 5,
-                accountNumber: 123456,
-            };
-            chai.request(app)
-                .patch('/api/v1/activateDeactivateAccount')
-                .send(act)
-                .end((req,res) =>{
-                    res.should.have.status(400);
-                    res.body.should.be.a('object');
-                    res.body.should.have.property('status').eql(400);
-                    res.body.should.have.property('error').eql('user not found');
-                    done();
-                });
-        });
-        it('should note activate while user is note an admin', (done) => {
-            const act = {
-                id: 2,
-                accountNumber: 123456,
-            };
-            chai.request(app)
-                .patch('/api/v1/activateDeactivateAccount')
-                .send(act)
-                .end((req, res) => {
-                    res.should.have.status(400);
-                    res.body.should.be.a('object');
-                    res.body.should.have.property('status').eql(400);
-                    res.body.should.have.property('error').eql('user is not admin to deactivate or activate the account');
-                    done();
-                });
-        });
         it('should note activate while account not found', (done) => {
-            const act = {
-                id: 1,
-                accountNumber: 12345,
-            };
+            const accountNumber = 12345;
             chai.request(app)
-                .patch('/api/v1/activateDeactivateAccount')
-                .send(act)
+                .patch(`/api/v1/account/${accountNumber}`)
                 .end((req, res) => {
                     res.should.have.status(400);
                     res.body.should.be.a('object');
@@ -149,7 +102,7 @@ describe("Account", () => {
         it("should delete the account while accountNumber exist", (done)=>{
             const accountNumber = 123456;
             chai.request(app)
-                .delete(`/api/v1/accountDelete/${accountNumber}`)
+                .delete(`/api/v1/accounts/${accountNumber}`)
                 .end((req,res) => {
                     res.should.have.a.status(202);
                     res.body.should.have.property('status').eql(202);
@@ -160,7 +113,7 @@ describe("Account", () => {
         it("should not delete the account while accountNumber doesn't exist", (done) => {
             const accountNumber = 1234;
             chai.request(app)
-                .delete(`/api/v1/accountDelete/${accountNumber}`)
+                .delete(`/api/v1/accounts/${accountNumber}`)
                 .end((req, res) => {
                     res.should.have.a.status(400);
                     res.body.should.have.property('status').eql(400);
