@@ -2,7 +2,7 @@ import express from "express";
 import user from "./../controllers/userController";
 import account from "./../controllers/accountController";
 import transaction from "./../controllers/transactionController";
-
+import checkUser from "./../middleware/check-user.js";
 const router = express.Router();
 
 router.post('/api/v1/signup', user.createUser);
@@ -16,5 +16,5 @@ router.get('/api/v1/transaction/getall', transaction.getAllTransaction);
 router.get('/api/v1/transaction/:accountNumber', transaction.getAllTransactionFoAccount);
 //router.get('/api/v1/account/:accountNumber', account.findAnAccount);
 router.get('/api/v1/account', account.findAllAccounts);
-router.get('/api/v1/user/getall', user.getAllUsers);
+router.get('/api/v1/user/getall', checkUser, user.getAllUsers);
 export default router;
