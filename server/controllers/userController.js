@@ -64,18 +64,20 @@ class UserController{
                 id: user.id,
                 email: user.email,
                 isAdmin: user.isAdmin
-            }, 'secret' ,{
+            }, 
+            'secret' ,
+            {
                 expiresIn: "1h",
             });
             return res.status(201).send({
                 status: 201,
                 data: {
+                    token: token,
                     id: user.id,
                     firstName: user.firstName,
                     lastName: user.lastName,
                     email: user.email,
                 },
-                token,
             });
         }
         else{

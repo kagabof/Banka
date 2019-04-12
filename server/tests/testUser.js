@@ -5,6 +5,7 @@ import app from "../app";
 chai.use(chaiHttp);
 chai.should();
 
+let token = '';
 describe("Users", ()=>{
     describe("POST /", () => {
         it("should create a new user", (done) => {
@@ -110,6 +111,7 @@ describe("Users", ()=>{
                     res.should.have.status(201);
                     res.body.should.be.a('object');
                     res.body.should.have.property("data").should.be.an('object');
+                    token = res.body.data.token;
                     done();
                 })
         });
@@ -131,13 +133,22 @@ describe("Users", ()=>{
         
     });
     describe('GET /', ()=>{
-        it("should get all use", (done)=>{
+        it("should get all users while no valid token", (done)=>{
             chai.request(app)
                 .get('/api/v1/user/getall')
                 .end((req,res)=>{
-                    res.should.have.status(200);
+                    res.should.have.status(401);
                     done();
                 })
+        });
+        it("should get all use", (done) => {
+            chai.request(app)
+                .get('/api/v1/user/getall')
+                .set('Authorization', "Bearer " + token)
+                .end((req, res) => {
+                    res.should.have.status(200);
+                    done();
+                });
         })
     })
 });
