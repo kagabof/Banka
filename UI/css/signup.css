@@ -48,13 +48,15 @@ textarea:focus, input:focus , select:focus , option:focus{
     background-color: #1d2731;
 }
 .logo h1{
-    margin: 0px;
+    margin-top: -6px;
     display: inline;
     padding:5.5px;
     text-align: center;
+    
 }
 .nav-left{
     display: inline-block;
+    overflow: hidden;
 }
 nav ul{
     display: none;
@@ -80,7 +82,7 @@ nav a{
 
 nav a:hover{
     color: #1d2731;
-    background-color: white;
+    opacity: 0.7;
 }
 nav li:hover{
      color: #1d2731;
@@ -181,6 +183,9 @@ input[type="password"]:focus{
     border:1.5px solid #112F41;
     text-align: center;
 }
+
+
+
 
 @media only screen and (max-width: 600px){
     .signup{
