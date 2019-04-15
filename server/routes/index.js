@@ -1,0 +1,20 @@
+import express from "express";
+import user from "./../controllers/userController";
+import account from "./../controllers/accountController";
+import transaction from "./../controllers/transactionController";
+import checkUser from "./../middleware/check-user.js";
+const router = express.Router();
+
+router.post('/api/v1/auth/signup', user.createUser);
+router.post('/api/v1/auth/signin', user.signIn);
+router.post('/api/v1/accounts', account.createAccount);
+router.patch('/api/v1/account/:accountNumber', account.activateDeactivateAccount);
+router.delete('/api/v1/accounts/:accountNumber', account.accountDelete);
+router.post('/api/v1/transactions/:account/debit', transaction.debiteAccount);
+router.post('/api/v1/transactions/:account/credit', transaction.creditAccount);
+router.get('/api/v1/transactions/getall', transaction.getAllTransaction);
+router.get('/api/v1/transactions/:accountNumber', transaction.getAllTransactionFoAccount);
+//router.get('/api/v1/account/:accountNumber', account.findAnAccount);
+router.get('/api/v1/account', account.findAllAccounts);
+router.get('/api/v1/user/getall', checkUser, user.getAllUsers);
+export default router;

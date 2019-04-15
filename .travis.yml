@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+  - "stable"
+
+script:
+  - npm test
+
+#send coverage data to Coveralls
+after_script: "cat ./covarage/lcov.info | .node_modules/coveralls/bin/coveralls"
