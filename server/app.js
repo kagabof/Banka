@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(router);
 
 
-const PORT = process.env.PORT || 5004;
+const PORT = process.env.PORT || 5040;
 
 app.listen(PORT,()=>{
     console.log(`server running on port ${PORT}...`);
