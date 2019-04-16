@@ -24,63 +24,9 @@ describe("Users", ()=>{
                     done();
                 });
         });
-        it("should not create a new user with empty email", (done) => {
-            const user = {
-                email: "",
-                firstName: "Kabeho",
-                lastName: "Roger",
-                password: "ffff",
-            };
-            chai.request(app)
-                .post(`/api/v1/auth/signup`)
-                .send(user)
-                .end((req, res) => {
-                    res.should.have.status(400);
-                    res.body.should.be.a('object');
-                    res.body.should.have.property("status").eql(400);
-                    res.body.should.have.property("error").eql("email is required");
-                    done();
-                });
-        });
-        it("should not create a new user with empty name", (done) => {
-            const user = {
-                email: "kagabo@gmail.com",
-                firstName: "",
-                lastName: "Roger",
-                password: "ffff",
-            };
-            chai.request(app)
-                .post(`/api/v1/auth/signup`)
-                .send(user)
-                .end((req, res) => {
-                    res.should.have.status(400);
-                    res.body.should.be.a('object');
-                    res.body.should.have.property("status").eql(400);
-                    res.body.should.have.property("error").eql("first name is required");
-                    done();
-                });
-        });
 
-        it("should not create a new user with empty last name", (done) => {
-            const user = {
-                email: "kagabo@gmail.com",
-                firstName: "Kabeho",
-                lastName: "",
-                password: "ffff",
-            };
-            chai.request(app)
-                .post(`/api/v1/auth/signup`)
-                .send(user)
-                .end((req, res) => {
-                    res.should.have.status(400);
-                    res.body.should.be.a('object');
-                    res.body.should.have.property("status").eql(400);
-                    res.body.should.have.property("error").eql("last name is required");
-                    done();
-                });
-        });
 
-        it("should not create a new user with empty last name", (done) => {
+        it("should not create when Expectation Failed ", (done) => {
             const user = {
                 email: "kagabo@gmail.com",
                 firstName: "Kabeho",
@@ -91,10 +37,9 @@ describe("Users", ()=>{
                 .post(`/api/v1/auth/signup`)
                 .send(user)
                 .end((req, res) => {
-                    res.should.have.status(400);
+                    res.should.have.status(417);
                     res.body.should.be.a('object');
-                    res.body.should.have.property("status").eql(400);
-                    res.body.should.have.property("error").eql("password is required");
+                    res.body.should.have.property("status").eql(417);
                     done();
                 });
         });
@@ -108,14 +53,28 @@ describe("Users", ()=>{
                 .post('/api/v1/auth/signin')
                 .send(user)
                 .end((req,res)=>{
-                    res.should.have.status(201);
+                    res.should.have.status(202);
                     res.body.should.be.a('object');
                     res.body.should.have.property("data").should.be.an('object');
                     token = res.body.data.token;
                     done();
                 })
         });
-        it("should not signin", (done) => {
+        it("should not signin with no bad credentials", (done) => {
+            const user = {
+                email: "faustinkagabo@gmail.com",
+                password: "ffff",
+            }
+            chai.request(app)
+                .post('/api/v1/auth/signin')
+                .send(user)
+                .end((req, res) => {
+                    res.should.have.status(401);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
+        it("should not signin with no password", (done) => {
             const user = {
                 email: "faustinkagabo@gmail.com",
                 password: "",
@@ -124,9 +83,8 @@ describe("Users", ()=>{
                 .post('/api/v1/auth/signin')
                 .send(user)
                 .end((req, res) => {
-                    res.should.have.status(400);
+                    res.should.have.status(406);
                     res.body.should.be.a('object');
-                    res.body.should.have.property("error").eql("the user does note exist");
                     done();
                 });
         });
