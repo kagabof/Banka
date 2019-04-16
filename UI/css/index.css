@@ -1,3 +1,7 @@
+html{
+    width: 100%;
+    height: 100%;
+}
 body{
     margin:0;
     padding: 0;
@@ -24,20 +28,20 @@ body{
 
 }
 .signin{
-    background-color: rgba(35, 18, 184, 0.507);
+    background-color: rgb(4, 6, 88);
 }
 .signin:hover{
     background-color: hsla(246, 88%, 25%, 0.897);
 }
 .signup{
-    background-color: #00800083;
+    background-color: hsl(120, 94%, 20%);
 }
 .signup:hover{
     background-color: hsla(120, 87%, 18%, 0.897);
 }
 
 .wel{
-    color: #363683ce;
+    color: #083268;
     font-size: 30px;
 }
 

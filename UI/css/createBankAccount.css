@@ -9,17 +9,19 @@ body{
 
 }
 .container{
+    margin-top: 50px;
     padding: 30px;
     text-align: center;
 }
 .main-cba{
-    width: 400px;
+    
+    width: 60%;
     background-color: white;
     text-align: center;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     opacity: 0.9;
     display: inline-block;
-    margin: auto;
+    margin: auto ;
     
 }
 .main-cba{
@@ -74,11 +76,13 @@ option {
 }
 
 input[type="submit"]{
-    border: 1.5px solid #06802fc5;
+    color: white;
+    background-color: hsla(140, 84%, 15%, 0.959);
 }
 
 input[type="submit"]:hover{
-    background-color: #06802fc5;
+    background-color: hsla(140, 91%, 26%, 0.541);
+    border: 1.5px solid #06802fc5;
     color: white;
     transition: 0.5s;
 }

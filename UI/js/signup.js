@@ -62,36 +62,6 @@ document.addEventListener("DOMContentLoaded", () =>{
             
         }
     };
-    
-    document.getElementById("loginForm").onsubmit = () => {
-        if(!emailIsValid(document.getElementById("email").value)){
-            document.getElementById("email").focus();
-            document.getElementById("email").style.border = "1.5px solid red";
-            return false;
-        }else if (!nameIsValide(document.getElementById("firstName").value)) {
-            document.getElementById("firstName").focus();
-            document.getElementById("firstName").style.border = "1.5px solid red";
-            return false;
-        } else if (!nameIsValide(document.getElementById("lastName").value)) {
-            document.getElementById("lastName").focus();
-            document.getElementById("lastName").style.border = "1.5px solid red";
-            return false;
-        }else if(!passwordIsValid(document.getElementById("password").value)){
-           document.getElementById("password").focus();
-            document.getElementById("password").style.border = "1.5px solid red";
-            return false;
-        } else if (document.getElementById("password").value !== document.getElementById("rePassword").value){
-            document.getElementById("rePassword").focus();
-            document.getElementById("rePassword").style.border = "1.5px solid red";
-            return false;
-        }else{
-            
-            return true;
-        }
-        
-    };
-
-
     document.getElementById("icon-place").onclick = ()=>{
         
         document.getElementById("nav-link").classList.toggle("active");

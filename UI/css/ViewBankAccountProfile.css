@@ -51,7 +51,7 @@ textarea:focus, input:focus , select:focus , option:focus{
     
 }
 nav ul{
-    display: inline-block;
+    display: none;
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -320,5 +320,14 @@ nav a{
   .userdesc{
         margin-top: 60px;
     }
+    nav ul{
+    display: inline-block;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  float: right;
+    background-color: #1d2731;
+    
+}
 }
 
