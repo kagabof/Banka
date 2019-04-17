@@ -13,6 +13,7 @@ body{
     -o-backgound-size: cover;
     height: 100%;
 }
+
 .btn a{
   text-decoration: none;
   padding: 10px 20px;
@@ -24,7 +25,12 @@ body{
 
 .main{
     text-align: center;
-    margin-top:150px;
+    margin:100px auto;
+    height: 250px;
+    border-radius: 5px;
+    background-color: hsla(210, 23%, 31%, 0.801);
+
+
 
 }
 .signin{
@@ -41,7 +47,8 @@ body{
 }
 
 .wel{
-    color: #083268;
+    padding-top: 20px;
+    color: white;
     font-size: 30px;
 }
 

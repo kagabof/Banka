@@ -149,18 +149,7 @@ option{
     background-color: #4484ce;
     color:white;
 }
-.signup
-select:hover ,option:hover ,
-input[type="text"]:hover ,
-input[type="email"]:hover,
-input[type="password"]:hover,
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus{
-    width: 100%;
-    transition-duration: 0.5s;
-    
-}
+
 .signup form{
     padding:20px;
 }
