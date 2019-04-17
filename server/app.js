@@ -1,8 +1,8 @@
 import express from "express";
 import bodyParser from "body-parser";
-import transactionRouter from "./routes/transactionRoutes";
-import userRouter from "./routes/userRoutes";
-import accountRouter from "./routes/accountRoutes";
+import transactionRouter from "./routes/transactionRouters";
+import userRouter from "./routes/userRouters";
+import accountRouter from "./routes/accountRouters";
 
 const app = express();
 

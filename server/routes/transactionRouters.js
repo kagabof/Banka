@@ -1,4 +1,4 @@
-import transaction from "./../controllers/transactionController";
+import transaction from "../controllers/transactionController";
 import express from "express";
 const router = express.Router();
 
