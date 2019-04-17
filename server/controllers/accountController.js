@@ -238,31 +238,6 @@ class AccountController{
                 }
             });
         }
-
-
-        // const accountNumber = parseInt(req.params.accountNumber);
-        // let accountFound;
-        // let accountIndex;
-
-        // db.map((account, index) => {
-        //     if (account.accountNumber === accountNumber) {
-        //         accountFound = account;
-        //         accountIndex = index;
-        //     }
-        // });
-
-        // if (!accountFound) {
-        //     return res.status(400).send({
-        //         status: 400,
-        //         error: "account not found",
-        //     });
-        // } else {
-        //     return res.status(200).send({
-        //         status: 200,
-        //         message: 'Account successfully found',
-        //         date: accountFound
-        //     });
-        // }
     }
 }
 
