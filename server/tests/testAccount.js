@@ -23,9 +23,9 @@ describe("Account", () => {
                     done();
                 });
         });
-        it("it should not create the account with out with no user", (done) => {
+        it("it should not create with a none existing owner", (done) => {
             const user = {
-                owner: "",
+                owner:5,
                 type: "saving",
             }
 
@@ -33,27 +33,24 @@ describe("Account", () => {
                 .post('/api/v1/accounts')
                 .send(user)
                 .end((req, res) => {
-                    res.should.have.status(400);
-                    res.body.should.have.property('error').eql('owner not found!');
+                    res.should.have.status(404);
                     done();
                 }
                 );
         });
-        it("it should not create the account", (done) => {
+        it("it should not create with empty owner or type", (done) => {
             const user = {
-                owner: 1,
-                type: "",
+                type: "saving",
             }
 
             chai.request(app)
                 .post('/api/v1/accounts')
                 .send(user)
-                .end((req, res) =>{
-                    res.should.have.status(400);
-                    res.body.should.have.property('error').eql('type is required!');
+                .end((req, res) => {
+                    res.should.have.status(406);
                     done();
                 }
-            );
+                );
         });
     });
     describe('PATCH /', ()=>{
@@ -96,6 +93,28 @@ describe("Account", () => {
                     done();
                 });
         });
+        it('should note activate while account is not a integer', (done) => {
+            const accountNumber = "fofo";
+            chai.request(app)
+                .patch(`/api/v1/account/${accountNumber}`)
+                .end((req, res) => {
+                    res.should.have.status(404);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('status').eql(404);
+                    done();
+                });
+        });
+        it('should note activate while account is not a empty', (done) => {
+            let accountNumber;
+            chai.request(app)
+                .patch(`/api/v1/account/${accountNumber}`)
+                .end((req, res) => {
+                    res.should.have.status(404);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('status').eql(404);
+                    done();
+                });
+        });
 
     });
     describe('DELETE /', ()=>{
@@ -115,9 +134,29 @@ describe("Account", () => {
             chai.request(app)
                 .delete(`/api/v1/accounts/${accountNumber}`)
                 .end((req, res) => {
-                    res.should.have.a.status(400);
-                    res.body.should.have.property('status').eql(400);
+                    res.should.have.a.status(404);
+                    res.body.should.have.property('status').eql(404);
                     res.body.should.have.property('error').eql("account not found");
+                    done();
+                });
+        });
+        it("should not delete the account while accountNumber is not a number", (done) => {
+            const accountNumber = "ffoof";
+            chai.request(app)
+                .delete(`/api/v1/accounts/${accountNumber}`)
+                .end((req, res) => {
+                    res.should.have.a.status(406);
+                    res.body.should.have.property('status').eql(406);
+                    done();
+                });
+        });
+        it("should not delete the account while accountNumber is empty", (done) => {
+            let accountNumber;
+            chai.request(app)
+                .delete(`/api/v1/accounts/${accountNumber}`)
+                .end((req, res) => {
+                    res.should.have.a.status(406);
+                    res.body.should.have.property('status').eql(406);
                     done();
                 });
         });
