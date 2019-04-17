@@ -199,32 +199,71 @@ class AccountController{
         });
     }
 
-    // findAnAccount(req,res){
+    findAnAccount(req,res){
+        const data = {
+            accountNumber: req.params.accountNumber,
+        };
+        const rules = {
+            accountNumber: 'required|integer'
+        };
 
-    //     const accountNumber = parseInt(req.params.id);
-    //     let accountFound;
-    //     let accountIndex;
+        const validation = new Validator(data, rules);
+        if (validation.passes()) {
+            let accountFound;
+            let accountIndex;
 
-    //     db.map((account, index) => {
-    //         if (account.accountNumber === accountNumber) {
-    //             accountFound = account;
-    //             accountIndex = index;
-    //         }
-    //     });
+            db.map((account, index) => {
+                if (account.accountNumber === parseInt(data.accountNumber, 10)) {
+                    accountFound = account;
+                    accountIndex = index;
+                }
+            });
+            if (!accountFound) {
+                return res.status(404).send({
+                    status: 404,
+                    error: "account not found",
+                });
+            } else {
+                return res.status(200).send({
+                    status: 200,
+                    message: 'Account successfully found',
+                    date: accountFound
+                });
+            }
+        }else{
+            return res.status(406).send({
+                status: 406,
+                error: {
+                    accountNumber: validation.errors.first("accountNumber")
+                }
+            });
+        }
 
-    //     if (!accountFound) {
-    //         return res.status(400).send({
-    //             status: 400,
-    //             error: "account not found",
-    //         });
-    //     } else {
-    //         return res.status(200).send({
-    //             status: 200,
-    //             message: 'Account successfully found',
-    //             date: accountFound
-    //         });
-    //     }
-    // }
+
+        // const accountNumber = parseInt(req.params.accountNumber);
+        // let accountFound;
+        // let accountIndex;
+
+        // db.map((account, index) => {
+        //     if (account.accountNumber === accountNumber) {
+        //         accountFound = account;
+        //         accountIndex = index;
+        //     }
+        // });
+
+        // if (!accountFound) {
+        //     return res.status(400).send({
+        //         status: 400,
+        //         error: "account not found",
+        //     });
+        // } else {
+        //     return res.status(200).send({
+        //         status: 200,
+        //         message: 'Account successfully found',
+        //         date: accountFound
+        //     });
+        // }
+    }
 }
 
 const acc = new AccountController();

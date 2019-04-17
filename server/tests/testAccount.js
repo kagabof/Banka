@@ -162,7 +162,7 @@ describe("Account", () => {
         });
     });
     describe("GET /", () =>{
-        it("should an account", (done) =>{
+        it("should get all account", (done) =>{
             chai.request(app)
                 .get('/api/v1/account')
                 .end((req,res) => {
@@ -171,15 +171,34 @@ describe("Account", () => {
                     done();
                 });
         });
-        // it("should get an account", (done) => {
-        //     const accountNumber = 123456;
-        //     chai.request(app)
-        //         .get(`/api/v1/account/${accountNumber}`)
-        //         .end((req, res) => {
-        //             res.should.have.a.status(200);
-        //             done();
-        //         });
-        // });
+        it("should get an account", (done) => {
+            const accountNumber = 1234567;
+            chai.request(app)
+                .get(`/api/v1/account/${accountNumber}`)
+                .end((req, res) => {
+                    res.should.have.a.status(200);
+                    done();
+                });
+        });
+        it("should get not get an account", (done) => {
+            const accountNumber = 123;
+            chai.request(app)
+                .get(`/api/v1/account/${accountNumber}`)
+                .end((req, res) => {
+                    res.should.have.a.status(404);
+                    done();
+                });
+        });
+        it("should get not get an account", (done) => {
+            let accountNumber;
+            chai.request(app)
+                .get(`/api/v1/account/${accountNumber}`)
+                .end((req, res) => {
+                    res.should.have.a.status(406);
+                    done();
+                });
+        });
+        
     });
 
 });
