@@ -30,7 +30,16 @@ class UserController{
         };
         const validation = new Validator(data, rules);
 
+        const token = jwt.sign({
+            email: req.body.email,
+            firstName: req.body.firstName,
+        },
+            'secret',
+            {
+                expiresIn: "1h",
+            });
         if(validation.passes()){
+            
             const random = (qty) => {
                 return crypto.randomBytes(qty)
             }
@@ -45,6 +54,7 @@ class UserController{
             };
             db.push(user);
             return res.status(201).send({
+                token,
                 status: 201,
                 data: user,
             });
