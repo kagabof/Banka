@@ -1,12 +1,7 @@
 import db from "./../db/userDB";
-
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import format from "biguint-format";
-import Validator from "validatorjs";
-
-
-
 
 class UserController{
     getAllUsers(req,res){
@@ -16,19 +11,7 @@ class UserController{
         });
     }
     createUser(req,res){
-        const data = {
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            email: req.body.email,
-            password: req.body.password
-        }
-        const rules = {
-            firstName: 'required',
-            lastName: 'required',
-            email: 'required|email',
-            password: 'required'
-        };
-        const validation = new Validator(data, rules);
+        
 
         const token = jwt.sign({
             email: req.body.email,
@@ -38,8 +21,7 @@ class UserController{
             {
                 expiresIn: "1h",
             });
-        if(validation.passes()){
-            
+
             const random = (qty) => {
                 return crypto.randomBytes(qty)
             }
@@ -58,32 +40,10 @@ class UserController{
                 status: 201,
                 data: user,
             });
-        }else{
-            return res.status(417).send({
-                status: 417,
-                error: {
-                    firstName: validation.errors.first('firstName'),
-                    lastName: validation.errors.first('lastName'),
-                    email: validation.errors.first('email'),
-                    password: validation.errors.first('name')
-                }
-            });
-        }
     }
 
     signIn(req,res){
-        const data = {
-            email: req.body.email,
-            password: req.body.password
-        };
-        const rules = {
-            email: 'required|email',
-            password: 'required'
-        }
-
-        const validation = new Validator(data, rules);
-        if(validation.passes()){
-            const user = db.find(user => user.email === data.email && user.password === data.password);
+            const user = db.find(user => user.email === req.body.email && user.password === req.body.password);
             if (user) {
                 const token = jwt.sign({
                     id: user.id,
@@ -108,18 +68,9 @@ class UserController{
             else {
                 return res.status(401).send({
                     status: 401,
-                    error: "the user does note exist, should first signup",
+                    error: "The user does note exist, he/she should first signup!",
                 });
             }
-        }else{
-            return res.status(406).send({
-                status: 406,
-                error: {
-                    email: validation.errors.first("email"),
-                    password: validation.errors.first("password")
-                },
-            });
-        }
     }
 
     

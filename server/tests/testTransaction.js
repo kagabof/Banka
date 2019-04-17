@@ -118,7 +118,7 @@ describe("Transaction", () => {
                 .end((req, res) => {
                     res.should.have.status(400);
                     res.body.should.be.a('object');
-                    res.body.should.have.property("error").eql('account not found');
+                    res.body.should.have.property("error").eql('sorry, account-number not found.');
                     done();
                 });
         });
@@ -195,7 +195,7 @@ describe("Transaction", () => {
              chai.request(app)
                  .get(`/api/v1/transactions/${account}`)
                  .end((req, res) => {
-                     res.should.have.status(406);
+                     res.should.have.status(400);
                      res.body.should.be.a('object');
                      done();
                  });
@@ -205,7 +205,7 @@ describe("Transaction", () => {
              chai.request(app)
                  .get(`/api/v1/transactions/${account}`)
                  .end((req, res) => {
-                     res.should.have.status(406);
+                     res.should.have.status(400);
                      res.body.should.be.a('object');
                      done();
                  });

@@ -5,26 +5,11 @@ import Validator from "validatorjs";
 
 class TransactionController{
     debiteAccount(req,res){
-        const data = {
-            accountNumber: req.params.account,
-            amount: req.body.amount,
-            cachierId: req.body.cachierId
-        };
-        
-        const rules = {
-            accountNumber: 'required|integer',
-            amount: 'required|numeric',
-            cachierId: 'integer',
-        }
-
-        const validation = new Validator(data,rules);
-        
-        if(validation.passes()){
             let accountFound;
             let accountIndex;
 
             accountDb.map((account, index) => {
-                if (account.accountNumber === parseInt(data.accountNumber, 10)) {
+                if (account.accountNumber === parseInt(req.params.account, 10)) {
                     accountFound = account;
                     accountIndex = index;
                 }
@@ -35,7 +20,7 @@ class TransactionController{
                     status: 400,
                     error: "account not found",
                 });
-            } else if (accountFound.balance < parseFloat(data.amount)) {
+            } else if (accountFound.balance < parseFloat(req.body.amount)) {
                 return res.status(400).send({
                     status: 400,
                     error: "balance is less than the amount",
@@ -45,23 +30,23 @@ class TransactionController{
                     id: transactionDb.length + 1,
                     creatOn: Date.now(),
                     type: "debit",
-                    accountNmber: parseInt(data.accountNumber),
-                    cachier: parseInt(data.cachierId),
-                    amount: parseFloat(data.amount),
+                    accountNmber: parseInt(req.params.account),
+                    cachier: parseInt(req.body.cachierId),
+                    amount: parseFloat(req.body.amount),
                     oldBalance: accountFound.balance,
-                    newBalance: accountFound.balance - parseFloat(data.amount),
+                    newBalance: accountFound.balance - parseFloat(req.body.amount),
                 };
 
                 transactionDb.push(newTransaction);
 
                 const newAccount = {
                     id: accountFound.id,
-                    accountNumber: parseInt(data.accountNumber),
+                    accountNumber: parseInt(req.params.account),
                     createOn: accountFound.createOn,
                     owner: accountFound.owner,
                     type: accountFound.type,
                     status: accountFound.status,
-                    balance: accountFound.balance - parseFloat(data.amount),
+                    balance: accountFound.balance - parseFloat(req.body.amount),
                 };
                 accountDb.splice(accountIndex, 1, newAccount);
                 return res.status(201).send({
@@ -69,48 +54,24 @@ class TransactionController{
                     error: "true",
                     data: {
                         transactionId: newTransaction.id,
-                        accountNumber: parseInt(data.accountNumber),
-                        amount: parseFloat(data.amount),
-                        cachier: parseInt(data.cachierId),
+                        accountNumber: parseInt(req.params.account),
+                        amount: parseFloat(req.body.amount),
+                        cachier: parseInt(req.body.cachierId),
                         transactionType: newTransaction.type,
                         oldBalance: accountFound.balance,
                         accountBalance: newAccount.balance,
                     }
                 });
             }
-        }else {
-            return res.status(406).send({
-                status: 406,
-                error: {
-                    accountNumber: validation.errors.first("accountNumber"),
-                    amount: validation.errors.first("amount"),
-                    cachierId: validation.errors.first("cachierId"),
-                }
-            });
-        }
+        
     }
 
     creditAccount(req, res) {
-        const data = {
-            accountNumber: req.params.account,
-            amount: req.body.amount,
-            cachierId: req.body.cachierId
-        };
-
-        const rules = {
-            accountNumber: 'required|integer',
-            amount: 'required|numeric',
-            cachierId: 'integer',
-        }
-
-        const validation = new Validator(data, rules);
-
-        if (validation.passes()) {
             let accountFound;
             let accountIndex;
 
             accountDb.map((account, index) => {
-                if (account.accountNumber === parseInt(data.accountNumber, 10)) {
+                if (account.accountNumber === parseInt(req.params.account, 10)) {
                     accountFound = account;
                     accountIndex = index;
                 }
@@ -119,30 +80,30 @@ class TransactionController{
             if (!accountFound) {
                 return res.status(400).send({
                     status: 400,
-                    error: "account not found",
+                    error: "sorry, account-number not found.",
                 });
             } else {
                 const newTransaction = {
                     id: transactionDb.length + 1,
                     creatOn: Date.now(),
                     type: "debit",
-                    accountNmber: parseInt(data.accountNumber),
-                    cachier: parseInt(data.cachierId),
-                    amount: parseFloat(data.amount),
+                    accountNmber: parseInt(req.params.account),
+                    cachier: parseInt(req.body.cachierId),
+                    amount: parseFloat(req.body.amount),
                     oldBalance: accountFound.balance,
-                    newBalance: accountFound.balance - parseFloat(data.amount),
+                    newBalance: accountFound.balance - parseFloat(req.body.amount),
                 };
 
                 transactionDb.push(newTransaction);
 
                 const newAccount = {
                     id: accountFound.id,
-                    accountNumber: parseInt(data.accountNumber),
+                    accountNumber: parseInt(req.params.account),
                     createOn: accountFound.createOn,
                     owner: accountFound.owner,
                     type: accountFound.type,
                     status: accountFound.status,
-                    balance: accountFound.balance + parseFloat(data.amount),
+                    balance: accountFound.balance + parseFloat(req.body.amount),
                 };
                 accountDb.splice(accountIndex, 1, newAccount);
                 return res.status(201).send({
@@ -150,25 +111,16 @@ class TransactionController{
                     error: "true",
                     data: {
                         transactionId: newTransaction.id,
-                        accountNumber: parseInt(data.accountNumber),
-                        amount: parseFloat(data.amount),
-                        cachier: parseInt(data.cachierId),
+                        accountNumber: parseInt(req.params.accountNumber),
+                        amount: parseFloat(req.body.amount),
+                        cachier: parseInt(req.body.cachierId),
                         transactionType: newTransaction.type,
                         oldBalance: accountFound.balance,
                         accountBalance: newAccount.balance,
                     }
                 });
             }
-        } else {
-            return res.status(406).send({
-                status: 406,
-                error: {
-                    accountNumber: validation.errors.first("accountNumber"),
-                    amount: validation.errors.first("amount"),
-                    cachierId: validation.errors.first("cachierId"),
-                }
-            });
-        }
+        
     }
     getAllTransaction(req, res) {
         return res.status(200).send({
@@ -177,20 +129,10 @@ class TransactionController{
         })
     }
 
-    getAllTransactionFoAccount(req, res) {
-        const data = {
-            accountNumber: req.params.accountNumber
-        };
-        const rules = {
-            accountNumber: "required|integer"
-        }
-        const validation = new Validator(data,rules);
-
-        if(validation.passes()){
-            const accountN = accountDb.find(ac => ac.accountNumber === parseInt(data.accountNumber));
-            const TaccountN = transactionDb.find(ac => ac.accountNumber === parseInt(data.accountNumber));
-            const accountFound = transactionDb.filter((accountN) => accountN.accountNumber === parseInt(data.accountNumber));
-            if (TaccountN) {
+    getAllTransactionForAccount(req, res) {
+            const findAccountInTransactions = transactionDb.find(ac => ac.accountNumber === parseInt(req.params.accountNumber));
+            const accountFound = transactionDb.filter((accountN) => accountN.accountNumber === parseInt(req.params.accountNumber));
+        if (findAccountInTransactions) {
                 return res.status(200).send({
                     status: 200,
                     data: accountFound,
@@ -202,17 +144,7 @@ class TransactionController{
                     error: 'Zero transaction to the account given',
                 });
             }
-        } else {
-            return res.status(406).send({
-                status: 406,
-                error: {
-                    accountNumber: validation.errors.first("accountNumber")
-                }
-            });
         }
-
-        
-    }
 }
 
 const tran = new TransactionController();
