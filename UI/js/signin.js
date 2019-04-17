@@ -30,22 +30,27 @@ const passwordIsValid = (password) => {
 };
 
     document.getElementById("signinForm").onsubmit = () =>{
-        if(!emailIsValid(document.getElementById("email").value)){
+        if(document.getElementById("email").value === ""){
 
             document.getElementById("email").focus();
             document.getElementById("email").style.border = "1.5px solid red";
             return false;
 
-        }else if(!passwordIsValid(document.getElementById("password").value)){
+        }else if(document.getElementById("password").value === ""){
 
             document.getElementById("password").focus();
             document.getElementById("password").style.border = "1.5px solid red";
             return false;
 
-        } else if (document.getElementById("password").value === "Fofo1@" && document.getElementById("email").value === "mugisha@gmail.com"){
+        } else if (document.getElementById("password").value === "admin" && document.getElementById("email").value === "admin@gmail.com"){
             
             let form = document.getElementById("signinForm");
             form.setAttribute("action","AdminView.html");
+            return true;
+        } else if (document.getElementById("password").value === "staff" && document.getElementById("email").value === "staff@gmail.com") {
+
+            let form = document.getElementById("signinForm");
+            form.setAttribute("action", "adminstaffView.html");
             return true;
         } else{
             let form = document.getElementById("signinForm");

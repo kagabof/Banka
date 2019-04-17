@@ -25,7 +25,8 @@
     "body-parser": "^1.18.3",
     "crypto": "^1.0.1",
     "express": "^4.16.4",
-    "jsonwebtoken": "^8.5.1"
+    "jsonwebtoken": "^8.5.1",
+    "validatorjs": "^3.15.1"
   },
   "devDependencies": {
     "babel-preset-env": "^1.7.0",

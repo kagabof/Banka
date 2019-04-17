@@ -53,15 +53,7 @@ textarea:focus, input:focus , select:focus , option:focus{
 .nav-left{
     display: inline-block;
 }
-nav ul{
-    display: inline-block;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  float: right;
-    background-color: #1d2731;
-    font-size: 18px;
-}
+
 nav li{
     display: inline-block;
 }
@@ -343,23 +335,17 @@ th{
 
 
 
-@media only screen and (max-width: 600px){
-
-    .main-content-box{
-        margin-bottom: 40px;
-    }
-    .nav-right{
-        display: none;
-        text-align: center;
-    }
-    .ul-nav{
-        display:none;
-    }     
-}
 @media only screen and (max-width: 800px){
-    .ul-nav{
-        display:none;
-    }
+    
+    nav ul{
+    display: none;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  float: right;
+    background-color: #1d2731;
+    font-size: 18px;
+}
 }
 
 .image-pr{
@@ -502,4 +488,19 @@ input[type="submit"]:hover{
         margin: 20px;
     }
 }
+@media only screen and (min-width: 800px){
+    .ul-nav{
+        display:none;
+    }
+    nav ul{
+        display: none;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        float: right;
+        background-color: #1d2731;
+        font-size: 18px;
+    }
+}
+
 

@@ -17,9 +17,8 @@ describe("Transaction", () => {
                 .post(`/api/v1/transactions/${account}/debit`)
                 .send(trans)
                 .end((req, res) => {
-                    res.should.have.status(400);
+                    res.should.have.status(406);
                     res.body.should.be.a('object');
-                    res.body.should.have.property("error").eql('account required');
                     done();
                 });
         });
@@ -50,9 +49,8 @@ describe("Transaction", () => {
                 .post(`/api/v1/transactions/${account}/debit`)
                 .send(trans)
                 .end((req, res) => {
-                    res.should.have.status(400);
+                    res.should.have.status(406);
                     res.body.should.be.a('object');
-                    res.body.should.have.property("error").eql('amount required');
                     done();
                 });
         });
@@ -103,9 +101,8 @@ describe("Transaction", () => {
                 .post(`/api/v1/transactions/${account}/credit`)
                 .send(trans)
                 .end((req, res) => {
-                    res.should.have.status(400);
+                    res.should.have.status(406);
                     res.body.should.be.a('object');
-                    res.body.should.have.property("error").eql('account required');
                     done();
                 });
         });
@@ -128,7 +125,6 @@ describe("Transaction", () => {
 
         it("should not credit while no amount", (done) => {
             const trans = {
-                amount: "",
                 chaierId: 2,
             };
             const account = 123456;
@@ -136,9 +132,8 @@ describe("Transaction", () => {
                 .post(`/api/v1/transactions/${account}/credit`)
                 .send(trans)
                 .end((req, res) => {
-                    res.should.have.status(400);
+                    res.should.have.status(406);
                     res.body.should.be.a('object');
-                    res.body.should.have.property("error").eql('amount required');
                     done();
                 });
         });
@@ -189,9 +184,29 @@ describe("Transaction", () => {
              chai.request(app)
                  .get(`/api/v1/transactions/${account}`)
                  .end((req, res) => {
-                     res.should.have.status(400);
+                     res.should.have.status(404);
                      res.body.should.be.a('object');
                      res.body.should.have.property("error").eql('Zero transaction to the account given');
+                     done();
+                 });
+         });
+         it('should not get transaction when account is not a integer', (done) => {
+             let account = "fff";
+             chai.request(app)
+                 .get(`/api/v1/transactions/${account}`)
+                 .end((req, res) => {
+                     res.should.have.status(406);
+                     res.body.should.be.a('object');
+                     done();
+                 });
+         });
+         it('should not get transaction when account is empty', (done) => {
+             let account;
+             chai.request(app)
+                 .get(`/api/v1/transactions/${account}`)
+                 .end((req, res) => {
+                     res.should.have.status(406);
+                     res.body.should.be.a('object');
                      done();
                  });
          });
