@@ -50,7 +50,7 @@ const passwordIsValid = (password) => {
         } else if (document.getElementById("password").value === "staff" && document.getElementById("email").value === "staff@gmail.com") {
 
             let form = document.getElementById("signinForm");
-            form.setAttribute("action", "adminstaffView.html");
+            form.setAttribute("action", "staffView.html");
             return true;
         } else{
             let form = document.getElementById("signinForm");

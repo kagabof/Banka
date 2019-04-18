@@ -47,7 +47,7 @@ describe("Account", () => {
                 .post('/api/v1/accounts')
                 .send(user)
                 .end((req, res) => {
-                    res.should.have.status(406);
+                    res.should.have.status(400);
                     done();
                 }
                 );
@@ -89,7 +89,7 @@ describe("Account", () => {
                     res.should.have.status(400);
                     res.body.should.be.a('object');
                     res.body.should.have.property('status').eql(400);
-                    res.body.should.have.property('error').eql('account not found');
+                    res.body.should.have.property('error').eql('sorry, account-number not found, create one.');
                     done();
                 });
         });
@@ -98,9 +98,9 @@ describe("Account", () => {
             chai.request(app)
                 .patch(`/api/v1/account/${accountNumber}`)
                 .end((req, res) => {
-                    res.should.have.status(404);
+                    res.should.have.status(400);
                     res.body.should.be.a('object');
-                    res.body.should.have.property('status').eql(404);
+                    res.body.should.have.property('status').eql(400);
                     done();
                 });
         });
@@ -109,9 +109,9 @@ describe("Account", () => {
             chai.request(app)
                 .patch(`/api/v1/account/${accountNumber}`)
                 .end((req, res) => {
-                    res.should.have.status(404);
+                    res.should.have.status(400);
                     res.body.should.be.a('object');
-                    res.body.should.have.property('status').eql(404);
+                    res.body.should.have.property('status').eql(400);
                     done();
                 });
         });
@@ -125,7 +125,7 @@ describe("Account", () => {
                 .end((req,res) => {
                     res.should.have.a.status(202);
                     res.body.should.have.property('status').eql(202);
-                    res.body.should.have.property('message').eql('Account successfully deleted');
+                    res.body.should.have.property('message').eql('Account was successfully deleted.');
                     done();
                 });
         });
@@ -134,9 +134,9 @@ describe("Account", () => {
             chai.request(app)
                 .delete(`/api/v1/accounts/${accountNumber}`)
                 .end((req, res) => {
-                    res.should.have.a.status(404);
-                    res.body.should.have.property('status').eql(404);
-                    res.body.should.have.property('error').eql("account not found");
+                    res.should.have.a.status(400);
+                    res.body.should.have.property('status').eql(400);
+                    res.body.should.have.property('error').eql("sorry, account-number not found, create one.");
                     done();
                 });
         });
@@ -145,8 +145,8 @@ describe("Account", () => {
             chai.request(app)
                 .delete(`/api/v1/accounts/${accountNumber}`)
                 .end((req, res) => {
-                    res.should.have.a.status(406);
-                    res.body.should.have.property('status').eql(406);
+                    res.should.have.a.status(400);
+                    res.body.should.have.property('status').eql(400);
                     done();
                 });
         });
@@ -155,8 +155,8 @@ describe("Account", () => {
             chai.request(app)
                 .delete(`/api/v1/accounts/${accountNumber}`)
                 .end((req, res) => {
-                    res.should.have.a.status(406);
-                    res.body.should.have.property('status').eql(406);
+                    res.should.have.a.status(400);
+                    res.body.should.have.property('status').eql(400);
                     done();
                 });
         });
@@ -180,21 +180,21 @@ describe("Account", () => {
                     done();
                 });
         });
-        it("should get not get an account", (done) => {
+        it("should get not get an account will account not in the system", (done) => {
             const accountNumber = 123;
             chai.request(app)
                 .get(`/api/v1/account/${accountNumber}`)
                 .end((req, res) => {
-                    res.should.have.a.status(404);
+                    res.should.have.a.status(400);
                     done();
                 });
         });
-        it("should get not get an account", (done) => {
+        it("should get an account while no account", (done) => {
             let accountNumber;
             chai.request(app)
                 .get(`/api/v1/account/${accountNumber}`)
                 .end((req, res) => {
-                    res.should.have.a.status(406);
+                    res.should.have.a.status(400);
                     done();
                 });
         });
