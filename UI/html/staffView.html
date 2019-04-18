@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Admin view</title>
+    <title>Page Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
         integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
@@ -29,12 +29,10 @@
         </div>
 
 
-        <ul class="ul-nav col-s-12">
-            <li class="col-s-12"><a href="./AdminCreate.html"> Admin create staff</a></li>
-            <li class="col-s-12"><a href="./AdminView.html">Activate or Deactivate</a></li>
-            <li class="col-s-12"><a href="./adminstaffView.html">View account</a></li>
+        <ul class="ul-nav nav1 col-s-12">
+            <li class="col-s-12"><a href="./creditDebiteAccount.html"> Creadit/Debit</a></li>
+            <li class="col-s-12"><a href="./staffView.html">View account</a></li>
             <li class="col-s-12"><a href="./signin.html">Logout</a></li>
-        
         </ul>
     </nav>
     <div class="main col-s-12 col-m-12 col-12">
@@ -43,32 +41,28 @@
                 <a class="closebtn">&times;</a>
             </div>
             <div class="side-nav-link">
-                <a href="./AdminCreate.html"> Admin create staff</a>
+                <a href="./creditDebiteAccount.html"> Creadit/Debit</a>
             </div>
             <div class="side-nav-link">
-                <a href="./AdminView.html">Activate or Deactivate</a>
-            </div>
-            <div class="side-nav-link">
-                <a href="./adminstaffView.html">View account</a>
+                <a href="./staffView.html">View account</a>
             </div>
             <div class="side-nav-link">
                 <a href="./signin.html">Logout</a>
-            </div>         
-            
-        
+            </div>
+
         </div>
         <div class="main-content col-s-12 col-m-12 col-12" id="main-content">
             <div class="transaction-content boxM col-s-12 col-m-10 col-10">
                 <div class="table-title">
-                    <h2>All client information</h2>
+                    <h2>View all accounts</h2>
                 </div>
                 <div class="search-container col-s-12 col-m-12 col-12">
                     <form action="">
                         <input type="text" placeholder="Search.." name="search" id="search">
-                        <button type="submit" class="btn" ><i class="fa fa-search"></i></button>
+                        <button type="submit" class="btn"><i class="fa fa-search"></i></button>
                     </form>
                 </div>
-                
+
                 <div class="table-content">
                     <table class="table col-s-12 col-m-12 col-12">
                         <tr>
@@ -76,64 +70,43 @@
                             <th>Account owner</th>
                             <th>Account type</th>
 
-                            <th>Account status</th>
+                            <th>Delete</th>
+                            <th>Details</th>
                         </tr>
                         <tr class="tr">
                             <td>1111-2222-3333-4444</td>
                             <td>Manzi Yves</td>
                             <td>Saving</td>
-                            <td><a href="" class="table-link act">Active</a></td>
+                            <td><a href="" class="table-link deact">Delete</a></td>
+                            <td><a href="./accountdetailsStaff.html" class="table-link act">Details</a></td>
                         </tr>
                         <tr class="tr">
                             <td>1111-2222-3333-1111</td>
                             <td>Muhozi paul</td>
                             <td>Current</td>
-                            <td><a href="" class="table-link deact">Deactivate</a></td>
+                            <td><a href="" class="table-link deact">Delete</a></td>
+                            <td><a href="./accountdetailsStaff.html" class="table-link act">Details</a></td>
                         </tr>
                         <tr class="tr">
                             <td>1111-2222-3333-4444</td>
                             <td>Manzi Yves</td>
                             <td>Saving</td>
-                            <td><a href="" class="table-link act">Active</a></td>
+                            <td><a href="" class="table-link deact">Delete</a></td>
+                            <td><a href="./accountdetailsStaff.html" class="table-link act">Details</a></td>
                         </tr>
-                    
+
                         <tr class="tr">
                             <td>1111-2222-3333-1111</td>
                             <td>Muhozi paul</td>
                             <td>Current</td>
-                            <td><a href="" class="table-link deact">Deactivate</a></td>
+                            <td><a href="" class="table-link deact">Delete</a></td>
+                            <td><a href="./accountdetailsStaff.html" class="table-link act">Details</a></td>
                         </tr>
-                        <tr class="tr">
-                            <td>1111-2222-3333-4444</td>
-                            <td>Manzi Yves</td>
-                            <td>Saving</td>
-                            <td><a href="" class="table-link act">Active</a></td>
-                        </tr>
-                        
-                        <tr class="tr">
-                            <td>1111-2222-3333-1111</td>
-                            <td>Muhozi paul</td>
-                            <td>Current</td>
-                            <td><a href="" class="table-link deact">Deactivate</a></td>
-                        </tr>
-                        <tr class="tr">
-                            <td>1111-2222-3333-4444</td>
-                            <td>Manzi Yves</td>
-                            <td>Saving</td>
-                            <td><a href="" class="table-link act">Active</a></td>
-                        </tr>
-                        
-                        <tr class="tr">
-                            <td>1111-2222-3333-1111</td>
-                            <td>Muhozi paul</td>
-                            <td>Current</td>
-                            <td><a href="" class="table-link deact">Deactivate</a></td>
-                        </tr>
-                    
+
                     </table>
                 </div>
+            </div>
         </div>
-    </div>
 
 </body>
 
