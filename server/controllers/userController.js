@@ -66,41 +66,41 @@ class UserController{
 
         });
     }
-    // signInNew(req,res){
-    //     const {email,password} = req.body;
-    //     const credentials = { email, password};
+    signInNew(req,res){
+        const {email,password} = req.body;
+        const credentials = { email, password};
 
-    //     const sql = `SELECT *FROM users WHERE email='${email}'`;
-    //     newdb.query(sql).then((result)=>{
-    //         if(result.rows.length){
-    //             if (bcrypt.compareSync(password, result.rows[0].password)){
-    //                 const token = jwt.sign({
-    //                     email
-    //                 },
-    //                     'secret',
-    //                     {
-    //                         expiresIn: "1h",
-    //                     }
-    //                 );
+        const sql = `SELECT *FROM users WHERE email='${email}'`;
+        newdb.query(sql).then((result)=>{
+            if(result.rows.length){
+                if (bcrypt.compareSync(password, result.rows[0].password)){
+                    const token = jwt.sign({
+                        email
+                    },
+                        'secret',
+                        {
+                            expiresIn: "1h",
+                        }
+                    );
                     
-    //                 return res.status(200).json([{
-    //                     token
-    //                 }]);
-    //             }else{
-    //             res.status(400).json({
-    //                 status: 400,
-    //                 error: "Incorrect password",
-    //             });
-    //             }
-    //         }else{
-    //             res.status(400).json({
-    //                 status: 400,
-    //                 error: `user with ${email}  as an email does not exist`,
-    //             });
-    //         }
-    //     })
+                    return res.status(200).json([{
+                        token
+                    }]);
+                }else{
+                res.status(400).json({
+                    status: 400,
+                    error: "Incorrect password",
+                });
+                }
+            }else{
+                res.status(400).json({
+                    status: 400,
+                    error: `user with ${email}  as an email does not exist`,
+                });
+            }
+        })
 
-    // }
+    }
 
 
 
@@ -112,39 +112,6 @@ class UserController{
             data: db,
         });
     }
-    
-
-    signIn(req,res){
-            const user = db.find(user => user.email === req.body.email && user.password === req.body.password);
-            if (user) {
-                const token = jwt.sign({
-                    id: user.id,
-                    email: user.email,
-                    isAdmin: user.isAdmin
-                },
-                    'secret',
-                    {
-                        expiresIn: "1h",
-                    });
-                return res.status(202).send({
-                    status: 202,
-                    data: {
-                        token: token,
-                        id: user.id,
-                        firstName: user.firstName,
-                        lastName: user.lastName,
-                        email: user.email,
-                    },
-                });
-            }
-            else {
-                return res.status(401).send({
-                    status: 401,
-                    error: "The user does note exist, he/she should first signup!",
-                });
-            }
-    }
-
     
 }
 
