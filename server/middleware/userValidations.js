@@ -8,7 +8,7 @@ class UserValidation{
         };
         const rules = {
             email: 'required|email',
-            password: 'required'
+            password: 'required|string'
         }
 
         const validation = new Validator(data, rules);

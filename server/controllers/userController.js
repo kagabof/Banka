@@ -6,66 +6,66 @@ import newdb  from "./../db/db";
 import bcrypt from "bcryptjs";
 
 class UserController{
-    // createUserNew(req,res){
-    //     const{
-    //         email,
-    //         firstName,
-    //         lastName,
-    //         password,
-    //     } = req.body;
-    //     const type = "client";
-    //     const sql1 =`SELECT * FROM users WHERE email='${email}'`;
+    createUserNew(req,res){
+        const{
+            email,
+            firstName,
+            lastName,
+            password,
+        } = req.body;
+        const type = "client";
+        const sql1 =`SELECT * FROM users WHERE email='${email}'`;
         
-    //     newdb.query(sql1).then((result) =>{
-    //         console.log(result.rows);
+        newdb.query(sql1).then((result) =>{
+            console.log(result.rows);
 
-    //         if (result.rows.length){
-    //             return res.status(400).json({
-    //                 status: 400,
-    //                 error: `user with ${email} as email already exists`
-    //             });
-    //         }else{
-    //             const token = jwt.sign({
-    //                 email,
-    //                 firstName
-    //             },
-    //                 'secret',
-    //                 {
-    //                     expiresIn: "1h",
-    //                 }
-    //             );
-    //             const salt = 10;
-    //             console.log(bcrypt.hashSync(password, parseInt(salt, 10)));
-    //             const hashedPassord = bcrypt.hashSync(password, parseInt(salt, 10));
+            if (result.rows.length){
+                return res.status(400).json({
+                    status: 400,
+                    error: `user with ${email} as email already exists`
+                });
+            }else{
+                const token = jwt.sign({
+                    email,
+                    firstName
+                },
+                    'secret',
+                    {
+                        expiresIn: "1h",
+                    }
+                );
+                const salt = 10;
+                console.log(bcrypt.hashSync(password, parseInt(salt, 10)));
+                const hashedPassord = bcrypt.hashSync(password, parseInt(salt, 10));
                 
 
-    //             const newUser = [
-    //                 email,
-    //                 firstName,
-    //                 lastName,
-    //                 hashedPassord,
-    //                 type,
-    //                 false
-    //             ];
-    //             const sql = "INSERT INTO users(email,firstName,lastName,password,type,isAdmin) VALUES($1,$2,$3,$4,$5,$6) RETURNING *"
-    //             newdb.query(sql, newUser).then((result) => {
-    //                 console.log(result.rows);
-    //                 res.status(201).json({
-    //                     status: 201,
-    //                     data: [
-    //                         token,
-    //                         firstName,
-    //                         lastName,
-    //                         email,
-    //                         hashedPassord,
-    //                         type,
-    //                         false],
-    //                 });
-    //             })
-    //         }
+                const newUser = [
+                    email,
+                    firstName,
+                    lastName,
+                    hashedPassord,
+                    type,
+                    false
+                ];
+                const sql = "INSERT INTO users(email,firstName,lastName,password,type,isAdmin) VALUES($1,$2,$3,$4,$5,$6) RETURNING *"
+                newdb.query(sql, newUser).then((result) => {
+                    console.log(result.rows);
+                    res.status(201).json({
+                        status: 201,
+                        data: [
+                            token,
+                            firstName,
+                            lastName,
+                            email,
+                            hashedPassord,
+                            type,
+                            false],
+                    });
+                })
+            }
 
-    //     });
-    // }
+        });
+    }
     // signInNew(req,res){
     //     const {email,password} = req.body;
     //     const credentials = { email, password};
@@ -112,37 +112,7 @@ class UserController{
             data: db,
         });
     }
-    createUser(req,res){
-        
-
-        const token = jwt.sign({
-            email: req.body.email,
-            firstName: req.body.firstName,
-        },
-            'secret',
-            {
-                expiresIn: "1h",
-            });
-
-            const random = (qty) => {
-                return crypto.randomBytes(qty)
-            }
-            const user = {
-                id: parseInt(format(random(4), 'dec')),
-                email: req.body.email,
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
-                password: req.body.password,
-                type: "client",
-                isAdmin: false,
-            };
-            db.push(user);
-            return res.status(201).send({
-                token,
-                status: 201,
-                data: user,
-            });
-    }
+    
 
     signIn(req,res){
             const user = db.find(user => user.email === req.body.email && user.password === req.body.password);
