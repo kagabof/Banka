@@ -32,10 +32,10 @@ class UserValidation{
             password: req.body.password
         }
         const rules = {
-            firstName: 'required',
-            lastName: 'required',
+            firstName: 'required|string',
+            lastName: 'required|string',
             email: 'required|email',
-            password: 'required'
+            password: 'required|string'
         };
         const validation = new Validator(data, rules);
         if (validation.passes()) {
