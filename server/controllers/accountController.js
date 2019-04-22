@@ -6,6 +6,73 @@ import newdb from "./../db/db";
 
 
 class AccountController{
+    activateDeactivateAccountNew(req,res){
+        const accountNumber = req.params.accountNumber;
+        const sql = `SELECT * FROM accounts WHERE accountnumber='${accountNumber}'`;
+        newdb.query(sql).then((result) => {
+            console.log(result.rows);
+            const accountData = result.rows[0];
+            const accountStatus = result.rows[0].status; 
+            console.log(result.rows[0].status);
+            
+            if (result.rows.length) {
+                let dormant = "dormant";
+                let active = "active"
+                if (accountStatus === "dormant"){
+                    const sql1 = `UPDATE accounts SET status ='${active}' WHERE accountnumber='${accountNumber}'`;
+                    newdb.query(sql1).then((result) =>{
+                        console.log(result.rows);
+                        return res.status(200).json([{
+                            status: 200,
+                            massage: `account apdated`
+                        },result.rows]);
+                    })
+                } else if (accountStatus === "active") {
+                    const sql2 = `UPDATE accounts SET status ='${dormant}' WHERE accountnumber='${accountNumber}'`;
+                    newdb.query(sql2).then((result) => {
+                        console.log(result.rows);
+                        return res.status(200).json([{
+                            status: 200,
+                            massage: `account apdated`
+                        }, result.rows]);
+                    });
+                }
+            }else{
+                return res.status(400).json([{
+                    status: 400,
+                    error: `account with: ${accountNumber} does not exists `,
+                }]);
+            }
+        });
+
+    }
+    accountDeleteNew(req, res) {
+        const accountNumber = req.params.accountNumber;
+        const sql = `SELECT * FROM accounts WHERE accountnumber='${accountNumber}'`;
+
+        newdb.query(sql).then((result) => {
+            console.log(result.rows);
+            const accountData = result.rows[0];
+            if (result.rows.length) {
+                const sql1 = `DELETE FROM accounts WHERE accountnumber = '${accountNumber}' ;`
+                newdb.query(sql1).then((result) => {
+                    console.log(result.rows);
+                    return res.status(200).json([{
+                        status: 200,
+                        massage: `account with: ${accountNumber} was deleted! `,
+                        data: {
+                            accountData
+                        },
+                    }])
+                })
+            }else{
+                return res.status(400).json([{
+                    status: 400,
+                    error: `account with: ${accountNumber} does not exists `,
+                }]);
+            }
+        })
+    }
     createAccountNew(req,res){
         const { email,type} = req.body;
         
@@ -121,33 +188,6 @@ class AccountController{
             }
       
         
-    }
-    accountDelete(req, res) {
-        
-            let accountFound;
-            let accountIndex;
-
-            db.map((account, index) => {
-                if (account.accountNumber === parseInt(req.params.accountNumber, 10)) {
-                    accountFound = account;
-                    accountIndex = index;
-                }
-            });
-
-            if (!accountFound) {
-                return res.status(400).send({
-                    status: 400,
-                    error: "sorry, account-number not found, create one.",
-                });
-            } else {
-                db.splice(accountIndex, 1);
-                return res.status(202).send({
-                    status: 202,
-                    message: 'Account was successfully deleted.',
-                    date: accountFound
-                });
-            }
-
     }
     findAllAccounts(req,res){
         return res.status(200).send({
