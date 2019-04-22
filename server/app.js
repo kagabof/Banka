@@ -17,7 +17,7 @@ app.use(express.static(path.join(__dirname,'../UI')))
 
 
 
-const PORT = process.env.PORT || 3400;
+const PORT = process.env.PORT || 3900;
 
 app.listen(PORT,()=>{
     console.log(`server running on port ${PORT}...`);
