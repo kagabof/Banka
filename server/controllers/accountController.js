@@ -6,19 +6,54 @@ import newdb from "./../db/db";
 
 
 class AccountController{
-    findAllAccounts(req,res){
-        const sql = `SELECT * FROM accounts`;
-        newdb.query(sql).then((result) =>{
-            console.log(result.rows);
-            if (result.rows.length){
-                return res.status(200).json([{status: 200}, result.rows]);
-            } else {
-                return res.status(404).json([{
-                    status: 404,
-                    error: `no account found in the system`,
-                }]);
-            }
-        });
+    findAllAccounts(req, res) {
+        const status = req.query.status;
+        if (status === "dormant") {
+            const sql = `SELECT * FROM accounts WHERE status = '${status}'`;
+            newdb.query(sql).then((result) => {
+                console.log(result.rows);
+                if (result.rows.length) {
+                    return res.status(200).json([{ status: 200 }, result.rows]);
+                } else {
+                    return res.status(404).json([{
+                        status: 404,
+                        error: `no account found with dormant status in the system`,
+                    }]);
+                }
+            });
+        } else if (status === "active") {
+            const sql1 = `SELECT * FROM accounts WHERE status = '${status}'`;
+            newdb.query(sql1).then((result) => {
+                console.log(result.rows);
+                if (result.rows.length) {
+                    return res.status(200).json([{ status: 200 }, result.rows]);
+                } else {
+                    return res.status(404).json([{
+                        status: 404,
+                        error: `no account found with active status in the system`,
+                    }]);
+                }
+            });
+        } else if (!status) {
+            const sql2 = `SELECT * FROM accounts`;
+            newdb.query(sql2).then((result) => {
+                console.log(result.rows);
+                if (result.rows.length) {
+                    return res.status(200).json([{ status: 200 }, result.rows]);
+                } else {
+                    return res.status(404).json([{
+                        status: 404,
+                        error: `no account found in the system`,
+                    }]);
+                }
+            });
+        } else if (status !== 'active' && status !== 'dormant') {
+            return res.status(404).json([{
+                status: 404,
+                error: `no account found in the system`,
+            }]);
+        }
+
     }
     findAllAccountOfUser(req,res){
         const email = req.params.email;
