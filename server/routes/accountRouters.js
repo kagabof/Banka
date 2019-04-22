@@ -13,4 +13,5 @@ router.patch('/api/v2/account/:accountNumber', accountValid.validateAccountNumbe
 router.post('/api/v2/accounts', accountValid.createAccountValidation, account.createAccountNew);
 router.delete('/api/v2/accounts/:accountNumber', accountValid.validateAccountNumber, account.accountDeleteNew);
 router.get('/api/v2/account/:accountNumber', accountValid.validateAccountNumber, account.findAccountDetails);
+router.get('/api/v2/user/:email/accounts', accountValid.validateEmail, account.findAllAccountOfUser);
 export default router;

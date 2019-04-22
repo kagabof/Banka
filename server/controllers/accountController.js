@@ -6,6 +6,34 @@ import newdb from "./../db/db";
 
 
 class AccountController{
+    findAllAccountOfUser(req,res){
+        const email = req.params.email;
+        const sql = `SELECT * FROM users WHERE email='${email}'`;
+        newdb.query(sql).then((result) =>{
+            console.log(result.rows);
+            if (result.rows.length){
+                console.log(result.rows[0].id)
+                const sql1 = `SELECT * FROM accounts WHERE owner='${result.rows[0].id}'`;
+                
+                newdb.query(sql1).then((result) =>{
+                    console.log(result.rows);
+                    if (result.rows.length){
+                        return res.status(200).json([{status: 200},result.rows]);
+                    } else {
+                        return res.status(400).json([{
+                            status: 400,
+                            error: `the user with: ${email} does not have an account`,
+                        }]);
+                    }
+                })
+            }else{
+                return res.status(400).json([{
+                    status: 400,
+                    error: `User with: ${email} as email does exist`,
+                }]);
+            }
+        });
+    }
     findAccountDetails(req,res){
         const accountNumber = req.params.accountNumber;
         const sql = `SELECT * FROM accounts WHERE accountnumber='${accountNumber}'`;
