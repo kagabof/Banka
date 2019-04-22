@@ -5,6 +5,21 @@ import Validator from "validatorjs";
 import newdb from "../db/db";
 
 class TransactionController{
+    getAllTransactionForAnAccount(req, res) {
+        const accountNumber = req.params.accountNumber;
+        const sql = `SELECT * FROM transactions WHERE accountnumber = '${parseInt(accountNumber)}'`;
+        newdb.query(sql).then((result) => {
+            console.log(result.rows);
+            if (result.rows.length) {
+                return res.status(200).json([result.rows]);
+            } else {
+                return res.status(400).json([{
+                    status: 400,
+                    error: `account with: ${accountNumber} does not exists `,
+                }]);
+            }
+        })
+    }
     debiteAccountNew(req, res) {
         const amount = parseFloat(req.body.amount);
         const { cachierId } = req.body;
@@ -113,23 +128,6 @@ class TransactionController{
             data: transactionDb
         })
     }
-
-    getAllTransactionForAccount(req, res) {
-            const findAccountInTransactions = transactionDb.find(ac => ac.accountNumber === parseInt(req.params.accountNumber));
-            const accountFound = transactionDb.filter((accountN) => accountN.accountNumber === parseInt(req.params.accountNumber));
-        if (findAccountInTransactions) {
-                return res.status(200).send({
-                    status: 200,
-                    data: accountFound,
-                });
-
-            } else {
-                return res.status(404).send({
-                    status: 404,
-                    error: 'Zero transaction to the account given',
-                });
-            }
-        }
 }
 
 const tran = new TransactionController();

@@ -19,8 +19,8 @@ class TransactionValidation{
         if (validation.passes()) {
             next();
         } else {
-            return res.status(406).send({
-                status: 406,
+            return res.status(400).send({
+                status: 400,
                 error: {
                     accountNumber: validation.errors.first("accountNumber"),
                     amount: validation.errors.first("amount"),
