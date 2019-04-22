@@ -3,12 +3,12 @@ import Validator from "validatorjs";
 class AccountValidation{
     createAccountValidation(req,res,next){
         const data = {
-            owner: req.body.owner,
+            email: req.body.email,
             type: req.body.type
         };
 
         const rules = {
-            owner: 'required|integer',
+            email: 'required|email',
             type: 'required|string',
         }
         const validation = new Validator(data, rules);
@@ -18,7 +18,7 @@ class AccountValidation{
             return res.status(400).send({
                 status: 400,
                 error: {
-                    owner: validation.errors.first("owner"),
+                    owner: validation.errors.first("email"),
                     type: validation.errors.first("type")
                 }
             });
