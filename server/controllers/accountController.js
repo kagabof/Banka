@@ -6,26 +6,26 @@ import newdb from "./../db/db";
 
 
 class AccountController{
-    activateDeactivateAccountNew(req,res){
+    activateDeactivateAccountNew(req, res) {
         const accountNumber = req.params.accountNumber;
         const sql = `SELECT * FROM accounts WHERE accountnumber='${accountNumber}'`;
         newdb.query(sql).then((result) => {
             console.log(result.rows);
             const accountData = result.rows[0];
-            const accountStatus = result.rows[0].status; 
+            const accountStatus = result.rows[0].status;
             console.log(result.rows[0].status);
-            
+
             if (result.rows.length) {
                 let dormant = "dormant";
                 let active = "active"
-                if (accountStatus === "dormant"){
+                if (accountStatus === "dormant") {
                     const sql1 = `UPDATE accounts SET status ='${active}' WHERE accountnumber='${accountNumber}'`;
-                    newdb.query(sql1).then((result) =>{
+                    newdb.query(sql1).then((result) => {
                         console.log(result.rows);
                         return res.status(200).json([{
                             status: 200,
                             massage: `account apdated`
-                        },result.rows]);
+                        }, result.rows]);
                     })
                 } else if (accountStatus === "active") {
                     const sql2 = `UPDATE accounts SET status ='${dormant}' WHERE accountnumber='${accountNumber}'`;
@@ -37,7 +37,7 @@ class AccountController{
                         }, result.rows]);
                     });
                 }
-            }else{
+            } else {
                 return res.status(400).json([{
                     status: 400,
                     error: `account with: ${accountNumber} does not exists `,
@@ -127,67 +127,6 @@ class AccountController{
             }
         })
 
-    }
-
-    activateDeactivateAccount(req, res) {
-            const account = db.find(account => account.accountNumber === parseInt(req.params.accountNumber,10));
-            let accountFound;
-            let accountIndex;
-            
-            db.map((account, index) => {
-                if (account.accountNumber === parseInt(req.params.accountNumber,10)) {
-                    accountFound = account;
-                    accountIndex = index;
-                }
-            });
-
-            if (!account) {
-                return res.status(400).send({
-                    status: 400,
-                    error: 'sorry, account-number not found, create one.',
-                });
-            } else if (account.status === "active") {
-                const newAccount = {
-                    id: account.id,
-                    accountNumber: account.accountNumber,
-                    createOn: account.createOn,
-                    owner: account.owner,
-                    type: accountFound.type,
-                    status: "dormant",
-                    balance: account.balance
-                };
-                db.splice(accountIndex, 1, newAccount);
-                const account1 = db.find(account => account.accountNumber === parseInt(req.params.accountNumber,));
-                return res.status(201).send({
-                    status: 201,
-                    data: {
-                        accountNumber: account1.accountNumber,
-                        status: account1.status
-                    }
-                });
-            } else {
-                const newAccount = {
-                    id: account.id,
-                    accountNumber: account.accountNumber,
-                    createOn: account.createOn,
-                    owner: account.owner,
-                    type: account.type,
-                    status: "active",
-                    balance: account.balance,
-                };
-                db.splice(accountIndex, 1, newAccount);
-                const account1 = db.find(account => account.accountNumber === parseInt(req.params.accountNumber, 10));
-
-                return res.status(201).send({
-                    status: 201,
-                    data: {
-                        accountNumber: account1.accountNumber,
-                        accountStatus: account1.status,
-                    }
-                });
-            }
-      
-        
     }
     findAllAccounts(req,res){
         return res.status(200).send({
