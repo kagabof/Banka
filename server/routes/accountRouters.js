@@ -5,9 +5,11 @@ const router = express.Router(); accountValid.validateAccountNumber
 
 //router.post('/api/v1/accounts',accountValid.createAccountValidation, account.createAccount);
 router.patch('/api/v1/account/:accountNumber',accountValid.validateAccountNumber, account.activateDeactivateAccount);
-router.delete('/api/v1/accounts/:accountNumber', accountValid.validateAccountNumber, account.accountDelete);
+//router.delete('/api/v1/accounts/:accountNumber', accountValid.validateAccountNumber, account.accountDelete);
 router.get('/api/v1/account/:accountNumber', accountValid.validateAccountNumber, account.findAnAccount);
 router.get('/api/v1/account', account.findAllAccounts);
 
+//router.patch('/api/v2/account/:accountNumber', accountValid.validateAccountNumber, account.activateDeactivateAccountNew);
 router.post('/api/v2/accounts', accountValid.createAccountValidation, account.createAccountNew);
+router.delete('/api/v2/accounts/:accountNumber', accountValid.validateAccountNumber, account.accountDeleteNew);
 export default router;
