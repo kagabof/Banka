@@ -6,6 +6,21 @@ import newdb from "./../db/db";
 
 
 class AccountController{
+    findAccountDetails(req,res){
+        const accountNumber = req.params.accountNumber;
+        const sql = `SELECT * FROM accounts WHERE accountnumber='${accountNumber}'`;
+        newdb.query(sql).then((result) =>{
+            console.log(result.rows);
+            if(result.rows.length){
+                return res.status(200).json([{status:200},result.rows]);
+            }else {
+                return res.status(400).json([{
+                    status: 400,
+                    error: `account with: ${accountNumber} does not exists `,
+                }]);
+            }
+        });
+    }
     activateDeactivateAccountNew(req, res) {
         const accountNumber = req.params.accountNumber;
         const sql = `SELECT * FROM accounts WHERE accountnumber='${accountNumber}'`;
