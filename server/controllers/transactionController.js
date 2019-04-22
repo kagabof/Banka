@@ -21,7 +21,7 @@ class TransactionController{
                         newdb.query(sql2).then((results)=>{
                             console.log(results.rows);
                             if(results.rows.length){
-                                return res.status(200).json([results.rows]);
+                                return res.status(200).json([{status: 200},results.rows]);
                             }else{
                                 return res.status(400).json([{
                                     status: 400,
@@ -55,7 +55,7 @@ class TransactionController{
                 newdb.query(sql1).then((result) => {
                     console.log(result.rows);
                     if (result.rows.length) {
-                        return res.status(200).json([result.rows]);   
+                        return res.status(200).json([{status: 200},result.rows]);   
                     } else {
                         return res.status(400).json([{
                             status: 400,
