@@ -3,7 +3,7 @@ import Validator from "validatorjs";
 class TransactionValidation{
     debiteCreaditAccountValidation(req, res,next){
         const data = {
-            accountNumber: req.params.account,
+            accountNumber: req.params.accountNumber,
             amount: req.body.amount,
             cachierId: req.body.cachierId
         };
@@ -11,7 +11,7 @@ class TransactionValidation{
         const rules = {
             accountNumber: 'required|integer',
             amount: 'required|numeric',
-            cachierId: 'integer',
+            cachierId: 'required|integer',
         }
 
         const validation = new Validator(data, rules);
