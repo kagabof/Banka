@@ -6,6 +6,20 @@ import newdb from "./../db/db";
 
 
 class AccountController{
+    findAllAccounts(req,res){
+        const sql = `SELECT * FROM accounts`;
+        newdb.query(sql).then((result) =>{
+            console.log(result.rows);
+            if (result.rows.length){
+                return res.status(200).json([{status: 200}, result.rows]);
+            } else {
+                return res.status(404).json([{
+                    status: 404,
+                    error: `no account found in the system`,
+                }]);
+            }
+        });
+    }
     findAllAccountOfUser(req,res){
         const email = req.params.email;
         const sql = `SELECT * FROM users WHERE email='${email}'`;
@@ -171,36 +185,6 @@ class AccountController{
         })
 
     }
-    findAllAccounts(req,res){
-        return res.status(200).send({
-            status: 200,
-            data: db
-        });
-    }
-
-    findAnAccount(req,res){
-            let accountFound;
-            let accountIndex;
-
-            db.map((account, index) => {
-                if (account.accountNumber === parseInt(req.params.accountNumber, 10)) {
-                    accountFound = account;
-                    accountIndex = index;
-                }
-            });
-            if (!accountFound) {
-                return res.status(400).send({
-                    status: 400,
-                    error: "sorry, account-number not found.",
-                });
-            } else {
-                return res.status(200).send({
-                    status: 200,
-                    message: 'Account successfully found.',
-                    date: accountFound
-                });
-            }
-        }
 }
 
 const acc = new AccountController();
