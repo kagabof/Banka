@@ -14,4 +14,5 @@ router.get('/api/v1/transactions/getall', transaction.getAllTransaction);
 router.post('/api/v2/transactions/:accountNumber/debit', tansactionValid.debiteCreaditAccountValidation, transaction.debiteAccountNew);
 router.post('/api/v2/transactions/:accountNumber/credit', tansactionValid.debiteCreaditAccountValidation, transaction.creditAccountNew);
 router.get('/api/v2/accounts/:accountNumber/transactions', transactionValid.validateAccountNumber, transaction.getAllTransactionForAnAccount);
+router.get('/api/v2/accounts/:accountNumber/transactions/:transactionId', transactionValid.validateAccountNumberAndTransactionId, transaction.getAllTransactionForAnAccountSpecificTransaction);
 export default router;

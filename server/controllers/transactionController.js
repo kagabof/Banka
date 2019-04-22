@@ -5,20 +5,71 @@ import Validator from "validatorjs";
 import newdb from "../db/db";
 
 class TransactionController{
+    getAllTransactionForAnAccountSpecificTransaction(req, res) {
+        const accountNumber = req.params.accountNumber;
+        const transactionId = req.params.transactionId
+        
+        const sql = `SELECT * FROM accounts WHERE accountnumber = '${parseInt(accountNumber)}'`;
+        newdb.query(sql).then((result)=>{
+            console.log(result.rows);
+            if(result.rows.length){
+                const sql1 = `SELECT * FROM transactions WHERE accountnumber = '${parseInt(accountNumber)}'`;
+                newdb.query(sql1).then((result) =>{
+                    console.log(result.rows);
+                    if (result.rows.length){
+                        const sql2 = `SELECT * FROM transactions WHERE id = '${parseInt(transactionId)}'`;
+                        newdb.query(sql2).then((results)=>{
+                            console.log(results.rows);
+                            if(results.rows.length){
+                                return res.status(200).json([results.rows]);
+                            }else{
+                                return res.status(400).json([{
+                                    status: 400,
+                                    error: `There is not transactions with: ${transactionId} as a transaction id`,
+                                }]); 
+                            }
+                            
+                        });
+                    }else{
+                        return res.status(400).json([{
+                            status: 400,
+                            error: `There is not transactions with: ${accountNumber} as an account`,
+                        }]);
+                    }
+                })
+            }else {
+                return res.status(400).json([{
+                    status: 400,
+                    error: `account with: ${accountNumber} does not exists `,
+                }]);
+            }
+        });
+    }
     getAllTransactionForAnAccount(req, res) {
         const accountNumber = req.params.accountNumber;
-        const sql = `SELECT * FROM transactions WHERE accountnumber = '${parseInt(accountNumber)}'`;
+        const sql = `SELECT * FROM accounts WHERE accountnumber = '${parseInt(accountNumber)}'`;
         newdb.query(sql).then((result) => {
             console.log(result.rows);
             if (result.rows.length) {
-                return res.status(200).json([result.rows]);
+                const sql1 = `SELECT * FROM transactions WHERE accountnumber = '${parseInt(accountNumber)}'`;
+                newdb.query(sql1).then((result) => {
+                    console.log(result.rows);
+                    if (result.rows.length) {
+                        return res.status(200).json([result.rows]);   
+                    } else {
+                        return res.status(400).json([{
+                            status: 400,
+                            error: `There is not transactions with: ${accountNumber} as an account`,
+                        }]);
+                    }
+                });
             } else {
                 return res.status(400).json([{
                     status: 400,
                     error: `account with: ${accountNumber} does not exists `,
                 }]);
             }
-        })
+        });
     }
     debiteAccountNew(req, res) {
         const amount = parseFloat(req.body.amount);
