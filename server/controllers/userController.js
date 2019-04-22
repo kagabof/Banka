@@ -73,16 +73,20 @@ class UserController{
         const sql = `SELECT *FROM users WHERE email='${email}'`;
         newdb.query(sql).then((result)=>{
             if(result.rows.length){
+                const tokenSend= {
+                    emails: result.rows[0].email,
+                    isadmin: result.rows[0].isadmin,
+                    type: result.rows[0].type,
+                }
+                console.log(tokenSend);
                 if (bcrypt.compareSync(password, result.rows[0].password)){
-                    const token = jwt.sign({
-                        email
-                    },
+                    const token = jwt.sign(
+                        tokenSend,
                         'secret',
                         {
                             expiresIn: "1h",
                         }
                     );
-                    
                     return res.status(200).json([{
                         token
                     }]);
