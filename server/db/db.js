@@ -1,5 +1,6 @@
 import pg,{ Pool } from "pg";
 import dotenv from "dotenv";
+import bcrypt from "bcryptjs";
 
 dotenv.config();
 
@@ -45,7 +46,19 @@ class DatabBase {
             oldBalance NUMERIC NOT NULL,
             newBAlance NUMERIC NOT NULL  
         )`;
-
+        
+        let password = "Fofo1995"
+        let hashedPassord = bcrypt.hashSync(password, parseInt(10, 10));
+        this.newAdmin = [
+            "faustinkagabo@gmail.com",
+            "kagabo",
+            "faustin",
+            hashedPassord,
+            "staff",
+            true
+        ];
+        this.check = "SELECT * FROM users";
+        this.createAdmin = "INSERT INTO users(email,firstName,lastName,password,type,isAdmin) VALUES($1,$2,$3,$4,$5,$6) RETURNING *"
         this.initDataBase();
     }
 
@@ -67,6 +80,16 @@ class DatabBase {
         await this.query(this.usersTable);
         await this.query(this.accountsTable);
         await this.query(this.transactionsTable);
+        await this.query(this.check).then((result) =>{
+            if (result.rows.length) {
+                console.log("admin exist....");
+                
+            } else {
+                this.query(this.createAdmin, this.newAdmin).then((result) =>{
+                    console.log(result.rows);
+                });
+            }
+        });
         console.log("accountsTable, usersTable, transactionsTable");
     }
 

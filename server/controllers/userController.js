@@ -6,7 +6,139 @@ import newdb  from "./../db/db";
 import bcrypt from "bcryptjs";
 
 class UserController{
-    createUserNew(req,res){
+    createAdminNew(req, res) {
+        const {
+            email,
+            firstName,
+            lastName,
+            password,
+        } = req.body;
+        const type = "staff";
+        const sql1 = `SELECT * FROM users WHERE email='${email}'`;
+
+        newdb.query(sql1).then((result) => {
+            console.log(result.rows);
+
+            if (result.rows.length) {
+                return res.status(400).json({
+                    status: 400,
+                    error: `user with ${email} as email already exists`
+                });
+            } else {
+
+                const salt = 10;
+                console.log(bcrypt.hashSync(password, parseInt(salt, 10)));
+                const hashedPassord = bcrypt.hashSync(password, parseInt(salt, 10));
+
+
+                const newUser = [
+                    email,
+                    firstName,
+                    lastName,
+                    hashedPassord,
+                    type,
+                    true
+                ];
+                const sql = "INSERT INTO users(email,firstName,lastName,password,type,isAdmin) VALUES($1,$2,$3,$4,$5,$6) RETURNING *"
+                newdb.query(sql, newUser).then((result) => {
+                    const tokenSend = {
+                        emails: result.rows[0].email,
+                        isadmin: result.rows[0].isadmin,
+                        type: result.rows[0].type,
+                    }
+                    const token = jwt.sign(
+                        tokenSend,
+                        'secret',
+                        {
+                            expiresIn: "1h",
+                        }
+                    );
+                    console.log(result.rows);
+                    res.status(201).json({
+                        status: 201,
+                        data: [
+                            {token},
+                            {
+                                firstName: firstName,
+                                lastName: lastName,
+                                email: email,
+                                type: type,
+                                isAdmin: true
+                            }
+                        ],
+                    });
+                })
+            }
+
+        });
+    }
+    createStaffNew(req, res) {
+        const {
+            email,
+            firstName,
+            lastName,
+            password,
+        } = req.body;
+        const type = "staff";
+        const sql1 = `SELECT * FROM users WHERE email='${email}'`;
+
+        newdb.query(sql1).then((result) => {
+            console.log(result.rows);
+
+            if (result.rows.length) {
+                return res.status(400).json({
+                    status: 400,
+                    error: `user with ${email} as email already exists`
+                });
+            } else {
+
+                const salt = 10;
+                console.log(bcrypt.hashSync(password, parseInt(salt, 10)));
+                const hashedPassord = bcrypt.hashSync(password, parseInt(salt, 10));
+
+
+                const newUser = [
+                    email,
+                    firstName,
+                    lastName,
+                    hashedPassord,
+                    type,
+                    false
+                ];
+                const sql = "INSERT INTO users(email,firstName,lastName,password,type,isAdmin) VALUES($1,$2,$3,$4,$5,$6) RETURNING *"
+                newdb.query(sql, newUser).then((result) => {
+                    const tokenSend = {
+                        emails: result.rows[0].email,
+                        isadmin: result.rows[0].isadmin,
+                        type: result.rows[0].type,
+                    }
+                    const token = jwt.sign(
+                        tokenSend,
+                        'secret',
+                        {
+                            expiresIn: "1h",
+                        }
+                    );
+                    console.log(result.rows);
+                    res.status(201).json({
+                        status: 201,
+                        data: [
+                            { token },
+                            {
+                                firstName: firstName,
+                                lastName: lastName,
+                                email: email,
+                                type: type,
+                                isAdmin: false
+                            }
+                        ],
+                    });
+                })
+            }
+
+        });
+    }
+    createClientNew(req,res){
         const{
             email,
             firstName,
@@ -25,15 +157,7 @@ class UserController{
                     error: `user with ${email} as email already exists`
                 });
             }else{
-                const token = jwt.sign({
-                    email,
-                    firstName
-                },
-                    'secret',
-                    {
-                        expiresIn: "1h",
-                    }
-                );
+                
                 const salt = 10;
                 console.log(bcrypt.hashSync(password, parseInt(salt, 10)));
                 const hashedPassord = bcrypt.hashSync(password, parseInt(salt, 10));
@@ -49,17 +173,31 @@ class UserController{
                 ];
                 const sql = "INSERT INTO users(email,firstName,lastName,password,type,isAdmin) VALUES($1,$2,$3,$4,$5,$6) RETURNING *"
                 newdb.query(sql, newUser).then((result) => {
+                    const tokenSend = {
+                        emails: result.rows[0].email,
+                        isadmin: result.rows[0].isadmin,
+                        type: result.rows[0].type,
+                    }
+                    const token = jwt.sign(
+                        tokenSend,
+                        'secret',
+                        {
+                            expiresIn: "1h",
+                        }
+                    );
                     console.log(result.rows);
                     res.status(201).json({
                         status: 201,
                         data: [
-                            token,
-                            firstName,
-                            lastName,
-                            email,
-                            hashedPassord,
-                            type,
-                            false],
+                            { token },
+                            {
+                                firstName: firstName,
+                                lastName: lastName,
+                                email: email,
+                                type: type,
+                                isAdmin: false
+                            }
+                        ],
                     });
                 })
             }
