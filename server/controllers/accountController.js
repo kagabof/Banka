@@ -2,54 +2,64 @@ import db from "./../db/accountDB";
 import userdb from "./../db/userDB";
 import crypto from "crypto";
 import format from "biguint-format";
+import newdb from "./../db/db";
 
 
 class AccountController{
-    createAccount(req,res){
+    createAccountNew(req,res){
+        const { email,type} = req.body;
         
-            let userIndex;
-            let userFind;
+        const sql = `SELECT * FROM users WHERE email='${email}'`;
 
-            userdb.map((user, index) => {
-                if (user.id === parseInt(req.body.owner, 10)) {
-                    userFind = user;
-                    userIndex = index;
-                }
-            })
+        newdb.query(sql).then((result) =>{
+            console.log(result.rows);
+            
+            const balance = 0;
 
-            if (!userFind) {
-                return res.status(404).send({
+            if (!result.rows.length){
+                res.status(404).json([{
                     status: 404,
-                    error: "Sorry, the owner thos not exist!",
+                    error: `user with ${email} as an email those not exist`,
+                }]);
+            }else{
+                
+                let balances = 0.0;
+                const st = "dormant";
+                const newAccount = [
+                    parseInt(format(crypto.randomBytes(2), 'dec')),
+                    new Date(),
+                    result.rows[0].id,
+                    type,
+                    st,
+                    parseFloat(balances),
+                ];
+                console.log(newAccount[0]);
+                const fname = result.rows[0].firstname;
+                const lname = result.rows[0].lastname;
+                const AccountEmail = result.rows[0].email;
+                const sql1 = `INSERT INTO accounts(
+                        accountNumber,
+                        createdOn,
+                        owner,
+                        type,
+                        status,
+                        balance) VALUES($1, $2, $3, $4, $5,$6) RETURNING *`;
+                newdb.query(sql1,newAccount).then((result) =>{
+                    console.log(result.rows);
+                    return res.status(201).json([{
+                        status: 201,
+                        data: {
+                            fname,
+                            lname,
+                            AccountEmail,
+                            type,
+                            balance,
+                        },
+                    }]);
                 });
-            } 
-
-            const random = (qty) => {
-                return crypto.randomBytes(qty)
             }
-            const account = {
-                id: parseInt(format(random(4), 'dec')),
-                accountNumber: parseInt(format(random(8), 'dec')),
-                createOn: Date.now(),
-                owner: req.body.owner,
-                type: req.body.type,
-                status: "dormant",
-                balance: 0,
-            }
+        })
 
-
-            db.push(account);
-            return res.status(201).send({
-                status: 201,
-                data: {
-                    accountNumber: account.accountNumber,
-                    firstName: userFind.firstName,
-                    lastName: userFind.lastName,
-                    email: userFind.email,
-                    type: req.body.type,
-                    balance: account.balance,
-                },
-            });
     }
 
     activateDeactivateAccount(req, res) {

@@ -27,7 +27,7 @@ class DatabBase {
         CREATE TABLE IF NOT EXISTS accounts(
             id SERIAL PRIMARY KEY,
             accountNumber INT UNIQUE NOT NULL,
-            createOn TIMESTAMP,
+            createdOn DATE NOT NULL,
             owner INT NOT NULL,
             type VARCHAR NOT NULL,
             status VARCHAR NOT NULL,
