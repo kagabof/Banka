@@ -17,4 +17,5 @@ router.post('/api/v2/auth/signup', userValid.createUserValidation, user.createCl
 router.post('/api/v2/auth/signup/staff',checkUser.checkAdmin, userValid.createUserValidation, user.createStaffNew);
 router.post('/api/v2/auth/signup/admin', checkUser.checkAdmin, userValid.createUserValidation, user.createAdminNew);
 router.post('/api/v2/auth/signin', userValid.signInValidation, user.signInNew);
+router.delete('/api/v2/auth/:email/delete', checkUser.checkAdmin, user.deleteUser);
 export default router;

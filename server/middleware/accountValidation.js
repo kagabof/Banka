@@ -8,7 +8,6 @@ class AccountValidation{
         };
 
         const rules = {
-            email: 'required|email',
             type: 'required|string',
         }
         const validation = new Validator(data, rules);
@@ -18,7 +17,6 @@ class AccountValidation{
             return res.status(400).send({
                 status: 400,
                 error: {
-                    owner: validation.errors.first("email"),
                     type: validation.errors.first("type")
                 }
             });
