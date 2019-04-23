@@ -6,6 +6,29 @@ import newdb  from "./../db/db";
 import bcrypt from "bcryptjs";
 
 class UserController{
+    deleteUser(req,res){
+        const email = req.params.email;
+        const sql = `SELECT * FROM users WHERE email='${email}'`;
+        newdb.query(sql).then((result) =>{
+            console.log(result.rows);
+            if(result.rows.length){
+                const sql = `DELETE FROM users WHERE email='${email}'`;
+                newdb.query(sql).then((result) => {
+                    console.log(result.rows);
+                    return res.status(200).json({
+                        status: 200,
+                        data: [result.rows]
+                    });
+                });
+            } else {
+                return res.status(400).json({
+                    status: 400,
+                    error: `user with ${email} as email does not exists`
+                });
+            }
+        })
+        
+    }
     createAdminNew(req, res) {
         const {
             email,
@@ -18,14 +41,12 @@ class UserController{
 
         newdb.query(sql1).then((result) => {
             console.log(result.rows);
-
             if (result.rows.length) {
                 return res.status(400).json({
                     status: 400,
-                    error: `user with ${email} as email already exists`
+                    error: `user with ${email} as email already exists!`
                 });
             } else {
-
                 const salt = 10;
                 console.log(bcrypt.hashSync(password, parseInt(salt, 10)));
                 const hashedPassord = bcrypt.hashSync(password, parseInt(salt, 10));
@@ -225,9 +246,9 @@ class UserController{
                             expiresIn: "1h",
                         }
                     );
-                    return res.status(200).json([{
+                    return res.status(200).json({
                         token
-                    }]);
+                    });
                 }else{
                 res.status(400).json({
                     status: 400,

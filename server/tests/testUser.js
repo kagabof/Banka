@@ -6,9 +6,11 @@ chai.use(chaiHttp);
 chai.should();
 
 let token = '';
+let tokenSigninUser = '';
+let tokenAdmin = '';
 describe("Users", ()=>{
     describe("POST /", () => {
-        it("should create a new user", (done) => {
+        it("should create a new user(client)", (done) => {
             const user = {
                 email: "kagabo@gmail.com",
                 firstName: "Kabeho",
@@ -21,93 +23,190 @@ describe("Users", ()=>{
                 .end((req, res) => {
                     res.should.have.status(201);
                     res.body.should.be.a('object');
+                    token = res.body.token;
+                    done();
+                });
+        });
+        it("should create note create a new user(client) because of the existing email", (done) => {
+            const user = {
+                email: "kagabo@gmail.com",
+                firstName: "Kabeho",
+                lastName: "Roger",
+                password: "ffff",
+            };
+            chai.request(app)
+                .post(`/api/v2/auth/signup`)
+                .send(user)
+                .end((req, res) => {
+                    res.should.have.status(400);
+                    res.body.should.be.a('object');
+                    token = res.body.token;
+                    done();
+                });
+        });
+        it("should should signin (client)", (done) => {
+            const user = {
+                email: "kagabo@gmail.com",
+                password: "ffff",
+            };
+            chai.request(app)
+                .post(`/api/v2/auth/signin`)
+                .send(user)
+                .end((req, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    tokenSigninUser = res.body.token;
+                    done();
+                });
+        });
+        it("should should not signin (client)", (done) => {
+            const user = {
+                email: "kagabo@gmail.com",
+                password: "fff",
+            };
+            chai.request(app)
+                .post(`/api/v2/auth/signin`)
+                .send(user)
+                .end((req, res) => {
+                    res.should.have.status(400);
+                    res.body.should.be.a('object');
+                    tokenSigninUser = res.body.token;
+                    done();
+                });
+        });
+        it("should signin as admin", (done) => {
+            const user = {
+                email: "faustinkagabo@gmail.com",
+                password: "Fofo1995"
+            };
+            chai.request(app)
+                .post(`/api/v2/auth/signin`)
+                .send(user)
+                .end((req, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    console.log(res.body);
+                    tokenAdmin = res.body.token;
                     done();
                 });
         });
 
+        it("should create a new user(client)", (done) => {
+            const user = {
+                email: "kagaboa@gmail.com",
+                firstName: "Kabeho",
+                lastName: "Roger",
+                password: "ffff",
+            };
+            chai.request(app)
+                .post(`/api/v2/auth/signup/staff`)
+                .set('Authorization', "Bearer " + tokenAdmin)
+                .send(user)
+                .end((req, res) => {
+                    res.should.have.status(201);
+                    res.body.should.be.a('object');
+                    token = res.body.token;
+                    done();
+                });
+        });
+        it("should create a new user(admin)", (done) => {
+            const user = {
+                email: "kagaboad@gmail.com",
+                firstName: "Kabeho",
+                lastName: "Roger",
+                password: "ffff",
+            };
+            chai.request(app)
+                .post(`/api/v2/auth/signup/admin`)
+                .set('Authorization', "Bearer " + tokenAdmin)
+                .send(user)
+                .end((req, res) => {
+                    res.should.have.status(201);
+                    res.body.should.be.a('object');
+                    token = res.body.token;
+                    done();
+                });
+        });
+        it("should create note create a new user(admin)", (done) => {
+            const user = {
+                email: "kagaboad@gmail.com",
+                firstName: "Kabeho",
+                lastName: "Roger",
+                password: "ffff",
+            };
+            chai.request(app)
+                .post(`/api/v2/auth/signup/admin`)
+                .set('Authorization', "Bearer " + tokenAdmin)
+                .send(user)
+                .end((req, res) => {
+                    res.should.have.status(400);
+                    res.body.should.be.a('object');
+                    token = res.body.token;
+                    res.body.should.have.property("status").eql(400);
+                    res.body.should.have.property("error").eql(`user with ${user.email} as email already exists!`);
+                    done();
+                });
+        });
 
-        // it("should not create when Expectation Failed ", (done) => {
-        //     const user = {
-        //         email: "kagabo@gmail.com",
-        //         firstName: "Kabeho",
-        //         lastName: "fefe",
-        //         password: "",
-        //     };
-        //     chai.request(app)
-        //         .post(`/api/v1/auth/signup`)
-        //         .send(user)
-        //         .end((req, res) => {
-        //             res.should.have.status(417);
-        //             res.body.should.be.a('object');
-        //             res.body.should.have.property("status").eql(417);
-        //             done();
-        //         });
-        // });
-
-    //     it("should signin", (done)=>{
-    //         const user ={
-    //             email: "faustinkagabo@gmail.com",
-    //             password: "Fofo1995@",
-    //         }
-    //         chai.request(app)
-    //             .post('/api/v1/auth/signin')
-    //             .send(user)
-    //             .end((req,res)=>{
-    //                 res.should.have.status(202);
-    //                 res.body.should.be.a('object');
-    //                 res.body.should.have.property("data").should.be.an('object');
-    //                 token = res.body.data.token;
-    //                 done();
-    //             })
-    //     });
-    //     it("should not signin with no bad credentials", (done) => {
-    //         const user = {
-    //             email: "faustinkagabo@gmail.com",
-    //             password: "ffff",
-    //         }
-    //         chai.request(app)
-    //             .post('/api/v1/auth/signin')
-    //             .send(user)
-    //             .end((req, res) => {
-    //                 res.should.have.status(401);
-    //                 res.body.should.be.a('object');
-    //                 done();
-    //             });
-    //     });
-    //     it("should not signin with no password", (done) => {
-    //         const user = {
-    //             email: "faustinkagabo@gmail.com",
-    //             password: "",
-    //         }
-    //         chai.request(app)
-    //             .post('/api/v1/auth/signin')
-    //             .send(user)
-    //             .end((req, res) => {
-    //                 res.should.have.status(406);
-    //                 res.body.should.be.a('object');
-    //                 done();
-    //             });
-    //     });
-        
-    // });
-    // describe('GET /', ()=>{
-    //     it("should get all users while no valid token", (done)=>{
-    //         chai.request(app)
-    //             .get('/api/v1/user/getall')
-    //             .end((req,res)=>{
-    //                 res.should.have.status(401);
-    //                 done();
-    //             })
-    //     });
-    //     it("should get all use", (done) => {
-    //         chai.request(app)
-    //             .get('/api/v1/user/getall')
-    //             .set('Authorization', "Bearer " + token)
-    //             .end((req, res) => {
-    //                 res.should.have.status(200);
-    //                 done();
-    //             });
-    //     })
-    })
+    });
+    
+    describe("DELETE /", () => {
+        it("delete the user", (done) => {
+            const user = {
+                email: "faustinkagabo@gmail.com",
+            };
+            chai.request(app)
+                .delete(`/api/v2/auth/kagabo@gmail.com/delete`)
+                .set('Authorization', "Bearer " + tokenAdmin)
+                .send(user)
+                .end((req, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
+        it("delete the staff", (done) => {
+            const user = {
+                email: "kagaboa@gmail.com",
+            };
+            chai.request(app)
+                .delete(`/api/v2/auth/${user.email}/delete`)
+                .set('Authorization', "Bearer " + tokenAdmin)
+                .send(user)
+                .end((req, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
+        it("delete the admin", (done) => {
+            const user = {
+                email: "kagaboad@gmail.com",
+            };
+            chai.request(app)
+                .delete(`/api/v2/auth/${user.email}/delete`)
+                .set('Authorization', "Bearer " + tokenAdmin)
+                .send(user)
+                .end((req, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
+        it("delete the admin", (done) => {
+            const user = {
+                email: "kag@gmail.com",
+            };
+            chai.request(app)
+                .delete(`/api/v2/auth/${user.email}/delete`)
+                .set('Authorization', "Bearer " + tokenAdmin)
+                .send(user)
+                .end((req, res) => {
+                    res.should.have.status(400);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
+    });
 });
 
