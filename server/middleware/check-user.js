@@ -85,12 +85,12 @@ class CheckUser{
     }
     validatePassword(req,res,next) {
         let pws = (req.body.password)
-        var pw = pws.trim();
-        if (/[A-Z]/.test(pw) &&
-            /[a-z]/.test(pw) &&
-            /[0-9]/.test(pw) &&
-                /[^A-Za-z0-9]/.test(pw) &&
-            pw.length > 4){
+        var password = pws.trim();
+        if (/[A-Z]/.test(password) &&
+            /[a-z]/.test(password) &&
+            /[0-9]/.test(password) &&
+            /[^A-Za-z0-9]/.test(password) &&
+            password.length > 4){
                 next();
             }else{
                 return res.status(400).json({
