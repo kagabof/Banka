@@ -70,7 +70,9 @@ class DatabBase {
             }
             return await con.query(sql);
         } catch (err) {
+            
             return err;
+
         } finally{
             con.release();
         }

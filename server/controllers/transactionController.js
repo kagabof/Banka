@@ -1,9 +1,6 @@
-import userDb from "./../db/userDB";
-import accountDb from "./../db/accountDB";
-import transactionDb from "./../db/transactionDB";
-import Validator from "validatorjs";
-import newdb from "../db/db";
 
+import newdb from "../db/db";
+import jwt from "jsonwebtoken";
 class TransactionController{
     getAllTransactionForAnAccountSpecificTransaction(req, res) {
         const accountNumber = req.params.accountNumber;
@@ -21,12 +18,12 @@ class TransactionController{
                         newdb.query(sql2).then((results)=>{
                             console.log(results.rows);
                             if(results.rows.length){
-                                return res.status(200).json([{status: 200},results.rows]);
+                                return res.status(200).json({status: 200},results.rows);
                             }else{
-                                return res.status(400).json([{
+                                return res.status(400).json({
                                     status: 400,
                                     error: `There is not transactions with: ${transactionId} as a transaction id`,
-                                }]); 
+                                }); 
                             }
                             
                         });
@@ -38,10 +35,10 @@ class TransactionController{
                     }
                 })
             }else {
-                return res.status(400).json([{
+                return res.status(400).json({
                     status: 400,
                     error: `account with: ${accountNumber} does not exists `,
-                }]);
+                });
             }
         });
     }
@@ -55,35 +52,43 @@ class TransactionController{
                 newdb.query(sql1).then((result) => {
                     console.log(result.rows);
                     if (result.rows.length) {
-                        return res.status(200).json([{status: 200},result.rows]);   
+                        return res.status(200).json({status: 200,massage:"need hellp",data:result.rows});   
                     } else {
-                        return res.status(400).json([{
+                        return res.status(400).json({
                             status: 400,
                             error: `There is not transactions with: ${accountNumber} as an account`,
-                        }]);
+                        });
                     }
                 });
             } else {
-                return res.status(400).json([{
+                return res.status(400).json({
                     status: 400,
                     error: `account with: ${accountNumber} does not exists `,
-                }]);
+                });
             }
         });
     }
     debiteAccountNew(req, res) {
-        const amount = parseFloat(req.body.amount);
-        const { cachierId } = req.body;
-        const accountNumber = req.params.accountAccount;
+        const token = req.headers.authorization.split(" ")[1];
+        const decoded = jwt.verify(token, 'secret');
+        req.userData = decoded;
+        const email = decoded.emails;
 
-        const sql = `SELECT * FROM accounts WHERE accountnumber = '${parseInt(req.params.accountNumber)}'`;
-        newdb.query(sql).then((result) => {
+        const amount = parseFloat(req.body.amount);
+        const accountNumber = parseInt(req.params.accountNumber);
+        const sql4 = `SELECT * FROM accounts WHERE email = '${email}'`;
+
+        newdb.query(sql4).then((result) => {
             console.log(result.rows);
-            if (result.rows.length){
-                if (result.rows[0].balance > amount) {
-                    const newBalance = result.rows[0].balance - amount;
-                    const sql1 = `UPDATE accounts SET balance ='${newBalance}' WHERE accountnumber='${accountNumber}'`;
-                    newdb.query(sql1).then((result) => {
+            const sql3 = `SELECT * FROM accounts WHERE accountnumber = '${parseInt(req.params.accountNumber)}'`;
+            newdb.query(sql3).then((result) => {
+                console.log(result.rows);
+                
+                if (result.rows.length) {
+                    let cachierId = result.rows[0].id;
+                    const newBalance = parseFloat(result.rows[0].balance) - amount;
+                    const sql4 = `UPDATE accounts SET balance ='${newBalance}' WHERE accountnumber ='${accountNumber}'`;
+                    newdb.query(sql4).then((result) => {
                         console.log("************UPDATE ACCOUNT*******");
                         console.log(result.rows);
                     });
@@ -97,7 +102,7 @@ class TransactionController{
                         result.rows[0].balance,
                         newBalance
                     ]
-                    const sql2 = `INSERT INTO transactions(
+                    const sql5 = `INSERT INTO transactions(
                         createdOn,
                         type,
                         accountNumber,
@@ -105,38 +110,42 @@ class TransactionController{
                         amount,
                         oldbalance,
                         newbalance) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *`;
-                    newdb.query(sql2, newTransaction).then((result) => {
-                        console.log("************CREATE TRANSACTIONS*******");
+                    newdb.query(sql5, newTransaction).then((result) => {
+                        console.log("************DEBIT TRANSACTIONS*******");
                         console.log(result.rows);
-                        return res.status(200).json([{ status: 200 }, result.rows])
+                        return res.status(200).json({ status: 200 , data:result.rows})
                     });
-
                 } else {
-                    return res.status(400).json([{
+                    return res.status(400).json({
                         status: 400,
-                        error: "balance is less than the amount",
-                    }]);
+                        error: `account with: ${accountNumber} does not exists `,
+                    });
                 }
-            }else{
-                return res.status(400).json([{
-                    status: 400,
-                    error: `account with: ${accountNumber} does not exists `,
-                }]);
-            }
-            
+
+            });
         });
+
     }
     creditAccountNew(req, res) {
-        const amount = parseFloat(req.body.amount);
-        const { cachierId } = req.body;
-        const accountNumber = parseInt(req.params.accountNumber);
+        const token = req.headers.authorization.split(" ")[1];
+        const decoded = jwt.verify(token, 'secret');
+        req.userData = decoded;
+        const email = decoded.emails;
 
-        const sql3 = `SELECT * FROM accounts WHERE accountnumber = '${parseInt(req.params.accountNumber)}'`;
-        newdb.query(sql3).then((result) => {
+        const amount = parseFloat(req.body.amount);
+        const accountNumber = parseInt(req.params.accountNumber);
+        const sql4 = `SELECT * FROM accounts WHERE email = '${email}'`;
+        
+        newdb.query(sql4).then((result) => {
             console.log(result.rows);
-            if (result.rows.length) {
-                    const newBalance = result.rows[0].balance + amount;
-                const sql4 = `UPDATE accounts SET balance ='${newBalance}' WHERE accountnumber ='${accountNumber}'`;
+            const sql3 = `SELECT * FROM accounts WHERE accountnumber = '${parseInt(req.params.accountNumber)}'`;
+            newdb.query(sql3).then((result) => {
+                console.log(result.rows);
+                
+                if (result.rows.length) {
+                    let cachierId = result.rows[0].id;
+                    const newBalance = parseFloat(result.rows[0].balance) + amount;
+                    const sql4 = `UPDATE accounts SET balance ='${newBalance}' WHERE accountnumber ='${accountNumber}'`;
                     newdb.query(sql4).then((result) => {
                         console.log("************UPDATE ACCOUNT*******");
                         console.log(result.rows);
@@ -162,22 +171,17 @@ class TransactionController{
                     newdb.query(sql5, newTransaction).then((result) => {
                         console.log("************CREATE TRANSACTIONS*******");
                         console.log(result.rows);
-                        return res.status(200).json([{ status: 200 }, result.rows])
+                        return res.status(200).json({ status: 200, data: result.rows });
                     });
-            } else {
-                return res.status(400).json([{
-                    status: 400,
-                    error: `account with: ${accountNumber} does not exists `,
-                }]);
-            }
+                } else {
+                    return res.status(400).json({
+                        status: 400,
+                        error: `account with: ${accountNumber} does not exists `,
+                    });
+                }
 
+            });
         });
-    }
-    getAllTransaction(req, res) {
-        return res.status(200).send({
-            status: 200,
-            data: transactionDb
-        })
     }
 }
 

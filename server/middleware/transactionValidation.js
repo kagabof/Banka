@@ -5,13 +5,11 @@ class TransactionValidation{
         const data = {
             accountNumber: req.params.accountNumber,
             amount: req.body.amount,
-            cachierId: req.body.cachierId
         };
 
         const rules = {
             accountNumber: 'required|integer',
             amount: 'required|numeric',
-            cachierId: 'required|integer',
         }
 
         const validation = new Validator(data, rules);
