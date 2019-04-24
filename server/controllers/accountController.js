@@ -1,8 +1,7 @@
-import db from "./../db/accountDB";
-import userdb from "./../db/userDB";
 import crypto from "crypto";
 import format from "biguint-format";
 import newdb from "./../db/db";
+import jwt from "jsonwebtoken";
 
 
 class AccountController{
@@ -13,25 +12,24 @@ class AccountController{
             newdb.query(sql).then((result) => {
                 console.log(result.rows);
                 if (result.rows.length) {
-                    return res.status(200).json([{ status: 200 }, result.rows]);
+                    return res.status(200).json({ status: 200, data: result.rows });
                 } else {
-                    return res.status(404).json([{
+                    return res.status(404).json({
                         status: 404,
                         error: `no account found with dormant status in the system`,
-                    }]);
+                    });
                 }
             });
         } else if (status === "active") {
-            const sql1 = `SELECT * FROM accounts WHERE status = '${status}'`;
-            newdb.query(sql1).then((result) => {
+            newdb.query(`SELECT * FROM accounts WHERE status = '${status}'`).then((result) => {
                 console.log(result.rows);
                 if (result.rows.length) {
-                    return res.status(200).json([{ status: 200 }, result.rows]);
+                    return res.status(200).json({ status: 200, data: result.rows });
                 } else {
-                    return res.status(404).json([{
+                    return res.status(404).json({
                         status: 404,
                         error: `no account found with active status in the system`,
-                    }]);
+                    });
                 }
             });
         } else if (!status) {
@@ -39,19 +37,19 @@ class AccountController{
             newdb.query(sql2).then((result) => {
                 console.log(result.rows);
                 if (result.rows.length) {
-                    return res.status(200).json([{ status: 200 }, result.rows]);
+                    return res.status(200).json({ status: 200, data: result.rows });
                 } else {
-                    return res.status(404).json([{
+                    return res.status(404).json({
                         status: 404,
                         error: `no account found in the system`,
-                    }]);
+                    });
                 }
             });
         } else if (status !== 'active' && status !== 'dormant') {
-            return res.status(404).json([{
+            return res.status(404).json({
                 status: 404,
                 error: `no account found in the system`,
-            }]);
+            });
         }
 
     }
@@ -67,19 +65,19 @@ class AccountController{
                 newdb.query(sql1).then((result) =>{
                     console.log(result.rows);
                     if (result.rows.length){
-                        return res.status(200).json([{status: 200},result.rows]);
+                        return res.status(200).json({ status: 200 , data: result.rows});
                     } else {
-                        return res.status(400).json([{
+                        return res.status(400).json({
                             status: 400,
                             error: `the user with: ${email} does not have an account`,
-                        }]);
+                        });
                     }
                 })
             }else{
-                return res.status(400).json([{
+                return res.status(400).json({
                     status: 400,
                     error: `User with: ${email} as email does exist`,
-                }]);
+                });
             }
         });
     }
@@ -89,12 +87,12 @@ class AccountController{
         newdb.query(sql).then((result) =>{
             console.log(result.rows);
             if(result.rows.length){
-                return res.status(200).json([{status:200},result.rows]);
+                return res.status(200).json({status:200, data: result.rows});
             }else {
-                return res.status(400).json([{
+                return res.status(400).json({
                     status: 400,
                     error: `account with: ${accountNumber} does not exists `,
-                }]);
+                });
             }
         });
     }
@@ -103,37 +101,43 @@ class AccountController{
         const sql = `SELECT * FROM accounts WHERE accountnumber='${accountNumber}'`;
         newdb.query(sql).then((result) => {
             console.log(result.rows);
-            const accountData = result.rows[0];
-            const accountStatus = result.rows[0].status;
-            console.log(result.rows[0].status);
-
             if (result.rows.length) {
+                console.log(result.rows[0].status);
+                const account = result.rows[0].accountnumber;
+                const accountStatus = result.rows[0].status;
                 let dormant = "dormant";
                 let active = "active"
                 if (accountStatus === "dormant") {
                     const sql1 = `UPDATE accounts SET status ='${active}' WHERE accountnumber='${accountNumber}'`;
                     newdb.query(sql1).then((result) => {
                         console.log(result.rows);
-                        return res.status(200).json([{
+                        return res.status(200).json({
                             status: 200,
-                            massage: `account apdated`
-                        }, result.rows]);
-                    })
+                            massage: `account apdated!`,
+                            data: {
+                                accountNumber: account,
+                                status: accountStatus}
+                    });
+                });
                 } else if (accountStatus === "active") {
                     const sql2 = `UPDATE accounts SET status ='${dormant}' WHERE accountnumber='${accountNumber}'`;
                     newdb.query(sql2).then((result) => {
                         console.log(result.rows);
-                        return res.status(200).json([{
+                        return res.status(200).json({
                             status: 200,
-                            massage: `account apdated`
-                        }, result.rows]);
+                            massage: `account apdated!`,
+                            data: {
+                                accountNumber: account,
+                                status: accountStatus
+                            }
+                        });
                     });
                 }
             } else {
-                return res.status(400).json([{
+                return res.status(400).json({
                     status: 400,
                     error: `account with: ${accountNumber} does not exists `,
-                }]);
+                });
             }
         });
 
@@ -149,24 +153,29 @@ class AccountController{
                 const sql1 = `DELETE FROM accounts WHERE accountnumber = '${accountNumber}' ;`
                 newdb.query(sql1).then((result) => {
                     console.log(result.rows);
-                    return res.status(200).json([{
+                    return res.status(200).json({
                         status: 200,
                         massage: `account with: ${accountNumber} was deleted! `,
                         data: {
                             accountData
                         },
-                    }])
+                    })
                 })
             }else{
-                return res.status(400).json([{
+                return res.status(400).json({
                     status: 400,
                     error: `account with: ${accountNumber} does not exists `,
-                }]);
+                });
             }
         })
     }
     createAccountNew(req,res){
-        const { email,type} = req.body;
+        const token = req.headers.authorization.split(" ")[1];
+        const decoded = jwt.verify(token, 'secret');
+        req.userData = decoded;
+        const email = decoded.emails;
+        console.log(`find ${email} .......`);
+        const { type} = req.body;
         
         const sql = `SELECT * FROM users WHERE email='${email}'`;
 
@@ -174,14 +183,6 @@ class AccountController{
             console.log(result.rows);
             
             const balance = 0;
-
-            if (!result.rows.length){
-                res.status(404).json([{
-                    status: 404,
-                    error: `user with ${email} as an email those not exist`,
-                }]);
-            }else{
-                
                 let balances = 0.0;
                 const st = "dormant";
                 const newAccount = [
@@ -205,7 +206,7 @@ class AccountController{
                         balance) VALUES($1, $2, $3, $4, $5,$6) RETURNING *`;
                 newdb.query(sql1,newAccount).then((result) =>{
                     console.log(result.rows);
-                    return res.status(201).json([{
+                    return res.status(201).json({
                         status: 201,
                         data: {
                             fname,
@@ -214,10 +215,10 @@ class AccountController{
                             type,
                             balance,
                         },
-                    }]);
+                    });
                 });
             }
-        })
+        )
 
     }
 }

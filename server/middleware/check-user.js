@@ -11,8 +11,8 @@ class CheckUser{
             console.log(`find ${email} .......`);
             next();
         } catch (error) {
-            return res.status(401).json({
-                status: 401,
+            return res.status(403).json({
+                status: 403,
                 error: "user failed"
             });
         }
@@ -82,6 +82,23 @@ class CheckUser{
                 error: "login or signup first!"
             });
         }
+    }
+    validatePassword(req,res,next) {
+        let pws = (req.body.password)
+        var pw = pws.trim();
+        if (/[A-Z]/.test(pw) &&
+            /[a-z]/.test(pw) &&
+            /[0-9]/.test(pw) &&
+                /[^A-Za-z0-9]/.test(pw) &&
+            pw.length > 4){
+                next();
+            }else{
+                return res.status(400).json({
+                    status: 400,
+                    error: "incorect password format"
+                })
+            }
+
     }
 }
 const check = new CheckUser();

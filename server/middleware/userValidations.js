@@ -41,8 +41,8 @@ class UserValidation{
         if (validation.passes()) {
             next();
         } else {
-            return res.status(417).send({
-                status: 417,
+            return res.status(400).send({
+                status: 400,
                 error: {
                     firstName: validation.errors.first('firstName'),
                     lastName: validation.errors.first('lastName'),

@@ -1,7 +1,4 @@
-import db from "./../db/userDB";
 import jwt from "jsonwebtoken";
-import crypto from "crypto";
-import format from "biguint-format";
 import newdb  from "./../db/db";
 import bcrypt from "bcryptjs";
 
@@ -17,7 +14,7 @@ class UserController{
                     console.log(result.rows);
                     return res.status(200).json({
                         status: 200,
-                        data: [result.rows]
+                        massage: `user with ${email} is deleted!`
                     });
                 });
             } else {
@@ -49,15 +46,15 @@ class UserController{
             } else {
                 const salt = 10;
                 console.log(bcrypt.hashSync(password, parseInt(salt, 10)));
-                const hashedPassord = bcrypt.hashSync(password, parseInt(salt, 10));
+                const hashedPassord = bcrypt.hashSync(password.trim(), parseInt(salt, 10));
 
 
                 const newUser = [
-                    email,
-                    firstName,
-                    lastName,
+                    email.trim(),
+                    firstName.trim(),
+                    lastName.trim(),
                     hashedPassord,
-                    type,
+                    type.trim(),
                     true
                 ];
                 const sql = "INSERT INTO users(email,firstName,lastName,password,type,isAdmin) VALUES($1,$2,$3,$4,$5,$6) RETURNING *"
@@ -77,16 +74,14 @@ class UserController{
                     console.log(result.rows);
                     res.status(201).json({
                         status: 201,
-                        data: [
-                            {token},
-                            {
-                                firstName: firstName,
-                                lastName: lastName,
-                                email: email,
-                                type: type,
-                                isAdmin: true
-                            }
-                        ],
+                        data: {
+                            token,
+                            firstName: firstName,
+                            lastName: lastName,
+                            email: email,
+                            type: type,
+                            isAdmin: true
+                        }
                     });
                 })
             }
@@ -115,15 +110,15 @@ class UserController{
 
                 const salt = 10;
                 console.log(bcrypt.hashSync(password, parseInt(salt, 10)));
-                const hashedPassord = bcrypt.hashSync(password, parseInt(salt, 10));
+                const hashedPassord = bcrypt.hashSync(password.trim(), parseInt(salt, 10));
 
 
                 const newUser = [
-                    email,
-                    firstName,
-                    lastName,
+                    email.trim(),
+                    firstName.trim(),
+                    lastName.trim(),
                     hashedPassord,
-                    type,
+                    type.trim(),
                     false
                 ];
                 const sql = "INSERT INTO users(email,firstName,lastName,password,type,isAdmin) VALUES($1,$2,$3,$4,$5,$6) RETURNING *"
@@ -143,16 +138,15 @@ class UserController{
                     console.log(result.rows);
                     res.status(201).json({
                         status: 201,
-                        data: [
-                            { token },
-                            {
-                                firstName: firstName,
-                                lastName: lastName,
-                                email: email,
-                                type: type,
-                                isAdmin: false
-                            }
-                        ],
+                        data: {
+                            token,
+                            firstName: firstName,
+                            lastName: lastName,
+                            email: email,
+                            type: type,
+                            isAdmin: false
+                        }
+                        
                     });
                 })
             }
@@ -171,7 +165,6 @@ class UserController{
         
         newdb.query(sql1).then((result) =>{
             console.log(result.rows);
-
             if (result.rows.length){
                 return res.status(400).json({
                     status: 400,
@@ -181,15 +174,15 @@ class UserController{
                 
                 const salt = 10;
                 console.log(bcrypt.hashSync(password, parseInt(salt, 10)));
-                const hashedPassord = bcrypt.hashSync(password, parseInt(salt, 10));
+                const hashedPassord = bcrypt.hashSync(password.trim(), parseInt(salt, 10));
                 
 
                 const newUser = [
-                    email,
-                    firstName,
-                    lastName,
+                    email.trim(),
+                    firstName.trim(),
+                    lastName.trim(),
                     hashedPassord,
-                    type,
+                    type.trim(),
                     false
                 ];
                 const sql = "INSERT INTO users(email,firstName,lastName,password,type,isAdmin) VALUES($1,$2,$3,$4,$5,$6) RETURNING *"
@@ -209,16 +202,14 @@ class UserController{
                     console.log(result.rows);
                     res.status(201).json({
                         status: 201,
-                        data: [
-                            { token },
-                            {
-                                firstName: firstName,
-                                lastName: lastName,
-                                email: email,
-                                type: type,
-                                isAdmin: false
-                            }
-                        ],
+                        data: {
+                            token,
+                            firstName: firstName,
+                            lastName: lastName,
+                            email: email,
+                            type: type,
+                            isAdmin: false
+                        }     
                     });
                 })
             }
@@ -247,7 +238,16 @@ class UserController{
                         }
                     );
                     return res.status(200).json({
-                        token
+                        status: 200,
+                        token,
+                        data:{
+                            
+                            id: result.rows[0].id,
+                            firstName: result.rows[0].firstname,
+                            lastName: result.rows[0].lastname,
+                            lastName: result.rows[0].email,
+                        }
+                        
                     });
                 }else{
                 res.status(400).json({
@@ -263,17 +263,6 @@ class UserController{
             }
         })
 
-    }
-
-
-
-
-
-    getAllUsers(req,res){
-        return res.status(200).send({
-            status: 200,
-            data: db,
-        });
     }
     
 }

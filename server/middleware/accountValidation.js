@@ -3,7 +3,6 @@ import Validator from "validatorjs";
 class AccountValidation{
     createAccountValidation(req,res,next){
         const data = {
-            email: req.body.email,
             type: req.body.type
         };
 
