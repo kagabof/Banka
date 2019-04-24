@@ -1,13 +1,15 @@
 import pg,{ Pool } from "pg";
 import dotenv from "dotenv";
 import bcrypt from "bcryptjs";
+import config from "./../../config"
 
 dotenv.config();
 
 const pools = {
-    connectionString: process.env.DATABASE_URL,
+    connectionString: process.env.NODE_ENV === "test"?  config.test.dbUrl: config.dev.dbUrl,
 };
 
+console.log(pools.connectionString);
 class DatabBase {
     constructor(){
         this.pool = new Pool(pools);
