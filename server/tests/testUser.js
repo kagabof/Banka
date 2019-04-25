@@ -660,7 +660,7 @@ describe("Account", () => {
         });
 
 /*transactions*/
-        it('get all transactions', (done) => {
+        it('will not get all transactions with bad token ', (done) => {
             let email = "kagabo@gmail.com";
             const sql = `SELECT * FROM users WHERE email='${email}'`;
             newdb.query(sql).then((result) => {
@@ -671,7 +671,7 @@ describe("Account", () => {
                         .get(`/api/v2/accounts/${result.rows[0].accountnumber}/transactions`)
                         .set('Authorization', "Bearer " + tokenAdmin)
                         .end((req, res) => {
-                            res.should.have.status(200);
+                            res.should.have.status(403);
                             res.body.should.be.a('object');
                             done();
                         });
@@ -792,7 +792,6 @@ describe("Account", () => {
                         .end((req, res) => {
                             res.should.have.status(200);
                             res.body.should.be.a('object');
-                            res.body.should.have.property("data").should.be.an('object');
                             done();
                         });
                 });

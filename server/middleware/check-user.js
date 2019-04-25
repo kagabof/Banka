@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import newdb from "../db/db";
 
 class CheckUser{
     checkClient(req, res, next){
@@ -13,7 +12,7 @@ class CheckUser{
         } catch (error) {
             return res.status(403).json({
                 status: 403,
-                error: "user failed"
+                error: "you need to login first"
             });
         }
     }
@@ -29,13 +28,13 @@ class CheckUser{
             }else{
                 return res.status(403).json({
                     status: 403,
-                    error: "you need to be an admin in order have access"
+                    error: "you need to login as an admin in order have access!"
                 });
             }
         } catch (error) {
             return res.status(403).json({
                 status: 403,
-                error: "login or signup first!"
+                error: "you need to login as an admin in order have access!"
             });
         }
         
@@ -51,13 +50,13 @@ class CheckUser{
             } else {
                 return res.status(403).json({
                     status: 403,
-                    error: "you need to be a staff member in order have access"
+                    error: "you need to be login as a staff member in order have access"
                 });
             }
         } catch (error) {
             return res.status(403).json({
                 status: 403,
-                error: "login or signup first!"
+                error: "you need to be login as a staff member in order have access!"
             });
         }
         
@@ -73,20 +72,22 @@ class CheckUser{
             } else {
                 return res.status(403).json({
                     status: 403,
-                    error: "you need to be a staff member or an admin in order have access"
+                    error: "you need to login as staff member or an admin in order have access!"
                 });
             }
         } catch (error) {
             return res.status(403).json({
                 status: 403,
-                error: "login or signup first!"
+                error: "you need to login as staff member or an admin in order have access!"
             });
         }
     }
     validatePassword(req,res,next) {
-        let pws = (req.body.password)
-        var password = pws.trim();
-        if (/[A-Z]/.test(password) &&
+        let password = (req.body.password)
+        let checkSize = password.split(' ').length;
+
+        if (checkSize === 1 &&
+            /[A-Z]/.test(password) &&
             /[a-z]/.test(password) &&
             /[0-9]/.test(password) &&
             /[^A-Za-z0-9]/.test(password) &&
@@ -95,7 +96,7 @@ class CheckUser{
             }else{
                 return res.status(400).json({
                     status: 400,
-                    error: "incorect password format"
+                    error: "incorect password format! ex: Fofo1@"
                 })
             }
 

@@ -12,7 +12,20 @@ class AccountController{
             newdb.query(sql).then((result) => {
                 console.log(result.rows);
                 if (result.rows.length) {
-                    return res.status(200).json({ status: 200, data: result.rows });
+                    const accounts= [];
+                    for (let i = 0; i < result.rows.length; i++) {
+                        const data = {
+                            status: 200,
+                            data: result.rows[i].id,
+                            accountNumber: result.rows[i].accountnumber,
+                            createdOn: result.rows[i].createdon,
+                            owner: result.rows[i].owner,
+                            type: result.rows[i].status,
+                            balance: result.rows[i].balance
+                        }
+                        accounts.push(data);
+                    }
+                    return res.status(200).json({ accounts });
                 } else {
                     return res.status(404).json({
                         status: 404,
@@ -24,7 +37,20 @@ class AccountController{
             newdb.query(`SELECT * FROM accounts WHERE status = '${status}'`).then((result) => {
                 console.log(result.rows);
                 if (result.rows.length) {
-                    return res.status(200).json({ status: 200, data: result.rows });
+                    const accounts = [];
+                    for (let i = 0; i < result.rows.length; i++) {
+                        const data = {
+                            status: 200,
+                            data: result.rows[i].id,
+                            accountNumber: result.rows[i].accountnumber,
+                            createdOn: result.rows[i].createdon,
+                            owner: result.rows[i].owner,
+                            type: result.rows[i].status,
+                            balance: result.rows[i].balance
+                        }
+                        accounts.push(data);
+                    }
+                    return res.status(200).json({ accounts });
                 } else {
                     return res.status(404).json({
                         status: 404,
@@ -37,7 +63,21 @@ class AccountController{
             newdb.query(sql2).then((result) => {
                 console.log(result.rows);
                 if (result.rows.length) {
-                    return res.status(200).json({ status: 200, data: result.rows });
+                    for (let i = 0; i < result.rows.length; i++) {
+                        const accounts = [];
+                        const data = {
+                            status: 200,
+                            data: result.rows[i].id,
+                            accountNumber: result.rows[i].accountnumber,
+                            createdOn: result.rows[i].createdon,
+                            owner: result.rows[i].owner,
+                            type: result.rows[i].status,
+                            balance: result.rows[i].balance
+                        }
+                        accounts.push(data);
+                    }
+                    return res.status(200).json({ accounts });
+                    
                 } else {
                     return res.status(404).json({
                         status: 404,
@@ -63,9 +103,21 @@ class AccountController{
                 const sql1 = `SELECT * FROM accounts WHERE owner='${result.rows[0].id}'`;
                 
                 newdb.query(sql1).then((result) =>{
-                    console.log(result.rows);
+                    const accounts = [];
                     if (result.rows.length){
-                        return res.status(200).json({ status: 200 , data: result.rows});
+                        for (let i = 0; i < result.rows.length; i++) {
+                            const data = {
+                                status: 200,
+                                data: result.rows[i].id,
+                                accountNumber: result.rows[i].accountnumber,
+                                createdOn: result.rows[i].createdon,
+                                owner: result.rows[i].owner,
+                                type: result.rows[i].status,
+                                balance: result.rows[i].balance
+                            } 
+                            accounts.push(data);
+                        }
+                        return res.status(200).json({ accounts });
                     } else {
                         return res.status(400).json({
                             status: 400,
@@ -82,18 +134,47 @@ class AccountController{
         });
     }
     findAccountDetails(req,res){
-        const accountNumber = req.params.accountNumber;
-        const sql = `SELECT * FROM accounts WHERE accountnumber='${accountNumber}'`;
-        newdb.query(sql).then((result) =>{
-            console.log(result.rows);
-            if(result.rows.length){
-                return res.status(200).json({status:200, data: result.rows});
-            }else {
-                return res.status(400).json({
-                    status: 400,
-                    error: `account with: ${accountNumber} does not exists `,
-                });
-            }
+        const token = req.headers.authorization.split(" ")[1];
+        const decoded = jwt.verify(token, 'secret');
+        req.userData = decoded;
+        const email = decoded.emails;
+        console.log(`find ${email} .......`);
+        const sql1 = `SELECT * FROM users WHERE email='${email}'`;
+        newdb.query(sql1).then((result) => {
+            let owner = result.rows[0].id;
+            const accountNumber = req.params.accountNumber;
+            const sql = `SELECT * FROM accounts WHERE accountnumber='${accountNumber}'`;
+            newdb.query(sql).then((result) => {
+                console.log(result.rows);
+                if (result.rows.length) {
+                    if(result.rows[0].owner === owner){
+                        for (let i = 0; i < result.rows.length; i++) {
+                            const accounts = [];
+                            const data = {
+                                status: 200,
+                                data: result.rows[i].id,
+                                accountNumber: result.rows[i].accountnumber,
+                                createdOn: result.rows[i].createdon,
+                                owner: result.rows[i].owner,
+                                type: result.rows[i].status,
+                                balance: result.rows[i].balance
+                            }
+                            accounts.push(data);
+                        }
+                        return res.status(200).json({ accounts });
+                    }else{
+                        return res.status(403).json({
+                            status: 403,
+                            error: `Note allowed to access that account information`,
+                        });
+                    }
+                } else {
+                    return res.status(400).json({
+                        status: 400,
+                        error: `account with: ${accountNumber} does not exists `,
+                    });
+                }
+            });
         });
     }
     activateDeactivateAccountNew(req, res) {
@@ -113,10 +194,11 @@ class AccountController{
                         console.log(result.rows);
                         return res.status(200).json({
                             status: 200,
-                            massage: `account apdated!`,
+                            message: `account updated!`,
                             data: {
                                 accountNumber: account,
-                                status: accountStatus}
+                                status: 'active'
+                            }
                     });
                 });
                 } else if (accountStatus === "active") {
@@ -125,10 +207,10 @@ class AccountController{
                         console.log(result.rows);
                         return res.status(200).json({
                             status: 200,
-                            massage: `account apdated!`,
+                            message: `account updated!`,
                             data: {
                                 accountNumber: account,
-                                status: accountStatus
+                                status: 'dormant'
                             }
                         });
                     });
@@ -155,10 +237,7 @@ class AccountController{
                     console.log(result.rows);
                     return res.status(200).json({
                         status: 200,
-                        massage: `account with: ${accountNumber} was deleted! `,
-                        data: {
-                            accountData
-                        },
+                        message: `account with: ${accountNumber} was deleted! `,
                     })
                 })
             }else{
@@ -206,13 +285,15 @@ class AccountController{
                         balance) VALUES($1, $2, $3, $4, $5,$6) RETURNING *`;
                 newdb.query(sql1,newAccount).then((result) =>{
                     console.log(result.rows);
+                    let acc = result.rows[0].accountnumber;
                     return res.status(201).json({
                         status: 201,
                         data: {
-                            fname,
-                            lname,
-                            AccountEmail,
-                            type,
+                            firstName:fname,
+                            lastName:lname,
+                            email:AccountEmail,
+                            accountNumber:acc,
+                            accountType:type,
                             balance,
                         },
                     });
