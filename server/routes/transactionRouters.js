@@ -6,8 +6,8 @@ import checkUser from "../middleware/check-user";
 const router = express.Router();
 
 
-router.post('/api/v2/transactions/:accountNumber/debit',checkUser.chechStaff, tansactionValid.debiteCreaditAccountValidation, transaction.debiteAccountNew);
-router.post('/api/v2/transactions/:accountNumber/credit', checkUser.chechStaff, tansactionValid.debiteCreaditAccountValidation, transaction.creditAccountNew);
+router.post('/api/v2/transactions/:accountNumber/debit',checkUser.chechStaff, tansactionValid.debiteCreaditAccountValidation,transactionValid.validateAccountStatus, transaction.debiteAccountNew);
+router.post('/api/v2/transactions/:accountNumber/credit', checkUser.chechStaff, tansactionValid.debiteCreaditAccountValidation,transactionValid.validateAccountStatus, transaction.creditAccountNew);
 router.get('/api/v2/accounts/:accountNumber/transactions',checkUser.checkClient, transactionValid.validateAccountNumber, transaction.getAllTransactionForAnAccount);
 router.get('/api/v2/accounts/:accountNumber/transactions/:transactionId',checkUser.checkClient, transactionValid.validateAccountNumberAndTransactionId, transaction.getAllTransactionForAnAccountSpecificTransaction);
 export default router;

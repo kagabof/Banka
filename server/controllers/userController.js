@@ -14,13 +14,13 @@ class UserController{
                     console.log(result.rows);
                     return res.status(200).json({
                         status: 200,
-                        massage: `user with ${email} is deleted!`
+                        message: `user with ${email} is deleted!`
                     });
                 });
             } else {
                 return res.status(400).json({
                     status: 400,
-                    error: `user with ${email} as email does not exists`
+                    error: `user with ${email} does not exists!`
                 });
             }
         })
@@ -245,7 +245,7 @@ class UserController{
                             id: result.rows[0].id,
                             firstName: result.rows[0].firstname,
                             lastName: result.rows[0].lastname,
-                            lastName: result.rows[0].email,
+                            email: result.rows[0].email,
                         }
                         
                     });

@@ -1,4 +1,5 @@
 import Validator from "validatorjs";
+import newdb from "./../db/db";
 
 class TransactionValidation{
     debiteCreaditAccountValidation(req, res,next){
@@ -22,7 +23,6 @@ class TransactionValidation{
                 error: {
                     accountNumber: validation.errors.first("accountNumber"),
                     amount: validation.errors.first("amount"),
-                    cachierId: validation.errors.first("cachierId"),
                 }
             });
         }
@@ -72,6 +72,29 @@ class TransactionValidation{
             });
         }
 
+    }
+    validateAccountStatus(req,res,next){
+        let accountNumber =req.params.accountNumber;
+        const sql = `SELECT * FROM accounts WHERE accountnumber = ${accountNumber}`;
+        newdb.query(sql).then((result) =>{
+            console.log(result.rows);
+            if(result.rows.length){
+                if(result.rows[0].status === 'active'){
+                    next();
+                }else{
+                    return res.status(403).send({
+                        status: 403,
+                        error: 'Transactions not allowed for a dormant account'
+                    });
+                }
+            }else{
+                return res.status(400).json({
+                    status: 400,
+                    error: `account '${accountNumber}' does not exists `,
+                });
+            }
+        })
+        
     }
 }
 
