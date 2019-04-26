@@ -7,11 +7,9 @@ class UserController{
         const email = req.params.email;
         const sql = `SELECT * FROM users WHERE email='${email}'`;
         newdb.query(sql).then((result) =>{
-            console.log(result.rows);
             if(result.rows.length){
                 const sql = `DELETE FROM users WHERE email='${email}'`;
                 newdb.query(sql).then((result) => {
-                    console.log(result.rows);
                     return res.status(200).json({
                         status: 200,
                         message: `user with ${email} is deleted!`
@@ -37,7 +35,6 @@ class UserController{
         const sql1 = `SELECT * FROM users WHERE email='${email}'`;
 
         newdb.query(sql1).then((result) => {
-            console.log(result.rows);
             if (result.rows.length) {
                 return res.status(400).json({
                     status: 400,
@@ -45,7 +42,6 @@ class UserController{
                 });
             } else {
                 const salt = 10;
-                console.log(bcrypt.hashSync(password, parseInt(salt, 10)));
                 const hashedPassord = bcrypt.hashSync(password.trim(), parseInt(salt, 10));
 
 
@@ -68,10 +64,9 @@ class UserController{
                         tokenSend,
                         'secret',
                         {
-                            expiresIn: "1h",
+                            expiresIn: "24h",
                         }
                     );
-                    console.log(result.rows);
                     res.status(201).json({
                         status: 201,
                         data: {
@@ -99,7 +94,6 @@ class UserController{
         const sql1 = `SELECT * FROM users WHERE email='${email}'`;
 
         newdb.query(sql1).then((result) => {
-            console.log(result.rows);
 
             if (result.rows.length) {
                 return res.status(400).json({
@@ -109,7 +103,6 @@ class UserController{
             } else {
 
                 const salt = 10;
-                console.log(bcrypt.hashSync(password, parseInt(salt, 10)));
                 const hashedPassord = bcrypt.hashSync(password.trim(), parseInt(salt, 10));
 
 
@@ -135,7 +128,6 @@ class UserController{
                             expiresIn: "1h",
                         }
                     );
-                    console.log(result.rows);
                     res.status(201).json({
                         status: 201,
                         data: {
@@ -164,7 +156,6 @@ class UserController{
         const sql1 =`SELECT * FROM users WHERE email='${email}'`;
         
         newdb.query(sql1).then((result) =>{
-            console.log(result.rows);
             if (result.rows.length){
                 return res.status(400).json({
                     status: 400,
@@ -173,7 +164,6 @@ class UserController{
             }else{
                 
                 const salt = 10;
-                console.log(bcrypt.hashSync(password, parseInt(salt, 10)));
                 const hashedPassord = bcrypt.hashSync(password.trim(), parseInt(salt, 10));
                 
 
@@ -199,7 +189,6 @@ class UserController{
                             expiresIn: "1h",
                         }
                     );
-                    console.log(result.rows);
                     res.status(201).json({
                         status: 201,
                         data: {
@@ -218,7 +207,6 @@ class UserController{
     }
     signInNew(req,res){
         const {email,password} = req.body;
-        const credentials = { email, password};
 
         const sql = `SELECT *FROM users WHERE email='${email}'`;
         newdb.query(sql).then((result)=>{
@@ -228,7 +216,6 @@ class UserController{
                     isadmin: result.rows[0].isadmin,
                     type: result.rows[0].type,
                 }
-                console.log(tokenSend);
                 if (bcrypt.compareSync(password, result.rows[0].password)){
                     const token = jwt.sign(
                         tokenSend,
