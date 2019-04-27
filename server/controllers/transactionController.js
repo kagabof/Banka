@@ -8,15 +8,12 @@ class TransactionController{
         
         const sql = `SELECT * FROM accounts WHERE accountnumber = '${parseInt(accountNumber)}'`;
         newdb.query(sql).then((result)=>{
-            console.log(result.rows);
             if(result.rows.length){
                 const sql1 = `SELECT * FROM transactions WHERE accountnumber = '${parseInt(accountNumber)}'`;
                 newdb.query(sql1).then((result) =>{
-                    console.log(result.rows);
                     if (result.rows.length){
                         const sql2 = `SELECT * FROM transactions WHERE id = '${parseInt(transactionId)}'`;
                         newdb.query(sql2).then((results)=>{
-                            console.log(results.rows);
                             if(results.rows.length){
                                 return res.status(200).json({status: 200},results.rows);
                             }else{
@@ -51,16 +48,13 @@ class TransactionController{
         let owner = '';
         const sql4 = `SELECT * FROM users WHERE email = '${email}'`;
         newdb.query(sql4).then((result) => {
-            console.log(result.rows);
             owner = result.rows[0].id;
             const sql = `SELECT * FROM accounts WHERE accountnumber = '${parseInt(accountNumber)}'`;
             newdb.query(sql).then((result) => {
-                console.log(result.rows);
                 if (result.rows.length) {
                         if(result.rows[0].owner === owner){
                             const sql1 = `SELECT * FROM transactions WHERE accountnumber = '${parseInt(accountNumber)}'`;
                             newdb.query(sql1).then((result) => {
-                                console.log(result.rows);
                                 if (result.rows.length) {
                                     return res.status(200).json({ status: 200, massage: "need hellp", data: result.rows });
                                 } else {
@@ -96,11 +90,9 @@ class TransactionController{
         const sql4 = `SELECT * FROM users WHERE email = '${email}'`;
 
         newdb.query(sql4).then((result) => {
-            console.log(result.rows);
             let cachierId = result.rows[0].id;
             const sql3 = `SELECT * FROM accounts WHERE accountnumber = '${parseInt(req.params.accountNumber)}'`;
             newdb.query(sql3).then((result) => {
-                console.log(result.rows);
                 
                 if (result.rows.length) {
                     
@@ -109,8 +101,6 @@ class TransactionController{
                             const newBalance = parseFloat(result.rows[0].balance) - amount;
                             const sql4 = `UPDATE accounts SET balance ='${newBalance}' WHERE accountnumber ='${accountNumber}'`;
                             newdb.query(sql4).then((result) => {
-                                console.log("************UPDATE ACCOUNT*******");
-                                console.log(result.rows);
                             });
 
                             const newTransaction = [
@@ -131,8 +121,6 @@ class TransactionController{
                             oldbalance,
                             newbalance) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *`;
                             newdb.query(sql5, newTransaction).then((result) => {
-                                console.log("************CREATE TRANSACTIONS*******");
-                                console.log(result.rows);
                                 return res.status(200).json({ status: 200, data: result.rows });
                             });
                         }else{
@@ -170,19 +158,15 @@ class TransactionController{
         
         const sql4 = `SELECT * FROM users WHERE email = '${email}'`;
         newdb.query(sql4).then((result) => {
-            console.log(result.rows);
             let cachierId = result.rows[0].id;
             const sql3 = `SELECT * FROM accounts WHERE accountnumber = '${parseInt(req.params.accountNumber)}'`;
             newdb.query(sql3).then((result) => {
-                console.log(result.rows);
                 
                 if (result.rows.length) {
                     if(amount> 0){
                         const newBalance = parseFloat(result.rows[0].balance) + amount;
                         const sql4 = `UPDATE accounts SET balance ='${newBalance}' WHERE accountnumber ='${accountNumber}'`;
                         newdb.query(sql4).then((result) => {
-                            console.log("************UPDATE ACCOUNT*******");
-                            console.log(result.rows);
                         });
 
                         const newTransaction = [
@@ -203,8 +187,6 @@ class TransactionController{
                         oldbalance,
                         newbalance) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *`;
                         newdb.query(sql5, newTransaction).then((result) => {
-                            console.log("************CREATE TRANSACTIONS*******");
-                            console.log(result.rows);
                             return res.status(200).json({ status: 200, data: result.rows });
                         });
                     }else{

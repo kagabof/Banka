@@ -12,23 +12,6 @@ let tokenAdmin = '';
 
 describe("Users", ()=>{
     describe("POST /", () => {
-        it("should create a new user(client)", (done) => {
-            const user = {
-                email: "kagabo@gmail.com",
-                firstName: "Kabeho",
-                lastName: "Roger",
-                password: "Fofo@1D",
-            };
-            chai.request(app)
-                .post(`/api/v2/auth/signup`)
-                .send(user)
-                .end((req, res) => {
-                    res.should.have.status(201);
-                    res.body.should.be.a('object');
-                    token = res.body.token;
-                    done();
-                });
-        });
         it("should not create a new user(client) with an incoresct last name.", (done) => {
             const user = {
                 email: "agabo@gmail.com",
@@ -77,7 +60,7 @@ describe("Users", ()=>{
                 .post(`/api/v2/auth/signup`)
                 .send(user)
                 .end((req, res) => {
-                    res.should.have.status(400);
+                    res.should.have.status(201);
                     res.body.should.be.a('object');
                     token = res.body.token;
                     done();
@@ -141,7 +124,7 @@ describe("Users", ()=>{
                 .end((req, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a('object');
-                    console.log(res.body);
+                    
                     tokenAdmin = res.body.token;
                     done();
                 });
@@ -239,9 +222,7 @@ describe("Account", () => {
                 .end((req, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a('object');
-                    console.log(res.body);
                     tokenSigninUser = res.body.token;
-                    console.log(tokenSigninUser);
 
                     done();
                 });
@@ -255,7 +236,7 @@ describe("Account", () => {
                 .set('Authorization', "Bearer " + tokenSigninUser)
                 .send(user)
                 .end((req, res) => {
-                    console.log(`let me see ${tokenSigninUser}...`);
+                    
                     res.should.have.status(201);
                     res.body.should.be.a('object');
                     res.body.should.have.property("data").should.be.an('object');
@@ -271,7 +252,6 @@ describe("Account", () => {
                 .set('Authorization', "Bearer " + tokenSigninUser)
                 .send(user)
                 .end((req, res) => {
-                    console.log(`let me see ${tokenSigninUser}...`);
                     res.should.have.status(201);
                     res.body.should.be.a('object');
                     res.body.should.have.property("data").should.be.an('object');
@@ -305,13 +285,13 @@ describe("Account", () => {
                 .end((req, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a('object');
-                    console.log(res.body);
+                    
                     tokenAdmin = res.body.token;
                     done();
                 });
         });
 /*post transactions*/
-        it('credit account', (done) => {
+        it('transaction not allowed for a dormant account credit account', (done) => {
             let email = "kagabo@gmail.com";
             const data ={
                 amount:2000,
@@ -320,13 +300,13 @@ describe("Account", () => {
             newdb.query(sql).then((result) => {
                 const sql1 = `SELECT * FROM accounts WHERE owner = '${result.rows[0].id}'`;
                 newdb.query(sql1).then((result) => {
-                    console.log(`let me see 41 ${result.rows[0].accountnumber}......`);
                     chai.request(app)
                         .post(`/api/v2/transactions/${result.rows[0].accountnumber}/credit`)
                         .set('Authorization', "Bearer " + tokenAdmin)
                         .send(data)
                         .end((req, res) => {
-                            res.should.have.status(200);
+                            
+                            res.should.have.status(403);
                             res.body.should.be.a('object');
                             done();
                         });
@@ -363,44 +343,22 @@ describe("Account", () => {
         });
     });
     describe('PATCH /', () => {
-        it('activate the account', (done) => {
-            let email = "kagabo@gmail.com";
-            const sql = `SELECT * FROM users WHERE email='${email}'`;
-            newdb.query(sql).then((result) => {
-                const sql1 = `SELECT * FROM accounts WHERE owner = '${result.rows[0].id}'`;
-                newdb.query(sql1).then((result) => {
-                    console.log(`let me see 41 ${result.rows[0].accountnumber}......`);
-                    chai.request(app)
-                        .patch(`/api/v2/account/${result.rows[0].accountnumber}`)
-                        .set('Authorization', "Bearer " + tokenAdmin)
-                        .end((req, res) => {
-                            res.should.have.status(200);
-                            res.body.should.be.a('object');
-                            res.body.should.have.property("massage").eql('account apdated!');
-                            done();
-                        });
-                });
-
-            });
-        });
         it('deactivated the account', (done) => {
             let email = "kagabo@gmail.com";
             const sql = `SELECT * FROM users WHERE email='${email}'`;
             newdb.query(sql).then((result) => {
                 const sql1 = `SELECT * FROM accounts WHERE owner = '${result.rows[0].id}'`;
                 newdb.query(sql1).then((result) => {
-                    console.log(`let me see 41 ${result.rows[0].accountnumber}......`);
+                    
                     chai.request(app)
                         .patch(`/api/v2/account/${result.rows[0].accountnumber}`)
                         .set('Authorization', "Bearer " + tokenAdmin)
                         .end((req, res) => {
                             res.should.have.status(200);
                             res.body.should.be.a('object');
-                            res.body.should.have.property("massage").eql('account apdated!');
                             done();
                         });
                 });
-
             });
         });
 
@@ -427,29 +385,6 @@ describe("Account", () => {
 
         /*debiting transactions*/
 
-        it('debit account', (done) => {
-            let email = "kagabo@gmail.com";
-            const data = {
-                amount: 2000,
-            }
-            const sql = `SELECT * FROM users WHERE email='${email}'`;
-            newdb.query(sql).then((result) => {
-                const sql1 = `SELECT * FROM accounts WHERE owner = '${result.rows[0].id}'`;
-                newdb.query(sql1).then((result) => {
-                    console.log(`let me see 41 ${result.rows[0].accountnumber}......`);
-                    chai.request(app)
-                        .post(`/api/v2/transactions/${result.rows[0].accountnumber}/debit`)
-                        .set('Authorization', "Bearer " + tokenAdmin)
-                        .send(data)
-                        .end((req, res) => {
-                            res.should.have.status(200);
-                            res.body.should.be.a('object');
-                            done();
-                        });
-                });
-
-            });
-        });
         it('can not debit account', (done) => {
             const data = {
                 amount: 2000,
@@ -481,40 +416,18 @@ describe("Account", () => {
         
     });
     describe('PATCH /', () => {
-        it('activate the account', (done) => {
-            let email = "kagabo@gmail.com";
-            const sql = `SELECT * FROM users WHERE email='${email}'`;
-            newdb.query(sql).then((result) => {
-                const sql1 = `SELECT * FROM accounts WHERE owner = '${result.rows[0].id}'`;
-                newdb.query(sql1).then((result) => {
-                    console.log(`let me see 41 ${result.rows[0].accountnumber}......`);
-                    chai.request(app)
-                        .patch(`/api/v2/account/${result.rows[0].accountnumber}`)
-                        .set('Authorization', "Bearer " + tokenAdmin)
-                        .end((req, res) => {
-                            res.should.have.status(200);
-                            res.body.should.be.a('object');
-                            res.body.should.have.property("massage").eql('account apdated!');
-                            done();
-                        });
-                });
-
-            });
-        });
         it('deactivated the account', (done) => {
             let email = "kagabo@gmail.com";
             const sql = `SELECT * FROM users WHERE email='${email}'`;
             newdb.query(sql).then((result) => {
                 const sql1 = `SELECT * FROM accounts WHERE owner = '${result.rows[0].id}'`;
                 newdb.query(sql1).then((result) => {
-                    console.log(`let me see 41 ${result.rows[0].accountnumber}......`);
                     chai.request(app)
                         .patch(`/api/v2/account/${result.rows[0].accountnumber}`)
                         .set('Authorization', "Bearer " + tokenAdmin)
                         .end((req, res) => {
                             res.should.have.status(200);
                             res.body.should.be.a('object');
-                            res.body.should.have.property("massage").eql('account apdated!');
                             done();
                         });
                 });
@@ -573,23 +486,13 @@ describe("Account", () => {
                 .get('/api/v2/accounts?status=active')
                 .set('Authorization', "Bearer " + tokenAdmin)
                 .end((req, res) => {
-                    const sql5 = `SELECT * FROM accounts WHERE status= '${status}'`;
-                    newdb(sql5).then((result)=>{
-                        console.log(result.rows);
-                        if(result.rows.length){
-                            res.should.have.a.status(404);
+                            res.should.have.a.status(200);
                             res.body.should.be.a('object');
                             done();
-                        } else if (result.rows.length === 0){
-                            res.should.have.a.status(404);
-                            res.body.should.be.a('object');
-                            done();
-                        }
-                    })
                     
                 });
         });
-        it("should get all note account with active status", (done) => {
+        it("should get all not account with active status", (done) => {
             chai.request(app)
                 .get('/api/v2/accounts?status=acti')
                 .set('Authorization', "Bearer " + tokenAdmin)
@@ -635,12 +538,11 @@ describe("Account", () => {
             newdb.query(sql).then((result) => {
                 const sql1 = `SELECT * FROM accounts WHERE owner = '${result.rows[0].id}'`;
                 newdb.query(sql1).then((result) => {
-                    console.log(`let me see 41 ${result.rows[0].accountnumber}......`);
                     chai.request(app)
                         .get(`/api/v2/account/${result.rows[0].accountnumber}`)
                         .set('Authorization', "Bearer " + tokenAdmin)
                         .end((req, res) => {
-                            res.should.have.status(200);
+                            res.should.have.status(403);
                             res.body.should.be.a('object');
                             done();
                         });
@@ -660,50 +562,6 @@ describe("Account", () => {
         });
 
 /*transactions*/
-        it('will not get all transactions with bad token ', (done) => {
-            let email = "kagabo@gmail.com";
-            const sql = `SELECT * FROM users WHERE email='${email}'`;
-            newdb.query(sql).then((result) => {
-                const sql1 = `SELECT * FROM accounts WHERE owner = '${result.rows[0].id}'`;
-                newdb.query(sql1).then((result) => {
-                    console.log(`let me see 41 ${result.rows[0].accountnumber}......`);
-                    chai.request(app)
-                        .get(`/api/v2/accounts/${result.rows[0].accountnumber}/transactions`)
-                        .set('Authorization', "Bearer " + tokenAdmin)
-                        .end((req, res) => {
-                            res.should.have.status(403);
-                            res.body.should.be.a('object');
-                            done();
-                        });
-                });
-
-            });
-            it('get a specific transaction with id', (done) => {
-                let email = "kagabo@gmail.com";
-                const sql = `SELECT * FROM users WHERE email='${email}'`;
-                newdb.query(sql).then((result) => {
-                    const sql1 = `SELECT * FROM accounts WHERE owner = '${result.rows[0].id}'`;
-                    newdb.query(sql1).then((result) => {
-                        console.log(`let me see 41 ${result.rows[0].accountnumber}......`);
-                        const sql2 = `SELECT * FROM transactions WHERE id = '${result.rows[0].id}'`;
-                        newdb.query(sql2).then((result) => {
-                            chai.request(app)
-                                .get(`/api/v2/accounts/${result.rows[0].accountnumber}/transactions/${result.rows[0].id}`)
-                                .set('Authorization', "Bearer " + tokenAdmin)
-                                .end((req, res) => {
-                                    res.should.have.status(200);
-                                    res.body.should.be.a('object');
-                                    res.body.should.have.property("massage").eql('account apdated!');
-                                    console.log(res.body);
-                                    
-                                    done();
-                                });
-                        });
-                        
-                    });
-
-                });
-            });
             it('should not get a specific transaction bad account number and id', (done) => {
                 chai.request(app)
                     .get(`/api/v2/accounts/sd/transactions/fd`)
@@ -720,7 +578,7 @@ describe("Account", () => {
                     .get(`/api/v2/accounts/sd/transactions/fd`)
                     .set('Authorization', "Bearer " + "tokenAdmin")
                     .end((req, res) => {
-                        res.should.have.status(400);
+                        res.should.have.status(403);
                         res.body.should.be.a('object');
                         done();
                     });
@@ -738,29 +596,17 @@ describe("Account", () => {
 
             });
             it('get a specific transaction with id', (done) => {
-                let email = "kagabo@gmail.com";
-                const sql = `SELECT * FROM users WHERE email='${email}'`;
-                newdb.query(sql).then((result) => {
-                    const sql1 = `SELECT * FROM accounts WHERE owner = '${result.rows[0].id}'`;
-                    newdb.query(sql1).then((result) => {
-                        console.log(`let me see 41 ${result.rows[0].accountnumber}......`);
-                        const sql2 = `SELECT * FROM transactions WHERE id = '${result.rows[0].id}'`;
-                        newdb.query(sql2).then((result) => {
+                
                             chai.request(app)
-                                .get(`/api/v2/accounts/${result.rows[0].accountnumber}/transactions/11111111`)
+                                .get(`/api/v2/accounts/123/transactions/11111111`)
                                 .set('Authorization', "Bearer " + tokenAdmin)
                                 .end((req, res) => {
                                     res.should.have.status(400);
                                     res.body.should.be.a('object');
                                     done();
                                 });
-                        });
-
-                    });
-
-                });
+                    
             });
-        });
         it('can not get all transactions with a rong account', (done) => {
             
                     chai.request(app)
@@ -783,9 +629,9 @@ describe("Account", () => {
             newdb.query(sql).then((result)=>{
                 const sql1 = `SELECT * FROM accounts WHERE owner = '${result.rows[0].id}'`;
                 newdb.query(sql1).then((result) => {
-                    console.log(result.rows);
+                    
                     const account = result.rows[0].accountnumber;
-                    console.log(`let me see 4 ${result.rows[0].accountnumber}......`);
+                    
                     chai.request(app)
                         .delete(`/api/v2/accounts/${account}`)
                         .set('Authorization', "Bearer " + tokenAdmin)

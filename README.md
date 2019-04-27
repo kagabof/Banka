@@ -90,27 +90,23 @@ npm test
 ```
 
 ### ENDPOINT APIs
-|ENDPOINT                              | METHODS  | DESCRIPTION |
-|--------------------------------------|----------|-------------|
-|/api/v2/auth/signup                   |POST       |User sign up
-|/api/v2/auth/signup/staff             |POST    |User sign up as a user
-|/api/v2/auth/signup/admin             |POST    |User sign up an admin
-|/api/v2/auth/signin                   |POST    |User sign in
-|/api/v2/auth/:email/delete            |DELETE  |Delete a user
-
-|/api/v2/account/:accountNumber        |PATCH   | Admin/Staff can activate or deactivate an account.
-|/api/v2/account/:accountNumber        |POST    |
-|/api/v2/accounts/:accountNumber       |DELETE  | Admin/Staff can delete an account
-|/api/v2/account/:accountNumber        |GET     |
-|/api/v2/user/:email/accounts          |GET |Admin/staff can view a list of accounts owned by a specific user.
-|/api/v2/accounts                      |POST | Create bank account
-|/api/v2/transactions/:accountNumber/debit   |POST |Staff (cashier) can credit an account
-|/api/v2/transactions/:accountNumber/credit  |POST |Staff (cashier) can debit an account
-|/api/v2/account/:accountNumber |    GET   |User can view account details.
-|/api/v2/user/:email/accounts |    GET  |   Admin/staff can view a list of accounts owned by a specific user.
-|/api/v2/accounts   |  GET  |Staff/Admin can view all active bank accounts, Staff/Admin can view all dormant bank accounts.
-
-
+|ENDPOINT                                   |   METHODS | DESCRIPTION |
+|-------------------------------------------|-----------|-------------|
+|/api/v2/auth/signup                        |   POST    |User sign up
+|/api/v2/auth/signup/staff                  |   POST    |User sign up as a user
+|/api/v2/auth/signup/admin                  |   POST    |User sign up an admin
+|/api/v2/auth/signin                        |   POST    |User sign in
+|/api/v2/auth/:email/delete                 |   DELETE  |Delete a user
+|/api/v2/account/:accountNumber             |   PATCH   |Admin/Staff can activate or deactivate an account.
+|/api/v2/accounts/:accountNumber            |   DELETE  |Admin/Staff can delete an account
+|/api/v2/account/:accountNumber             |   GET     |User can view account details
+|/api/v2/user/:email/accounts               |   GET     |Admin/staff can view a list of accounts owned a user.
+|/api/v2/accounts                           |   POST    |Create bank account
+|/api/v2/transactions/:accountNumber/debit  |   POST    |Staff (cashier) can credit an account
+|/api/v2/transactions/:accountNumber/credit |   POST    |Staff (cashier) can debit an account
+|/api/v2/account/:accountNumber             |   GET     |User can view account details.
+|/api/v2/user/:email/accounts               |   GET     |Admin/staff can view a list of accounts owned by a user.
+|/api/v2/accounts                           |   GET     |Staff/Admin can view all active and dormant bank accounts
 
  run by:
 ```

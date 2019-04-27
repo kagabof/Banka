@@ -10,7 +10,6 @@ class AccountController{
         if (status === "dormant") {
             const sql = `SELECT * FROM accounts WHERE status = '${status}'`;
             newdb.query(sql).then((result) => {
-                console.log(result.rows);
                 if (result.rows.length) {
                     const accounts= [];
                     for (let i = 0; i < result.rows.length; i++) {
@@ -35,7 +34,7 @@ class AccountController{
             });
         } else if (status === "active") {
             newdb.query(`SELECT * FROM accounts WHERE status = '${status}'`).then((result) => {
-                console.log(result.rows);
+                
                 if (result.rows.length) {
                     const accounts = [];
                     for (let i = 0; i < result.rows.length; i++) {
@@ -61,10 +60,10 @@ class AccountController{
         } else if (!status) {
             const sql2 = `SELECT * FROM accounts`;
             newdb.query(sql2).then((result) => {
-                console.log(result.rows);
                 if (result.rows.length) {
+
+                    const accounts = [];
                     for (let i = 0; i < result.rows.length; i++) {
-                        const accounts = [];
                         const data = {
                             status: 200,
                             data: result.rows[i].id,
@@ -97,9 +96,9 @@ class AccountController{
         const email = req.params.email;
         const sql = `SELECT * FROM users WHERE email='${email}'`;
         newdb.query(sql).then((result) =>{
-            console.log(result.rows);
+           
             if (result.rows.length){
-                console.log(result.rows[0].id)
+               
                 const sql1 = `SELECT * FROM accounts WHERE owner='${result.rows[0].id}'`;
                 
                 newdb.query(sql1).then((result) =>{
@@ -138,14 +137,12 @@ class AccountController{
         const decoded = jwt.verify(token, 'secret');
         req.userData = decoded;
         const email = decoded.emails;
-        console.log(`find ${email} .......`);
         const sql1 = `SELECT * FROM users WHERE email='${email}'`;
         newdb.query(sql1).then((result) => {
             let owner = result.rows[0].id;
             const accountNumber = req.params.accountNumber;
             const sql = `SELECT * FROM accounts WHERE accountnumber='${accountNumber}'`;
             newdb.query(sql).then((result) => {
-                console.log(result.rows);
                 if (result.rows.length) {
                     if(result.rows[0].owner === owner){
                         for (let i = 0; i < result.rows.length; i++) {
@@ -181,9 +178,7 @@ class AccountController{
         const accountNumber = req.params.accountNumber;
         const sql = `SELECT * FROM accounts WHERE accountnumber='${accountNumber}'`;
         newdb.query(sql).then((result) => {
-            console.log(result.rows);
             if (result.rows.length) {
-                console.log(result.rows[0].status);
                 const account = result.rows[0].accountnumber;
                 const accountStatus = result.rows[0].status;
                 let dormant = "dormant";
@@ -191,7 +186,6 @@ class AccountController{
                 if (accountStatus === "dormant") {
                     const sql1 = `UPDATE accounts SET status ='${active}' WHERE accountnumber='${accountNumber}'`;
                     newdb.query(sql1).then((result) => {
-                        console.log(result.rows);
                         return res.status(200).json({
                             status: 200,
                             message: `account updated!`,
@@ -204,7 +198,6 @@ class AccountController{
                 } else if (accountStatus === "active") {
                     const sql2 = `UPDATE accounts SET status ='${dormant}' WHERE accountnumber='${accountNumber}'`;
                     newdb.query(sql2).then((result) => {
-                        console.log(result.rows);
                         return res.status(200).json({
                             status: 200,
                             message: `account updated!`,
@@ -229,12 +222,10 @@ class AccountController{
         const sql = `SELECT * FROM accounts WHERE accountnumber='${accountNumber}'`;
 
         newdb.query(sql).then((result) => {
-            console.log(result.rows);
             const accountData = result.rows[0];
             if (result.rows.length) {
                 const sql1 = `DELETE FROM accounts WHERE accountnumber = '${accountNumber}' ;`
                 newdb.query(sql1).then((result) => {
-                    console.log(result.rows);
                     return res.status(200).json({
                         status: 200,
                         message: `account with: ${accountNumber} was deleted! `,
@@ -253,13 +244,11 @@ class AccountController{
         const decoded = jwt.verify(token, 'secret');
         req.userData = decoded;
         const email = decoded.emails;
-        console.log(`find ${email} .......`);
         const { type} = req.body;
         
         const sql = `SELECT * FROM users WHERE email='${email}'`;
 
         newdb.query(sql).then((result) =>{
-            console.log(result.rows);
             
             const balance = 0;
                 let balances = 0.0;
@@ -272,7 +261,6 @@ class AccountController{
                     st,
                     parseFloat(balances),
                 ];
-                console.log(newAccount[0]);
                 const fname = result.rows[0].firstname;
                 const lname = result.rows[0].lastname;
                 const AccountEmail = result.rows[0].email;
@@ -284,7 +272,6 @@ class AccountController{
                         status,
                         balance) VALUES($1, $2, $3, $4, $5,$6) RETURNING *`;
                 newdb.query(sql1,newAccount).then((result) =>{
-                    console.log(result.rows);
                     let acc = result.rows[0].accountnumber;
                     return res.status(201).json({
                         status: 201,

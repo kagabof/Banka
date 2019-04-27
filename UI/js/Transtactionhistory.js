@@ -25,10 +25,4 @@ document.addEventListener("DOMContentLoaded", () =>{
             
         }
     }
-
-    // document.getElementById("icon-place").onclick = () => {
-    //     console.log("hello");
-    //     document.getElementById("side-navs").classList.toggle("active");
-    //     document.getElementById("side-navs").classList.toggle("active");
-    // };
 });

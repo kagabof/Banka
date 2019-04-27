@@ -77,7 +77,6 @@ class TransactionValidation{
         let accountNumber =req.params.accountNumber;
         const sql = `SELECT * FROM accounts WHERE accountnumber = ${accountNumber}`;
         newdb.query(sql).then((result) =>{
-            console.log(result.rows);
             if(result.rows.length){
                 if(result.rows[0].status === 'active'){
                     next();
