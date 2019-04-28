@@ -49,7 +49,7 @@ class DatabBase {
             newBAlance NUMERIC NOT NULL  
         )`;
         
-        let password = "Fofo1995"
+        let password = "Fofo1995@"
         let hashedPassord = bcrypt.hashSync(password, parseInt(10, 10));
         this.newAdmin = [
             "faustinkagabo@gmail.com",
@@ -85,14 +85,8 @@ class DatabBase {
         await this.query(this.accountsTable);
         await this.query(this.transactionsTable);
         await this.query(this.check).then((result) =>{
-            if (result.rows.length) {
-                console.log("admin exist....");
-                
-            } else {
-                this.query(this.createAdmin, this.newAdmin).then((result) =>{
-                    console.log(result.rows);
-                });
-            }
+            this.query(this.createAdmin, this.newAdmin).then((result) =>{
+            });
         });
         console.log("accountsTable, usersTable, transactionsTable");
     }

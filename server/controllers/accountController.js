@@ -90,15 +90,12 @@ class AccountController{
                 error: `no account found in the system`,
             });
         }
-
     }
     findAllAccountOfUser(req,res){
         const email = req.params.email;
         const sql = `SELECT * FROM users WHERE email='${email}'`;
         newdb.query(sql).then((result) =>{
-           
             if (result.rows.length){
-               
                 const sql1 = `SELECT * FROM accounts WHERE owner='${result.rows[0].id}'`;
                 
                 newdb.query(sql1).then((result) =>{

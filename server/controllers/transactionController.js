@@ -43,7 +43,6 @@ class TransactionController{
         const accountNumber = req.params.accountNumber;
         const token = req.headers.authorization.split(" ")[1];
         const decoded = jwt.verify(token, 'secret');
-        req.userData = decoded;
         const email = decoded.emails;
         let owner = '';
         const sql4 = `SELECT * FROM users WHERE email = '${email}'`;

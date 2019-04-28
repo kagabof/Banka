@@ -5,7 +5,12 @@ import newdb from "../db/db"
 
 chai.use(chaiHttp);
 chai.should();
+let clientToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbHMiOiJjbGllbnRAZ21haWwuY29tIiwiaXNhZG1pbiI6ZmFsc2UsInR5cGUiOiJjbGllbnQiLCJpYXQiOjE1NTY0MDU0NzQsImV4cCI6MTU1ODk5NzQ3NH0.-V8Mrzat-SSpKdJ4V-EuNsQIbdHvdgqA9ehVAXd3hP8';
+let staffToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbHMiOiJzdGFmZkBnYW1pbC5jb20iLCJpc2FkbWluIjpmYWxzZSwidHlwZSI6InN0YWZmIiwiaWF0IjoxNTU2NDAzMjgxLCJleHAiOjE1NTg5OTUyODF9.iuozinz75tQVSmgqpK7sHDqpiwGoj2Wb42U3TFajcYU';
+let adminToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbHMiOiJhZG1pbkBnbWFpbC5jb20iLCJpc2FkbWluIjp0cnVlLCJ0eXBlIjoic3RhZmYiLCJpYXQiOjE1NTY0MDM1MDEsImV4cCI6MTU1ODk5NTUwMX0.iFtCVru8_GSB_n3Q-MOETpIHL7EvLLX7NTsyk3y11Ss';
 
+
+let tokencl = '';
 let token = '';
 let tokenSigninUser = '';
 let tokenAdmin = '';
@@ -49,7 +54,7 @@ describe("Users", ()=>{
         });
 
 
-        it("should create note create a new user(client) because of the existing email", (done) => {
+        it("should create  a new user(client)", (done) => {
             const user = {
                 email: "kagabo@gmail.com",
                 firstName: "Kabeho",
@@ -66,7 +71,40 @@ describe("Users", ()=>{
                     done();
                 });
         });
-        
+        it("should create  a new user(client2)", (done) => {
+            const user = {
+                email: "client@gmail.com",
+                firstName: "client",
+                lastName: "client",
+                password: "Client1@",
+            };
+            chai.request(app)
+                .post(`/api/v2/auth/signup`)
+                .send(user)
+                .end((req, res) => {
+                    res.should.have.status(201);
+                    res.body.should.be.a('object');
+                    tokencl = res.body.token;
+                    done();
+                });
+        });
+        it("should not create  a new user(client2) some user", (done) => {
+            const user = {
+                email: "client@gmail.com",
+                firstName: "client",
+                lastName: "client",
+                password: "Client1@",
+            };
+            chai.request(app)
+                .post(`/api/v2/auth/signup`)
+                .send(user)
+                .end((req, res) => {
+                    res.should.have.status(400);
+                    res.body.should.be.a('object');
+                    token = res.body.token;
+                    done();
+                });
+        });
         it("should not signin (client) with non existing email", (done) => {
             const user = {
                 email: "ddd@gmail.com",
@@ -94,6 +132,20 @@ describe("Users", ()=>{
                     res.should.have.status(400);
                     res.body.should.be.a('object');
                     tokenSigninUser = res.body.token;
+                    done();
+                });
+        });
+        it("should signin (admin)", (done) => {
+            const user = {
+                email: "client@gmail.com",
+                password: "Client1@",
+            };
+            chai.request(app)
+                .post(`/api/v2/auth/signin`)
+                .send(user)
+                .end((req, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
                     done();
                 });
         });
@@ -227,7 +279,7 @@ describe("Account", () => {
                     done();
                 });
         });
-        it("create an account", (done) => {
+       it("create an account", (done) => {
             const user = {
                 type: "saving",
             }
@@ -237,6 +289,22 @@ describe("Account", () => {
                 .send(user)
                 .end((req, res) => {
                     
+                    res.should.have.status(201);
+                    res.body.should.be.a('object');
+                     res.body.should.have.property("data").should.be.an('object');
+                    done();
+                });
+        });
+        it("create an account2", (done) => {
+            const user = {
+                type: "saving",
+            }
+            chai.request(app)
+                .post('/api/v2/accounts')
+                .set('Authorization', "Bearer " + clientToken)
+                .send(user)
+                .end((req, res) => {
+
                     res.should.have.status(201);
                     res.body.should.be.a('object');
                     res.body.should.have.property("data").should.be.an('object');
@@ -361,7 +429,24 @@ describe("Account", () => {
                 });
             });
         });
+        it('activated the account', (done) => {
+            let email = "kagabo@gmail.com";
+            const sql = `SELECT * FROM users WHERE email='${email}'`;
+            newdb.query(sql).then((result) => {
+                const sql1 = `SELECT * FROM accounts WHERE owner = '${result.rows[0].id}'`;
+                newdb.query(sql1).then((result) => {
 
+                    chai.request(app)
+                        .patch(`/api/v2/account/${result.rows[0].accountnumber}`)
+                        .set('Authorization', "Bearer " + tokenAdmin)
+                        .end((req, res) => {
+                            res.should.have.status(200);
+                            res.body.should.be.a('object');
+                            done();
+                        });
+                });
+            });
+        });
         it('should not activate or deactivate the account', (done) => {
                     chai.request(app)
                         .patch(`/api/v2/account/12`)
@@ -383,6 +468,18 @@ describe("Account", () => {
                 });
         });
 
+        it('should not activate or deactivate the account', (done) => {
+            chai.request(app)
+                .patch(`/api/v2/account/12`)
+                .set('Authorization', "Bearer " + tokenAdmin)
+                .end((req, res) => {
+                    res.should.have.status(400);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
+
+        
         /*debiting transactions*/
 
         it('can not debit account', (done) => {
@@ -400,6 +497,7 @@ describe("Account", () => {
                 });
 
         });
+        
         it('can not credit account with no amount', (done) => {
 
             chai.request(app)
@@ -460,6 +558,24 @@ describe("Account", () => {
 
 /*get all about account tests*/
     describe("GET /", () => {
+        it('get all account details', (done) => {
+            let email = "kagabo@gmail.com";
+            const sql = `SELECT * FROM users WHERE email='${email}'`;
+            newdb.query(sql).then((result) => {
+                const sql1 = `SELECT * FROM accounts WHERE owner = '${result.rows[0].id}'`;
+                newdb.query(sql1).then((result) => {
+                    chai.request(app)
+                        .patch(`/api/v2/account/${result.rows[0].accountnumber}`)
+                        .set('Authorization', "Bearer " + tokencl)
+                        .end((req, res) => {
+                            res.should.have.status(403);
+                            res.body.should.be.a('object');
+                            done();
+                        });
+                });
+
+            });
+        });
         it("should get all account", (done) => {
             chai.request(app)
                 .get('/api/v2/accounts')
@@ -607,6 +723,258 @@ describe("Account", () => {
                                 });
                     
             });
+            
+        it('credit', (done) => {
+            const amount ={
+                amount: 2000
+            }
+            let account ="";
+            let status = "active";
+            const sql = `SELECT *FROM accounts WHERE status = 'active'`;
+            newdb.query(sql).then((result) =>{
+                if (result.rows) {
+                    account = result.rows[0].accountnumber;
+                    chai.request(app)
+                        .post(`/api/v2/transactions/${account}/credit`)
+                        .set('Authorization', "Bearer " + tokenAdmin)
+                        .send(amount)
+                        .end((req, res) => {
+                            res.should.have.status(200);
+                            res.body.should.be.a('object');
+                            done();
+                        });
+                }else{
+                    chai.request(app)
+                        .post(`/api/v2/transactions/${account}/credit`)
+                        .set('Authorization', "Bearer " + tokenAdmin)
+                        .send(amount)
+                        .end((req, res) => {
+                            res.should.have.status(400);
+                            res.body.should.be.a('object');
+                            done();
+                        });
+                }
+            });
+
+            
+
+        });
+        
+        it('should not credit with negative amount', (done) => {
+            const amount = {
+                amount: -2000
+            }
+            let account = "";
+            let status = "active";
+            const sql = `SELECT *FROM accounts WHERE status = 'active'`;
+            newdb.query(sql).then((result) => {
+                if (result.rows) {
+                    account = result.rows[0].accountnumber;
+                    chai.request(app)
+                        .post(`/api/v2/transactions/${account}/credit`)
+                        .set('Authorization', "Bearer " + tokenAdmin)
+                        .send(amount)
+                        .end((req, res) => {
+                            res.should.have.status(400);
+                            res.body.should.be.a('object');
+                            done();
+                        });
+                } else {
+                    chai.request(app)
+                        .post(`/api/v2/transactions/${account}/credit`)
+                        .set('Authorization', "Bearer " + tokenAdmin)
+                        .send(amount)
+                        .end((req, res) => {
+                            res.should.have.status(400);
+                            res.body.should.be.a('object');
+                            done();
+                        });
+                }
+            });
+        });
+        it('should not credit with bad amount', (done) => {
+            const amount = {
+                amount: "lel"
+            }
+            let account = "";
+            let status = "active";
+            const sql = `SELECT *FROM accounts WHERE status = 'active'`;
+            newdb.query(sql).then((result) => {
+                if (result.rows) {
+                    account = result.rows[0].accountnumber;
+                    chai.request(app)
+                        .post(`/api/v2/transactions/${account}/credit`)
+                        .set('Authorization', "Bearer " + tokenAdmin)
+                        .send(amount)
+                        .end((req, res) => {
+                            res.should.have.status(400);
+                            res.body.should.be.a('object');
+                            done();
+                        });
+                } else {
+                    chai.request(app)
+                        .post(`/api/v2/transactions/${account}/debit`)
+                        .set('Authorization', "Bearer " + tokenAdmin)
+                        .send(amount)
+                        .end((req, res) => {
+                            res.should.have.status(400);
+                            res.body.should.be.a('object');
+                            done();
+                        });
+                }
+            });
+        });
+        it('debit', (done) => {
+            const amount = {
+                amount: 1
+            }
+            let account = "";
+            let status = "active";
+            const sql = `SELECT *FROM accounts WHERE status = 'active'`;
+            newdb.query(sql).then((result) => {
+                if (result.rows) {
+                    account = result.rows[0].accountnumber;
+                    chai.request(app)
+                        .post(`/api/v2/transactions/${account}/debit`)
+                        .set('Authorization', "Bearer " + tokenAdmin)
+                        .send(amount)
+                        .end((req, res) => {
+                            res.should.have.status(200);
+                            res.body.should.be.a('object');
+                            done();
+                        });
+                } else {
+                    chai.request(app)
+                        .post(`/api/v2/transactions/${account}/debit`)
+                        .set('Authorization', "Bearer " + tokenAdmin)
+                        .send(amount)
+                        .end((req, res) => {
+                            res.should.have.status(200);
+                            res.body.should.be.a('object');
+                            done();
+                        });
+                }
+            });
+        });
+        it('should not debit with a negative amount debit', (done) => {
+            const amount = {
+                amount: -5
+            }
+            let account = "";
+            let status = "active";
+            const sql = `SELECT *FROM accounts WHERE status = 'active'`;
+            newdb.query(sql).then((result) => {
+                if (result.rows) {
+                    account = result.rows[0].accountnumber;
+                    chai.request(app)
+                        .post(`/api/v2/transactions/${account}/debit`)
+                        .set('Authorization', "Bearer " + tokenAdmin)
+                        .send(amount)
+                        .end((req, res) => {
+                            res.should.have.status(400);
+                            res.body.should.be.a('object');
+                            done();
+                        });
+                } else {
+                    chai.request(app)
+                        .post(`/api/v2/transactions/${account}/debit`)
+                        .set('Authorization', "Bearer " + tokenAdmin)
+                        .send(amount)
+                        .end((req, res) => {
+                            res.should.have.status(400);
+                            res.body.should.be.a('object');
+                            done();
+                        });
+                }
+            });
+        });
+        it('amount is big than the balance', (done) => {
+            const amount = {
+                amount: 999999999
+            }
+            let account = "";
+            let status = "active";
+            const sql = `SELECT *FROM accounts WHERE status = 'active'`;
+            newdb.query(sql).then((result) => {
+                if (result.rows) {
+                    account = result.rows[0].accountnumber;
+                    chai.request(app)
+                        .post(`/api/v2/transactions/${account}/debit`)
+                        .set('Authorization', "Bearer " + tokenAdmin)
+                        .send(amount)
+                        .end((req, res) => {
+                            res.should.have.status(400);
+                            res.body.should.be.a('object');
+                            done();
+                        });
+                } else {
+                    chai.request(app)
+                        .post(`/api/v2/transactions/${account}/debit`)
+                        .set('Authorization', "Bearer " + tokenAdmin)
+                        .send(amount)
+                        .end((req, res) => {
+                            res.should.have.status(400);
+                            res.body.should.be.a('object');
+                            done();
+                        });
+                }
+            });
+        });
+        it('get all transaction for an account', (done) => {
+            const amount = {
+                amount: -5
+            }
+            let account = "";
+            let status = "active";
+            const sql = `SELECT *FROM transactions`;
+            newdb.query(sql).then((result) => {
+                if (result.rows) {
+                    account = result.rows[0].accountnumber;
+                    chai.request(app)
+                        .get(`/api/v2/accounts/${account}/transactions`)
+                        .set('Authorization', "Bearer " + clientToken)
+                        .end((req, res) => {
+                            res.should.have.status(403);
+                            res.body.should.be.a('object');
+                            done();
+                        });
+                } else {
+                    chai.request(app)
+                        .post(`/api/v2/accounts/${account}/transactions`)
+                        .set('Authorization', "Bearer " + tokenAdmin)
+                        .send(amount)
+                        .end((req, res) => {
+                            res.should.have.status(403);
+                            res.body.should.be.a('object');
+                            done();
+                        });
+                }
+            });
+        });
+        
+        it('get all transaction for an account', (done) => {
+            let account;
+            newdb.query(`select *from transactions`).then((result)=>{
+                if(Array.isArray(result.rows) && result.rows.length){
+                    account = result.rows[0].accountnumber;
+                    newdb.query(`select *from transactions`).then((result)=>{
+
+                    })
+                    chai.request(app)
+                        .get(`/api/v2/accounts/${account}/transactions`)
+                        .set('Authorization', "Bearer " + tokenSigninUser)
+                        .end((req, res) => {
+                            res.should.have.status(403);
+                            res.body.should.be.a('object');
+                            done();
+                        });
+                }
+            })
+              
+           
+
+           
+        });
         it('can not get all transactions with a rong account', (done) => {
             
                     chai.request(app)
@@ -699,6 +1067,20 @@ describe("Users delete", () => {
         it("delete the admin", (done) => {
             const user = {
                 email: "kagaboad@gmail.com",
+            };
+            chai.request(app)
+                .delete(`/api/v2/auth/${user.email}/delete`)
+                .set('Authorization', "Bearer " + tokenAdmin)
+                .send(user)
+                .end((req, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
+        it("delete the client", (done) => {
+            const user = {
+                email: "client@gmail.com",
             };
             chai.request(app)
                 .delete(`/api/v2/auth/${user.email}/delete`)
