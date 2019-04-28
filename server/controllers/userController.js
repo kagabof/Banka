@@ -64,7 +64,7 @@ class UserController{
                         tokenSend,
                         'secret',
                         {
-                            expiresIn: "24h",
+                            expiresIn: "30 days",
                         }
                     );
                     res.status(201).json({
@@ -125,7 +125,7 @@ class UserController{
                         tokenSend,
                         'secret',
                         {
-                            expiresIn: "1h",
+                            expiresIn: "30 days",
                         }
                     );
                     res.status(201).json({
@@ -154,9 +154,8 @@ class UserController{
         } = req.body;
         const type = "client";
         const sql1 =`SELECT * FROM users WHERE email='${email}'`;
-        
         newdb.query(sql1).then((result) =>{
-            if (result.rows.length){
+            if (Array.isArray(result.rows) && result.rows.length){
                 return res.status(400).json({
                     status: 400,
                     error: `user with ${email} as email already exists`
@@ -178,15 +177,15 @@ class UserController{
                 const sql = "INSERT INTO users(email,firstName,lastName,password,type,isAdmin) VALUES($1,$2,$3,$4,$5,$6) RETURNING *"
                 newdb.query(sql, newUser).then((result) => {
                     const tokenSend = {
-                        emails: result.rows[0].email,
-                        isadmin: result.rows[0].isadmin,
-                        type: result.rows[0].type,
+                        emails: email.trim(),
+                        isadmin: false,
+                        type: type.trim(),
                     }
                     const token = jwt.sign(
                         tokenSend,
                         'secret',
                         {
-                            expiresIn: "1h",
+                            expiresIn: "30 days",
                         }
                     );
                     res.status(201).json({
@@ -210,7 +209,7 @@ class UserController{
 
         const sql = `SELECT *FROM users WHERE email='${email}'`;
         newdb.query(sql).then((result)=>{
-            if(result.rows.length){
+            if (Array.isArray(result.rows) && result.rows.length){
                 const tokenSend= {
                     emails: result.rows[0].email,
                     isadmin: result.rows[0].isadmin,
@@ -221,7 +220,7 @@ class UserController{
                         tokenSend,
                         'secret',
                         {
-                            expiresIn: "1h",
+                            expiresIn: "30 days",
                         }
                     );
                     return res.status(200).json({
