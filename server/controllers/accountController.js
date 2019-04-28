@@ -142,8 +142,8 @@ class AccountController{
             newdb.query(sql).then((result) => {
                 if (result.rows.length) {
                     if(result.rows[0].owner === owner){
+                        const accounts = [];
                         for (let i = 0; i < result.rows.length; i++) {
-                            const accounts = [];
                             const data = {
                                 status: 200,
                                 data: result.rows[i].id,

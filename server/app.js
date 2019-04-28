@@ -10,20 +10,20 @@ import logger from "morgan";
 const app = express();
 app.use(logger("dev"));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(transactionRouter);
 
 app.use(userRouter);
 app.use(accountRouter);
-app.use(express.static(path.join(__dirname,'../UI')))
+app.use(express.static(path.join(__dirname, '../UI')))
 
 
 
 
 const PORT = process.env.PORT || 3300;
 
-app.listen(PORT,()=>{
+app.listen(PORT, () => {
     console.log(`server running on port ${PORT}...`);
 });
 

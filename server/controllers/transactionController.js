@@ -15,7 +15,7 @@ class TransactionController{
                         const sql2 = `SELECT * FROM transactions WHERE id = '${parseInt(transactionId)}'`;
                         newdb.query(sql2).then((results)=>{
                             if(results.rows.length){
-                                return res.status(200).json({status: 200},results.rows);
+                                return res.status(200).json({status: 200,data: results.rows});
                             }else{
                                 return res.status(400).json({
                                     status: 400,
@@ -25,10 +25,10 @@ class TransactionController{
                             
                         });
                     }else{
-                        return res.status(400).json([{
+                        return res.status(400).json({
                             status: 400,
                             error: `There is not transactions with: ${accountNumber} as an account`,
-                        }]);
+                        });
                     }
                 })
             }else {
@@ -92,9 +92,6 @@ class TransactionController{
             let cachierId = result.rows[0].id;
             const sql3 = `SELECT * FROM accounts WHERE accountnumber = '${parseInt(req.params.accountNumber)}'`;
             newdb.query(sql3).then((result) => {
-                
-                if (result.rows.length) {
-                    
                     if (amount > 0) {
                         if(result.rows[0].balance > amount){
                             const newBalance = parseFloat(result.rows[0].balance) - amount;
@@ -135,13 +132,6 @@ class TransactionController{
                         });
                     }
 
-                } else {
-                    return res.status(400).json({
-                        status: 400,
-                        error: `account with: ${accountNumber} does not exists `,
-                    });
-                }
-
             });
         });
 
@@ -160,8 +150,6 @@ class TransactionController{
             let cachierId = result.rows[0].id;
             const sql3 = `SELECT * FROM accounts WHERE accountnumber = '${parseInt(req.params.accountNumber)}'`;
             newdb.query(sql3).then((result) => {
-                
-                if (result.rows.length) {
                     if(amount> 0){
                         const newBalance = parseFloat(result.rows[0].balance) + amount;
                         const sql4 = `UPDATE accounts SET balance ='${newBalance}' WHERE accountnumber ='${accountNumber}'`;
@@ -194,13 +182,6 @@ class TransactionController{
                             error: `The amount should not be less than zero! `,
                         });
                     }
-                    
-                } else {
-                    return res.status(400).json({
-                        status: 400,
-                        error: `account with: ${accountNumber} does not exists `,
-                    });
-                }
 
             });
         });
