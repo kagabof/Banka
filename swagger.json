@@ -5,7 +5,7 @@
         "title": "Banka API Endpoints"
     },
     "host": "localhost:3300",
-    "basePath": "/api/v2/",
+    "basePath": "/api/v2",
     "securityDefinitions": {
         "Bearer": {
             "type": "apiKey",
@@ -26,10 +26,10 @@
         "signup": {
             "type": "object",
             "properties": {
-                "firstname": {
+                "firstName": {
                     "type": "string"
                 },
-                "lastname": {
+                "lastName": {
                     "type": "string"
                 },
                 "email": {
@@ -43,10 +43,10 @@
         "signupadmin": {
             "type": "object",
             "properties": {
-                "firstname": {
+                "firstName": {
                     "type": "string"
                 },
-                "lastname": {
+                "lastName": {
                     "type": "string"
                 },
                 "email": {
@@ -60,19 +60,16 @@
         "staffsignup": {
             "type": "object",
             "properties": {
-                "firstname": {
+                "firstName": {
                     "type": "string"
                 },
-                "lastname": {
+                "lastName": {
                     "type": "string"
                 },
                 "email": {
                     "type": "string"
                 },
                 "password": {
-                    "type": "string"
-                },
-                "confirmPassword": {
                     "type": "string"
                 }
             }
@@ -92,14 +89,6 @@
             "type": "object",
             "properties": {
                 "type": {
-                    "type": "string"
-                }
-            }
-        },
-        "accountstatus": {
-            "type": "object",
-            "properties": {
-                "status": {
                     "type": "string"
                 }
             }
@@ -230,7 +219,7 @@
                 }
             }
         },
-        "/auth/{email}/delete": {
+        "/auth/:email/delete": {
             "delete": {
                 "tags": [
                     "Users"
@@ -296,6 +285,41 @@
             }
         },
         "/account/{accountNumber}": {
+            "get": {
+                "tags": [
+                    "Accounts"
+                ],
+                "description": "Create a bank account",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "The client token",
+                        "required": true
+                    },
+                    {
+                        "name": "account number",
+                        "in": "header",
+                        "description": "account number of a client",
+                        "schema": {
+                            "$ref": "#/definitions/account"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "find bank account",
+                        "schema": {
+                            "$ref": "#/definitions/account"
+                        }
+                    }
+                }
+            }
+        },
+        "/account/{accountNumber}": {
             "patch": {
                 "tags": [
                     "Accounts"
@@ -313,14 +337,6 @@
                         "in": "header",
                         "description": "Cashier or staff token",
                         "required": true
-                    },
-                    {
-                        "name": "account status",
-                        "in": "body",
-                        "description": "Bank Account status(active or dormant)",
-                        "schema": {
-                            "$ref": "#/definitions/accountstatus"
-                        }
                     }
                 ],
                 "produces": [
@@ -328,10 +344,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successful",
-                        "schema": {
-                            "$ref": "#/definitions/accountstatus"
-                        }
+                        "description": "Successful"
                     }
                 }
             }
@@ -341,7 +354,7 @@
                 "tags": [
                     "Accounts"
                 ],
-                "description": "Create account as client",
+                "description": "delete account",
                 "parameters": [
                     {
                         "name": "accountnumber",
@@ -382,7 +395,7 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "The cashier token",
+                        "description": "The cashier token / staff",
                         "required": true
                     },
                     {
@@ -398,7 +411,7 @@
                     "application/json"
                 ],
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "Transaction sucessful",
                         "schema": {
                             "$ref": "#/definitions/transaction"
@@ -423,7 +436,7 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "The cashier token",
+                        "description": "The cashier token/staff",
                         "required": true
                     },
                     {
@@ -439,7 +452,7 @@
                     "application/json"
                 ],
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "Transaction sucessfull",
                         "schema": {
                             "$ref": "#/definitions/transaction"
@@ -459,6 +472,42 @@
                         "name": "accountNumber",
                         "in": "path",
                         "description": "The account number to view",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "The client token",
+                        "required": true
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {}
+                }
+            }
+        },
+        "/accounts/{accountNumber}/transactions/{id}": {
+            "get": {
+                "tags": [
+                    "Transactions"
+                ],
+                "description": "view specific account transaction",
+                "parameters": [
+                    {
+                        "name": "accountNumber",
+                        "in": "path",
+                        "description": "The account number to view",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "transaction id",
                         "required": true,
                         "type": "integer"
                     },
@@ -593,6 +642,36 @@
                     "Accounts"
                 ],
                 "description": "View all active Bank accounts",
+                "parameters": [
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "The admin token",
+                        "required": true
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "The admin token",
+                        "required": true
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{status} all Bank accounts"
+                    }
+                }
+            }
+        },
+        "/accounts?status=dormant": {
+            "get": {
+                "tags": [
+                    "Accounts"
+                ],
+                "description": "View all dormant Bank accounts",
                 "parameters": [
                     {
                         "name": "status",

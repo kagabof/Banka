@@ -9,14 +9,73 @@ let clientToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbHMiOiJjbGllbnRA
 let staffToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbHMiOiJzdGFmZkBnYW1pbC5jb20iLCJpc2FkbWluIjpmYWxzZSwidHlwZSI6InN0YWZmIiwiaWF0IjoxNTU2NDAzMjgxLCJleHAiOjE1NTg5OTUyODF9.iuozinz75tQVSmgqpK7sHDqpiwGoj2Wb42U3TFajcYU';
 let adminToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbHMiOiJhZG1pbkBnbWFpbC5jb20iLCJpc2FkbWluIjp0cnVlLCJ0eXBlIjoic3RhZmYiLCJpYXQiOjE1NTY0MDM1MDEsImV4cCI6MTU1ODk5NTUwMX0.iFtCVru8_GSB_n3Q-MOETpIHL7EvLLX7NTsyk3y11Ss';
 
-
+let transId;
 let tokencl = '';
 let token = '';
 let tokenSigninUser = '';
 let tokenAdmin = '';
+let acc ='';
+let acc2;
+let acc3;
 
 describe("Users", ()=>{
     describe("POST /", () => {
+        it("should signin as admin", (done) => {
+            const user = {
+                email: "faustinkagabo@gmail.com",
+                password: "Fofo1995"
+            };
+            chai.request(app)
+                .post(`/api/v2/auth/signin`)
+                .send(user)
+                .end((req, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+
+                    tokenAdmin = res.body.token;
+                    done();
+                });
+        });
+        it("should not get any account", (done) => {
+            chai.request(app)
+                .get('/api/v2/accounts?status=dorm')
+                .set('Authorization', "Bearer " + tokenAdmin)
+                .end((req, res) => {
+                    res.should.have.a.status(404);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
+        it("should get all account with dormant status", (done) => {
+            chai.request(app)
+                .get('/api/v2/accounts?status=dormant')
+                .set('Authorization', "Bearer " + tokenAdmin)
+                .end((req, res) => {
+                    res.should.have.a.status(404);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
+        it("should not get any active account", (done) => {
+            chai.request(app)
+                .get('/api/v2/accounts?status=active')
+                .set('Authorization', "Bearer " + tokenAdmin)
+                .end((req, res) => {
+                    res.should.have.a.status(404);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
+        it("should not find any account", (done) => {
+            chai.request(app)
+                .get(`/api/v2/accounts`)
+                .set('Authorization', "Bearer " + tokenAdmin)
+                .end((req, res) => {
+                    res.should.have.status(404);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
         it("should not create a new user(client) with an incoresct last name.", (done) => {
             const user = {
                 email: "agabo@gmail.com",
@@ -53,6 +112,41 @@ describe("Users", ()=>{
                 });
         });
 
+        it("should create client 6", (done) => {
+            const user = {
+                email: "loic@gmail.com",
+                firstName: "Kabeho",
+                lastName: "Roger",
+                password: "Loic1@",
+            };
+            chai.request(app)
+                .post(`/api/v2/auth/signup`)
+                .send(user)
+                .end((req, res) => {
+                    res.should.have.status(201);
+                    res.body.should.be.a('object');
+                    //token = res.body.token;
+                    done();
+                });
+        });
+        it("should not create client 6", (done) => {
+            const user = {
+                email: "loic@gmail.com",
+                firstName: "Kabeho",
+                lastName: "Roger",
+                password: "Loic1",
+            };
+            chai.request(app)
+                .post(`/api/v2/auth/signup`)
+                .send(user)
+                .end((req, res) => {
+                    res.should.have.status(400);
+                    res.body.should.be.a('object');
+                    //token = res.body.token;
+                    done();
+                });
+        });
+       
 
         it("should create  a new user(client)", (done) => {
             const user = {
@@ -181,6 +275,7 @@ describe("Users", ()=>{
                     done();
                 });
         });
+        
 
         it("should create a new user(staff)", (done) => {
             const user = {
@@ -197,6 +292,38 @@ describe("Users", ()=>{
                     res.should.have.status(201);
                     res.body.should.be.a('object');
                     token = res.body.token;
+                    done();
+                });
+        });
+
+        it("should not create a new user(staff) bad token", (done) => {
+            const user = {
+                email: "kagaboa@gmail.com",
+                firstName: "Kabeho",
+                lastName: "Roger",
+                password: "ffff",
+            };
+            chai.request(app)
+                .post(`/api/v2/auth/signup/staff`)
+                .set('Authorization', "Bearer " + clientToken)
+                .send(user)
+                .end((req, res) => {
+                    res.should.have.status(403);
+                    done();
+                });
+        });
+        it("should not create a new user(staff) bad token", (done) => {
+            const user = {
+                email: "kagaboa@gmail.com",
+                firstName: "Kabeho",
+                lastName: "Roger",
+                password: "ffff",
+            };
+            chai.request(app)
+                .post(`/api/v2/auth/signup/staff`)
+                .send(user)
+                .end((req, res) => {
+                    res.should.have.status(403);
                     done();
                 });
         });
@@ -295,6 +422,32 @@ describe("Account", () => {
                     done();
                 });
         });
+        it("should not  create an account with no type", (done) => {
+            const user = {
+                type: "saving",
+            }
+            chai.request(app)
+                .post('/api/v2/accounts')
+                .set('Authorization', "Bearer " + tokenSigninUser)
+                .end((req, res) => {
+                    res.should.have.status(400);
+                    done();
+                });
+        });
+        it("should not create an account", (done) => {
+            const user = {
+                type: "saving",
+            }
+            chai.request(app)
+                .post('/api/v2/accounts')
+                .send(user)
+                .end((req, res) => {
+
+                    res.should.have.status(403);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
         it("create an account2", (done) => {
             const user = {
                 type: "saving",
@@ -306,6 +459,25 @@ describe("Account", () => {
                 .end((req, res) => {
 
                     res.should.have.status(201);
+                    acc2 = res.body.data.accountNumber
+                    acc = res.body.data.accountNumber;
+                    res.body.should.be.a('object');
+                    res.body.should.have.property("data").should.be.an('object');
+                    done();
+                });
+        });
+        it("create an account2", (done) => {
+            const user = {
+                type: "saving",
+            }
+            chai.request(app)
+                .post('/api/v2/accounts')
+                .set('Authorization', "Bearer " + clientToken)
+                .send(user)
+                .end((req, res) => {
+
+                    res.should.have.status(201);
+                    acc3 = res.body.data.accountNumber
                     res.body.should.be.a('object');
                     res.body.should.have.property("data").should.be.an('object');
                     done();
@@ -321,8 +493,242 @@ describe("Account", () => {
                 .send(user)
                 .end((req, res) => {
                     res.should.have.status(201);
+                    
                     res.body.should.be.a('object');
                     res.body.should.have.property("data").should.be.an('object');
+                    done();
+                });
+        });
+
+        it("should find account details", (done) => {
+            
+            
+            chai.request(app)
+                .get(`/api/v2/account/${acc}`)
+                .set('Authorization', "Bearer " + clientToken)
+                .end((req, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
+
+        it("activate", (done) => {
+            chai.request(app)
+                .patch(`/api/v2/account/${acc2}`)
+                .set('Authorization', "Bearer " + tokenAdmin)
+                .end((req, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
+        it("activate", (done) => {
+
+            chai.request(app)
+                .patch(`/api/v2/account/12345f78`)
+                .set('Authorization', "Bearer " + tokenAdmin)
+                .end((req, res) => {
+                    res.should.have.status(400);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
+        it("get all active account", (done) => {
+
+            chai.request(app)
+                .get(`/api/v2/accounts?status=active`)
+                .set('Authorization', "Bearer " + tokenAdmin)
+                .end((req, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
+        it("should not find all any transaction", (done) => {
+            chai.request(app)
+                .get(`/api/v2/accounts/${acc}/transactions`)
+                .set('Authorization', "Bearer " + clientToken)
+                .end((req, res) => {
+                    res.should.have.status(400);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
+        it("should not find all any transaction", (done) => {
+            chai.request(app)
+                .get(`/api/v2/accounts/1ff/transactions`)
+                .set('Authorization', "Bearer " + clientToken)
+                .end((req, res) => {
+                    res.should.have.status(400);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
+        it("should not find all any transaction", (done) => {
+            chai.request(app)
+                .get(`/api/v2/accounts/${acc}/transactions/1`)
+                .set('Authorization', "Bearer " + clientToken)
+                .end((req, res) => {
+                    res.should.have.status(400);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
+        it("credit account", (done) => {
+            const amount = {
+                amount: 20000
+            }
+            chai.request(app)
+                .post(`/api/v2/transactions/${acc}/credit`)
+                .set('Authorization', "Bearer " + tokenAdmin)
+                .send(amount)
+                .end((req, res) => {
+                    transId = res.body.data[0].id; 
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
+        it("debit account", (done) => {
+            const amount = {
+                amount: 200
+            }
+            chai.request(app)
+                .post(`/api/v2/transactions/${acc}/debit`)
+                .set('Authorization', "Bearer " + tokenAdmin)
+                .send(amount)
+                .end((req, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
+        it('get all transaction for an account', (done) => {
+            
+                    chai.request(app)
+                        .get(`/api/v2/accounts/${acc}/transactions`)
+                        .set('Authorization', "Bearer " + clientToken)
+                        .end((req, res) => {
+                            res.should.have.status(200);
+                            res.body.should.be.a('object');
+                            done();
+                        });
+              
+        });
+        it("should not debit account", (done) => {
+            const amount = {
+                amount: 20000
+            }
+            chai.request(app)
+                .post(`/api/v2/transactions/201342/debit`)
+                .set('Authorization', "Bearer " + tokenAdmin)
+                .send(amount)
+                .end((req, res) => {
+                    
+                    res.should.have.status(400);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
+        it("should not find all any transaction", (done) => {
+            chai.request(app)
+                .get(`/api/v2/accounts/${acc}/transactions/40000`)
+                .set('Authorization', "Bearer " + clientToken)
+                .end((req, res) => {
+                    res.should.have.status(400);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
+        it("should find a transaction", (done) => {
+            chai.request(app)
+                .get(`/api/v2/accounts/${acc}/transactions/${transId}`)
+                .set('Authorization', "Bearer " + clientToken)
+                .end((req, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
+        it("should find all any transaction", (done) => {
+            chai.request(app)
+                .get(`/api/v2/accounts/${acc}/transactions`)
+                .set('Authorization', "Bearer " + clientToken)
+                .end((req, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
+        it("sould not credit account with bad account number", (done) => {
+            const amount = {
+                amount: 20000
+            }
+            chai.request(app)
+                .post(`/api/v2/transactions/21000000/credit`)
+                .set('Authorization', "Bearer " + tokenAdmin)
+                .send(amount)
+                .end((req, res) => {
+                    res.should.have.status(400);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
+
+
+        it("find all account", (done) => {
+            chai.request(app)
+                .get(`/api/v2/user/loic@gmail.com/accounts`)
+                .set('Authorization', "Bearer " + tokenAdmin)
+                .end((req, res) => {
+                    res.should.have.status(400);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
+
+        it("find all account", (done) => {
+
+            chai.request(app)
+                .get(`/api/v2/user/loic@gmail.com/accounts`)
+                .set('Authorization', "Bearer " + tokenAdmin)
+                .end((req, res) => {
+                    res.should.have.status(400);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
+        it("find all account", (done) => {
+
+            chai.request(app)
+                .get(`/api/v2/user/loic@gmail.com/accounts`)
+                .set('Authorization', "Bearer " + tokenAdmin)
+                .end((req, res) => {
+                    res.should.have.status(400);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
+        it("find account of a user", (done) => {
+
+            chai.request(app)
+                .get(`/api/v2/user/client@gmail.com/accounts`)
+                .set('Authorization', "Bearer " + tokenAdmin)
+                .end((req, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
+        it("find account of a user", (done) => {
+
+            chai.request(app)
+                .get(`/api/v2/user/clien@gmail.com/accounts`)
+                .set('Authorization', "Bearer " + tokenAdmin)
+                .end((req, res) => {
+                    res.should.have.status(400);
+                    res.body.should.be.a('object');
                     done();
                 });
         });
@@ -492,6 +898,37 @@ describe("Account", () => {
                 .send(data)
                 .end((req, res) => {
                     res.should.have.status(400);
+                    res.body.should.be.a('object');
+                    done();
+                });
+
+        });
+
+        it('can not debit with bad token', (done) => {
+            const data = {
+                amount: 2000,
+            }
+            chai.request(app)
+                .post(`/api/v2/transactions/3/debit`)
+                .send(data)
+                .end((req, res) => {
+                    res.should.have.status(403);
+                    res.body.should.be.a('object');
+                    done();
+                });
+
+        });
+
+        it('can not debit with bad token', (done) => {
+            const data = {
+                amount: 2000,
+            }
+            chai.request(app)
+                .post(`/api/v2/transactions/3/debit`)
+                .set('Authorization', "Bearer " + clientToken)
+                .send(data)
+                .end((req, res) => {
+                    res.should.have.status(403);
                     res.body.should.be.a('object');
                     done();
                 });
@@ -732,7 +1169,7 @@ describe("Account", () => {
             let status = "active";
             const sql = `SELECT *FROM accounts WHERE status = 'active'`;
             newdb.query(sql).then((result) =>{
-                if (result.rows) {
+                
                     account = result.rows[0].accountnumber;
                     chai.request(app)
                         .post(`/api/v2/transactions/${account}/credit`)
@@ -743,17 +1180,6 @@ describe("Account", () => {
                             res.body.should.be.a('object');
                             done();
                         });
-                }else{
-                    chai.request(app)
-                        .post(`/api/v2/transactions/${account}/credit`)
-                        .set('Authorization', "Bearer " + tokenAdmin)
-                        .send(amount)
-                        .end((req, res) => {
-                            res.should.have.status(400);
-                            res.body.should.be.a('object');
-                            done();
-                        });
-                }
             });
 
             
@@ -768,7 +1194,7 @@ describe("Account", () => {
             let status = "active";
             const sql = `SELECT *FROM accounts WHERE status = 'active'`;
             newdb.query(sql).then((result) => {
-                if (result.rows) {
+                
                     account = result.rows[0].accountnumber;
                     chai.request(app)
                         .post(`/api/v2/transactions/${account}/credit`)
@@ -779,17 +1205,6 @@ describe("Account", () => {
                             res.body.should.be.a('object');
                             done();
                         });
-                } else {
-                    chai.request(app)
-                        .post(`/api/v2/transactions/${account}/credit`)
-                        .set('Authorization', "Bearer " + tokenAdmin)
-                        .send(amount)
-                        .end((req, res) => {
-                            res.should.have.status(400);
-                            res.body.should.be.a('object');
-                            done();
-                        });
-                }
             });
         });
         it('should not credit with bad amount', (done) => {
@@ -800,7 +1215,7 @@ describe("Account", () => {
             let status = "active";
             const sql = `SELECT *FROM accounts WHERE status = 'active'`;
             newdb.query(sql).then((result) => {
-                if (result.rows) {
+                
                     account = result.rows[0].accountnumber;
                     chai.request(app)
                         .post(`/api/v2/transactions/${account}/credit`)
@@ -811,51 +1226,9 @@ describe("Account", () => {
                             res.body.should.be.a('object');
                             done();
                         });
-                } else {
-                    chai.request(app)
-                        .post(`/api/v2/transactions/${account}/debit`)
-                        .set('Authorization', "Bearer " + tokenAdmin)
-                        .send(amount)
-                        .end((req, res) => {
-                            res.should.have.status(400);
-                            res.body.should.be.a('object');
-                            done();
-                        });
-                }
             });
         });
-        it('debit', (done) => {
-            const amount = {
-                amount: 1
-            }
-            let account = "";
-            let status = "active";
-            const sql = `SELECT *FROM accounts WHERE status = 'active'`;
-            newdb.query(sql).then((result) => {
-                if (result.rows) {
-                    account = result.rows[0].accountnumber;
-                    chai.request(app)
-                        .post(`/api/v2/transactions/${account}/debit`)
-                        .set('Authorization', "Bearer " + tokenAdmin)
-                        .send(amount)
-                        .end((req, res) => {
-                            res.should.have.status(200);
-                            res.body.should.be.a('object');
-                            done();
-                        });
-                } else {
-                    chai.request(app)
-                        .post(`/api/v2/transactions/${account}/debit`)
-                        .set('Authorization', "Bearer " + tokenAdmin)
-                        .send(amount)
-                        .end((req, res) => {
-                            res.should.have.status(200);
-                            res.body.should.be.a('object');
-                            done();
-                        });
-                }
-            });
-        });
+        
         it('should not debit with a negative amount debit', (done) => {
             const amount = {
                 amount: -5
@@ -864,7 +1237,7 @@ describe("Account", () => {
             let status = "active";
             const sql = `SELECT *FROM accounts WHERE status = 'active'`;
             newdb.query(sql).then((result) => {
-                if (result.rows) {
+                
                     account = result.rows[0].accountnumber;
                     chai.request(app)
                         .post(`/api/v2/transactions/${account}/debit`)
@@ -875,17 +1248,7 @@ describe("Account", () => {
                             res.body.should.be.a('object');
                             done();
                         });
-                } else {
-                    chai.request(app)
-                        .post(`/api/v2/transactions/${account}/debit`)
-                        .set('Authorization', "Bearer " + tokenAdmin)
-                        .send(amount)
-                        .end((req, res) => {
-                            res.should.have.status(400);
-                            res.body.should.be.a('object');
-                            done();
-                        });
-                }
+                
             });
         });
         it('amount is big than the balance', (done) => {
@@ -896,7 +1259,7 @@ describe("Account", () => {
             let status = "active";
             const sql = `SELECT *FROM accounts WHERE status = 'active'`;
             newdb.query(sql).then((result) => {
-                if (result.rows) {
+                
                     account = result.rows[0].accountnumber;
                     chai.request(app)
                         .post(`/api/v2/transactions/${account}/debit`)
@@ -907,73 +1270,20 @@ describe("Account", () => {
                             res.body.should.be.a('object');
                             done();
                         });
-                } else {
-                    chai.request(app)
-                        .post(`/api/v2/transactions/${account}/debit`)
-                        .set('Authorization', "Bearer " + tokenAdmin)
-                        .send(amount)
-                        .end((req, res) => {
-                            res.should.have.status(400);
-                            res.body.should.be.a('object');
-                            done();
-                        });
-                }
-            });
-        });
-        it('get all transaction for an account', (done) => {
-            const amount = {
-                amount: -5
-            }
-            let account = "";
-            let status = "active";
-            const sql = `SELECT *FROM transactions`;
-            newdb.query(sql).then((result) => {
-                if (result.rows) {
-                    account = result.rows[0].accountnumber;
-                    chai.request(app)
-                        .get(`/api/v2/accounts/${account}/transactions`)
-                        .set('Authorization', "Bearer " + clientToken)
-                        .end((req, res) => {
-                            res.should.have.status(403);
-                            res.body.should.be.a('object');
-                            done();
-                        });
-                } else {
-                    chai.request(app)
-                        .post(`/api/v2/accounts/${account}/transactions`)
-                        .set('Authorization', "Bearer " + tokenAdmin)
-                        .send(amount)
-                        .end((req, res) => {
-                            res.should.have.status(403);
-                            res.body.should.be.a('object');
-                            done();
-                        });
-                }
+               
             });
         });
         
+        
         it('get all transaction for an account', (done) => {
-            let account;
-            newdb.query(`select *from transactions`).then((result)=>{
-                if(Array.isArray(result.rows) && result.rows.length){
-                    account = result.rows[0].accountnumber;
-                    newdb.query(`select *from transactions`).then((result)=>{
-
-                    })
                     chai.request(app)
-                        .get(`/api/v2/accounts/${account}/transactions`)
+                        .get(`/api/v2/accounts/${acc}/transactions`)
                         .set('Authorization', "Bearer " + tokenSigninUser)
                         .end((req, res) => {
                             res.should.have.status(403);
                             res.body.should.be.a('object');
                             done();
                         });
-                }
-            })
-              
-           
-
-           
         });
         it('can not get all transactions with a rong account', (done) => {
             
@@ -986,6 +1296,28 @@ describe("Account", () => {
                             done();
                         });
                 
+        });
+        it("deactivate", (done) => {
+            chai.request(app)
+                .patch(`/api/v2/account/${acc2}`)
+                .set('Authorization', "Bearer " + tokenAdmin)
+                .end((req, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
+        it("deactivate2", (done) => {
+            
+
+            chai.request(app)
+                .patch(`/api/v2/account/${acc3}`)
+                .set('Authorization', "Bearer " + tokenAdmin)
+                .end((req, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    done();
+                });
         });
         
     });
@@ -1026,6 +1358,17 @@ describe("Account", () => {
                             done();
                         });
                 });
+        it("can not delete with rong account", (done) => {
+
+            chai.request(app)
+                .delete(`/api/v2/accounts/22`)
+                .set('Authorization', "Bearer " + clientToken)
+                .end((req, res) => {
+                    res.should.have.status(403);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
 
     });
 
@@ -1105,6 +1448,38 @@ describe("Users delete", () => {
                     res.body.should.be.a('object');
                     done();
                 });
+        });
+        it("delete the client loic", (done) => {
+            const user = {
+                email: "loic@gmail.com",
+            };
+            chai.request(app)
+                .delete(`/api/v2/auth/${user.email}/delete`)
+                .set('Authorization', "Bearer " + tokenAdmin)
+                .send(user)
+                .end((req, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
+        it("should not delete the account of loic", (done) => {
+            const user = {
+                email: "loic@gmail.com",
+            };
+            chai.request(app)
+                .delete(`/api/v2/accounts/ff`)
+                .set('Authorization', "Bearer " + tokenAdmin)
+                .send(user)
+                .end((req, res) => {
+                    res.should.have.status(400);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
+        it("should delete all account", (done) => {
+            newdb.query(`delete from accounts`);
+            done();
         });
     });
 });
