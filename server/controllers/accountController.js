@@ -260,14 +260,8 @@ class AccountController{
                     status,
                     balance,
                 ];
-                const sql = `INSERT INTO accounts(
-                        accountNumber,
-                        createdOn,
-                        owner,
-                        type,
-                        status,
-                        balance) VALUES($1, $2, $3, $4, $5,$6) RETURNING *`;
-                    newdb.query(sql, account).then(result => {
+                const sql = "INSERT INTO accounts(accountnumber, createon, owner, type, status, balance) VALUES($1,$2,$3,$4,$5,$6) RETURNING *";
+                newdb.query(sql, account).then(result => {
                     res.status(201).json({
                         status: 201,
                         data: result.rows
