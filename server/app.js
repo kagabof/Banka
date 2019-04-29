@@ -5,9 +5,11 @@ import userRouter from "./routes/userRouters";
 import accountRouter from "./routes/accountRouters";
 import path from "path";
 import logger from "morgan";
+import cors from "cors";
 
 
 const app = express();
+app.use(cors());
 app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
