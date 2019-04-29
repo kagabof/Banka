@@ -17,6 +17,7 @@ let tokenAdmin = '';
 let acc ='';
 let acc2;
 let acc3;
+let acc4;
 
 describe("Users", ()=>{
     describe("POST /", () => {
@@ -459,13 +460,32 @@ describe("Account", () => {
                 .end((req, res) => {
 
                     res.should.have.status(201);
-                    acc2 = res.body.data.accountNumber
-                    acc = res.body.data.accountNumber;
+                    acc2 = res.body.data[0].accountnumber
+                    acc = res.body.data[0].accountnumber;
                     res.body.should.be.a('object');
                     res.body.should.have.property("data").should.be.an('object');
                     done();
                 });
         });
+        it("create an account4", (done) => {
+            const user = {
+                type: "saving",
+            }
+            chai.request(app)
+                .post('/api/v2/accounts')
+                .set('Authorization', "Bearer " + clientToken)
+                .send(user)
+                .end((req, res) => {
+                    console.log(res.body);
+                    res.should.have.status(201);
+                    
+                    acc4 = res.body.data[0].accountnumber;
+                    res.body.should.be.a('object');
+                    res.body.should.have.property("data").should.be.an('object');
+                    done();
+                });
+        });
+
         it("create an account2", (done) => {
             const user = {
                 type: "saving",
@@ -501,12 +521,11 @@ describe("Account", () => {
         });
 
         it("should find account details", (done) => {
-            
-            
             chai.request(app)
                 .get(`/api/v2/account/${acc}`)
                 .set('Authorization', "Bearer " + clientToken)
                 .end((req, res) => {
+                    console.log(res.body)
                     res.should.have.status(200);
                     res.body.should.be.a('object');
                     done();
@@ -1311,7 +1330,7 @@ describe("Account", () => {
             
 
             chai.request(app)
-                .patch(`/api/v2/account/${acc3}`)
+                .patch(`/api/v2/account/${acc}`)
                 .set('Authorization', "Bearer " + tokenAdmin)
                 .end((req, res) => {
                     res.should.have.status(200);

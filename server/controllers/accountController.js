@@ -241,50 +241,40 @@ class AccountController{
         const decoded = jwt.verify(token, 'secret');
         req.userData = decoded;
         const email = decoded.emails;
-        const { type} = req.body;
-        
-        const sql = `SELECT * FROM users WHERE email='${email}'`;
+        const { type } = req.body;
 
-        newdb.query(sql).then((result) =>{
-            
-            const balance = 0;
-                let balances = 0.0;
-                const st = "dormant";
-                const newAccount = [
-                    parseInt(format(crypto.randomBytes(2), 'dec')),
-                    new Date(),
-                    result.rows[0].id,
+        const sql1 = `SELECT * FROM users WHERE email='${email}'`;
+
+        newdb.query(sql1).then(result => {
+            if (result.rows.length) {
+                let accountNumber = parseInt(format(crypto.randomBytes(2), 'dec'));
+                let createOn = new Date();
+                let status = "dormant";
+                let balance = 0;
+                let owner = result.rows[0].id;
+                const account = [
+                    accountNumber,
+                    createOn,
+                    owner,
                     type,
-                    st,
-                    parseFloat(balances),
+                    status,
+                    balance,
                 ];
-                const fname = result.rows[0].firstname;
-                const lname = result.rows[0].lastname;
-                const AccountEmail = result.rows[0].email;
-                const sql1 = `INSERT INTO accounts(
+                const sql = `INSERT INTO accounts(
                         accountNumber,
                         createdOn,
                         owner,
                         type,
                         status,
                         balance) VALUES($1, $2, $3, $4, $5,$6) RETURNING *`;
-                newdb.query(sql1,newAccount).then((result) =>{
-                    let acc = result.rows[0].accountnumber;
-                    return res.status(201).json({
+                    newdb.query(sql, account).then(result => {
+                    res.status(201).json({
                         status: 201,
-                        data: {
-                            firstName:fname,
-                            lastName:lname,
-                            email:AccountEmail,
-                            accountNumber:acc,
-                            accountType:type,
-                            balance,
-                        },
+                        data: result.rows
                     });
                 });
-            }
-        )
-
+            } 
+        });
     }
 }
 
