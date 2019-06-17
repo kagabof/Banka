@@ -25,10 +25,14 @@ body{
 
 .main{
     text-align: center;
-    margin:100px auto;
-    height: 250px;
+    margin: 0px 10%;
+    height: 300px;
     border-radius: 5px;
     background-color: hsla(210, 23%, 31%, 0.801);
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
 
 
 
